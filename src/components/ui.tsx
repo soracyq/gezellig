@@ -234,11 +234,13 @@ export function PreviewModal({
   visible,
   onClose,
   title,
+  contentKey,
   children,
 }: {
   visible: boolean;
   onClose: () => void;
   title: string;
+  contentKey?: string;
   children: ReactNode;
 }) {
   return (
@@ -266,7 +268,10 @@ export function PreviewModal({
               <Icon name="x" color={c.navy} />
             </Pressable>
           </View>
-          <ScrollView contentContainerStyle={{ padding: 24, gap: 20 }}>
+          <ScrollView
+            key={contentKey ?? title}
+            contentContainerStyle={{ padding: 24, gap: 20 }}
+          >
             {children}
           </ScrollView>
           <View style={styles.modalFooter}>

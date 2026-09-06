@@ -166,6 +166,7 @@ export default function GrammarScreen() {
         visible={selected !== null}
         onClose={closePreview}
         title={selected?.title ?? "Lesson preview"}
+        contentKey={`${selected?.id}:${section}`}
       >
         {selected && (
           <>
