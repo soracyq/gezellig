@@ -1,0 +1,7 @@
+node_modules
+.expo
+dist
+test-results
+package-lock.json
+brief-extracted.txt
+*.docx

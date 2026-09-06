@@ -1,0 +1,36 @@
+# Implementation roadmap
+
+Deliver one runnable, reviewable stage at a time. The current delivery stops after the application shell; later stages are planned work.
+
+Initial environment inspection found Node.js 24.14.1, npm 11.11.0, and Git 2.53.0. Java and Android Debug Bridge were not detected on the Windows command path. Browser development can proceed with the installed tools. A local Android emulator/build requires the appropriate Android tooling later; Windows cannot run Apple's iOS Simulator locally. See the README for the actual start commands and device options.
+
+| Stage                                      | Deliverable                                                                                                                                                          | Completion evidence                                                                                                                                                                         |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Plan and environment                    | Inspect the project/tools; document architecture, screen map, entities, tradeoffs, and startup instructions.                                                         | Actual installed tools and missing platform requirements are reported; assumptions are recorded in `DECISIONS.md`.                                                                          |
+| 2. Application shell — current milestone   | Seven routes, responsive navigation, shared theme/components, sample vocabulary/grammar/review previews, labelled demo statistics, and a locally saved daily target. | TypeScript and available lint checks pass; app starts; routes and daily-target persistence are checked; platform test limits are reported.                                                  |
+| 3. Vocabulary study                        | Typed sample vocabulary, relevant word-type display, daily target snapshot, study session progress, resume, and local progress records.                              | Meaningful tests cover target boundaries, distinct study counts, resume, persistence, and damaged storage. Viewing a word does not mark it mastered.                                        |
+| 4. Vocabulary test and reviews             | Start with a small set of unambiguous questions, store attempts, and implement one centralized review engine.                                                        | Verify wrong-answer reset; five spaced correct reviews; four correct then wrong; next due date; duplicate submission handling; skips; and the five-skip restriction.                        |
+| 5. Grammar learning                        | Manageable lesson sections, practice, lesson tests, and shared mistake/review behavior.                                                                              | Verify lesson completion, accepted answers, resume, and grammar review behavior with reviewed sample content.                                                                               |
+| 6. Actual progress and statistics          | Learning-day/streak calculations, clear date windows, accuracy, study counts, and configurable level-estimation logic.                                               | Tests cover midnight, daylight saving transitions, timezone changes, empty history, score thresholds, and insufficient evidence. Use validated curriculum coverage before making estimates. |
+| 7. Import validation and management        | Finalize CSV contract; validate rows; preview and confirm; report results and datasets; handle safe dataset removal.                                                 | Tests cover each word type, duplicate IDs, malformed files, invalid rows, unsupported fields, failed imports, and preservation of unrelated progress.                                       |
+| 8. Supabase and accounts                   | PostgreSQL content/progress model, authentication, per-user access rules, account controls, and an explicit local-data migration policy.                             | Test account isolation, failed requests, session behavior, migrations, and data ownership. No real secrets enter the repository.                                                            |
+| 9. Synchronization and release preparation | Resolve device conflicts, improve offline support as justified, validate curriculum, polish accessibility, and document deployment.                                  | Test supported devices/browsers, keyboard and screen-reader paths, recovery/error states, build/release flows, and content correctness.                                                     |
+
+## How to work through the roadmap
+
+Use the README to install dependencies and run the app. Keep checks proportional to the change: type checking and a route smoke test are appropriate for the shell; calculations and state transitions need focused automated tests when they exist. Do not claim a proposed rule has been tested before its implementation is present.
+
+For each later stage, first confirm the product behavior and any unresolved choices in `DECISIONS.md`, then implement, run the relevant checks, explain how to try it, and create a logical version-control checkpoint. Preserve the user's source document and avoid destructive repository operations.
+
+## Main risks to resolve as work progresses
+
+- **Educational quality:** sample Dutch and suggested topic placement require expert review; a small sample cannot stand in for a validated A1–C1 course.
+- **Platform differences:** a web smoke test cannot verify native rendering, accessibility, or device storage. Test Android and iOS separately before claiming support.
+- **Dates and repeated actions:** midnight, daylight saving time, retries, and duplicate answer/skip submissions can distort streaks and reviews. Centralize and test the rules.
+- **Persistence and migration:** browser/device storage can be cleared, damaged, or conflict with future cloud history. Add schema versions and an explicit migration policy before real learning data grows.
+- **Curriculum changes:** content IDs and versions must remain stable so edits and imports do not invalidate historical attempts or inflate progress.
+- **Scope:** accounts, notifications, speech recognition, AI tutors, social features, payments, advanced animations, and full offline sync are postponed. None is necessary to evaluate the first working shell.
+
+## Next milestone after the shell
+
+Build one complete vocabulary path with the small sample dataset: select the daily target, study items, resume an unfinished session, and save actual progress. Follow it with a short reliable test and the review engine. This produces a testable learning experience before investing in more content or cloud services.
