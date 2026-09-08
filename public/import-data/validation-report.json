@@ -1,0 +1,191 @@
+{
+  "checkedAt": "2026-09-08T22:40:43.021Z",
+  "counts": {
+    "A1": 500,
+    "A2": 1000,
+    "total": 1500
+  },
+  "files": [
+    {
+      "filename": "dutch_vocabulary_A1_500.csv",
+      "records": 500,
+      "bytes": 66045,
+      "sha256": "e458df17bf78c8ffc049214048315b6b5229b84ba5fae3a06a132fd303c2ac93",
+      "parserValidationErrors": 0,
+      "previewConfirmedInCore": 500,
+      "newWithBuiltins": 493,
+      "skippedBuiltins": 7
+    },
+    {
+      "filename": "dutch_vocabulary_A1_500.xlsx",
+      "records": 500,
+      "bytes": 55883,
+      "sha256": "1856caf350138e1c2d6390ea304299f99239a6b07c4442d30c16e57f96c888c2",
+      "parserValidationErrors": 0,
+      "previewConfirmedInCore": 500,
+      "newWithBuiltins": 493,
+      "skippedBuiltins": 7
+    },
+    {
+      "filename": "dutch_vocabulary_A2_1000.csv",
+      "records": 1000,
+      "bytes": 150094,
+      "sha256": "867ebaab8dbd68b384452169ffc67afd021bc2ee405a8dc5ca3b5a72ed022d41",
+      "parserValidationErrors": 0,
+      "previewConfirmedInCore": 1000,
+      "newWithBuiltins": 1000,
+      "skippedBuiltins": 0
+    },
+    {
+      "filename": "dutch_vocabulary_A2_1000.xlsx",
+      "records": 1000,
+      "bytes": 114538,
+      "sha256": "c3d6cf575c15684911dfef6002a6a423ceb0851e94de1986a95f03a154cbbc1e",
+      "parserValidationErrors": 0,
+      "previewConfirmedInCore": 1000,
+      "newWithBuiltins": 1000,
+      "skippedBuiltins": 0
+    }
+  ],
+  "checks": {
+    "normalizedDuplicates": 0,
+    "accentsSpacingPunctuationDuplicates": 0,
+    "withinA1Duplicates": 0,
+    "withinA2Duplicates": 0,
+    "betweenLevelsDuplicates": 0,
+    "missingRequiredFields": 0,
+    "invalidCefrValues": 0,
+    "invalidWordTypes": 0,
+    "missingPairedExamples": 0,
+    "invalidNounArticleValues": 0,
+    "nounsWithArticles": 720,
+    "verbsWithFullSupportedMetadata": 310,
+    "wordTypes": {
+      "noun": 720,
+      "verb": 310,
+      "adjective": 210,
+      "pronoun": 37,
+      "preposition": 29,
+      "conjunction": 14,
+      "adverb": 100,
+      "numeral": 30,
+      "particle": 5,
+      "expression": 31,
+      "phrase": 14
+    },
+    "combinedCoreImport": 1500,
+    "csvXlsxCellEquality": true,
+    "curriculumContainsNoActivity": true
+  },
+  "morphologyHomographs": [
+    {
+      "head": "fiets",
+      "field": "plural",
+      "form": "fietsen",
+      "independentType": "verb"
+    },
+    {
+      "head": "weg",
+      "field": "plural",
+      "form": "wegen",
+      "independentType": "verb"
+    },
+    {
+      "head": "reis",
+      "field": "plural",
+      "form": "reizen",
+      "independentType": "verb"
+    },
+    {
+      "head": "boek",
+      "field": "plural",
+      "form": "boeken",
+      "independentType": "verb"
+    },
+    {
+      "head": "vraag",
+      "field": "plural",
+      "form": "vragen",
+      "independentType": "verb"
+    },
+    {
+      "head": "antwoord",
+      "field": "plural",
+      "form": "antwoorden",
+      "independentType": "verb"
+    },
+    {
+      "head": "spel",
+      "field": "plural",
+      "form": "spellen",
+      "independentType": "verb"
+    },
+    {
+      "head": "oud",
+      "field": "comparative",
+      "form": "ouder",
+      "independentType": "noun"
+    },
+    {
+      "head": "bezoek",
+      "field": "plural",
+      "form": "bezoeken",
+      "independentType": "verb"
+    },
+    {
+      "head": "groet",
+      "field": "plural",
+      "form": "groeten",
+      "independentType": "verb"
+    },
+    {
+      "head": "zak",
+      "field": "plural",
+      "form": "zakken",
+      "independentType": "verb"
+    },
+    {
+      "head": "pak",
+      "field": "plural",
+      "form": "pakken",
+      "independentType": "verb"
+    },
+    {
+      "head": "zorg",
+      "field": "plural",
+      "form": "zorgen",
+      "independentType": "verb"
+    },
+    {
+      "head": "vertrek",
+      "field": "plural",
+      "form": "vertrekken",
+      "independentType": "verb"
+    },
+    {
+      "head": "overstap",
+      "field": "plural",
+      "form": "overstappen",
+      "independentType": "verb"
+    },
+    {
+      "head": "rem",
+      "field": "plural",
+      "form": "remmen",
+      "independentType": "verb"
+    },
+    {
+      "head": "stuur",
+      "field": "plural",
+      "form": "sturen",
+      "independentType": "verb"
+    },
+    {
+      "head": "bedanken",
+      "field": "past_participle",
+      "form": "bedankt",
+      "independentType": "expression"
+    }
+  ],
+  "limits": "CEFR assignments are editorial teaching bands, not an official or certified list. Structural validation cannot prove every linguistic fact; articles, morphology and translations were editorially reviewed, with targeted reference checks. See README for import UI results."
+}

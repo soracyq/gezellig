@@ -1,0 +1,501 @@
+dutch,english,cefr_level,word_type,topic,example_dutch,example_english,notes,tags,article,plural,diminutive,regularity,separable,auxiliary,past_participle,inflected,comparative,superlative,is_sample
+mens,person,A1,noun,People and family,Ieder mens heeft een naam.,Every person has a name.,,,de,mensen,,,,,,,,,false
+man,man,A1,noun,People and family,Die man woont hier.,That man lives here.,,,de,mannen,,,,,,,,,false
+vrouw,woman,A1,noun,People and family,De vrouw drinkt thee.,The woman is drinking tea.,,,de,vrouwen,,,,,,,,,false
+kind,child,A1,noun,People and family,Het kind speelt buiten.,The child is playing outside.,,,het,kinderen,,,,,,,,,false
+baby,baby,A1,noun,People and family,De baby slaapt.,The baby is sleeping.,,,de,baby's,,,,,,,,,false
+jongen,boy,A1,noun,People and family,De jongen fietst naar school.,The boy cycles to school.,,,de,jongens,,,,,,,,,false
+meisje,girl,A1,noun,People and family,Het meisje leest een boek.,The girl is reading a book.,,,het,meisjes,,,,,,,,,false
+vader,father,A1,noun,People and family,Mijn vader kookt vandaag.,My father is cooking today.,,,de,vaders,,,,,,,,,false
+moeder,mother,A1,noun,People and family,Mijn moeder werkt thuis.,My mother works at home.,,,de,moeders,,,,,,,,,false
+ouder,parent,A1,noun,People and family,Een ouder wacht bij de school.,A parent is waiting by the school.,,,de,ouders,,,,,,,,,false
+zoon,son,A1,noun,People and family,Onze zoon is vijf jaar.,Our son is five years old.,,,de,zonen,,,,,,,,,false
+dochter,daughter,A1,noun,People and family,Haar dochter leert zwemmen.,Her daughter is learning to swim.,,,de,dochters,,,,,,,,,false
+broer,brother,A1,noun,People and family,Mijn broer woont dichtbij.,My brother lives nearby.,,,de,broers,,,,,,,,,false
+zus,sister,A1,noun,People and family,Ik bel mijn zus.,I am calling my sister.,,,de,zussen,,,,,,,,,false
+opa,grandpa,A1,noun,People and family,Opa zit in de tuin.,Grandpa is sitting in the garden.,,,de,opa's,,,,,,,,,false
+oma,grandma,A1,noun,People and family,Oma komt op bezoek.,Grandma is coming to visit.,,,de,oma's,,,,,,,,,false
+familie,family,A1,noun,People and family,Mijn familie is groot.,My family is large.,,,de,families,,,,,,,,,false
+vriend,friend,A1,noun,People and family,Een vriend helpt me.,A friend is helping me.,May mean a male friend or a boyfriend; context distinguishes the relationship.,,de,vrienden,,,,,,,,,false
+vriendin,female friend / girlfriend,A1,noun,People and family,Mijn vriendin heet Sara.,My friend is called Sara.,May mean a female friend or a girlfriend; context distinguishes the relationship.,,de,vriendinnen,,,,,,,,,false
+naam,name,A1,noun,People and family,Wat is jouw naam?,What is your name?,,,de,namen,,,,,,,,,false
+huis,house,A1,noun,At home,Ons huis heeft drie kamers.,Our house has three rooms.,,,het,huizen,,,,,,,,,false
+kamer,room,A1,noun,At home,Mijn kamer is klein.,My room is small.,,,de,kamers,,,,,,,,,false
+deur,door,A1,noun,At home,Doe de deur dicht.,Close the door.,,,de,deuren,,,,,,,,,false
+raam,window,A1,noun,At home,Het raam staat open.,The window is open.,,,het,ramen,,,,,,,,,false
+vloer,floor,A1,noun,At home,De tas staat op de vloer.,The bag is on the floor.,,,de,vloeren,,,,,,,,,false
+muur,wall,A1,noun,At home,De muur is wit.,The wall is white.,,,de,muren,,,,,,,,,false
+tafel,table,A1,noun,At home,We eten aan de tafel.,We eat at the table.,,,de,tafels,,,,,,,,,false
+stoel,chair,A1,noun,At home,Deze stoel zit lekker.,This chair is comfortable.,,,de,stoelen,,,,,,,,,false
+bank,sofa,A1,noun,At home,Ik zit op de bank.,I am sitting on the sofa.,The example uses sofa; the same headword can also mean a financial bank.,,de,banken,,,,,,,,,false
+bed,bed,A1,noun,At home,Het kind ligt in bed.,The child is in bed.,,,het,bedden,,,,,,,,,false
+kast,cupboard,A1,noun,At home,De borden staan in de kast.,The plates are in the cupboard.,,,de,kasten,,,,,,,,,false
+lamp,lamp,A1,noun,At home,De lamp staat naast het bed.,The lamp is beside the bed.,,,de,lampen,,,,,,,,,false
+keuken,kitchen,A1,noun,At home,Vader staat in de keuken.,Dad is in the kitchen.,,,de,keukens,,,,,,,,,false
+badkamer,bathroom,A1,noun,At home,De badkamer is boven.,The bathroom is upstairs.,,,de,badkamers,,,,,,,,,false
+toilet,toilet,A1,noun,At home,Waar is het toilet?,Where is the toilet?,,,het,toiletten,,,,,,,,,false
+tuin,garden,A1,noun,At home,We zitten in de tuin.,We are sitting in the garden.,,,de,tuinen,,,,,,,,,false
+sleutel,key,A1,noun,At home,Ik zoek mijn sleutel.,I am looking for my key.,,,de,sleutels,,,,,,,,,false
+trap,stairs,A1,noun,At home,De trap is smal.,The stairs are narrow.,,,de,trappen,,,,,,,,,false
+adres,address,A1,noun,At home,Schrijf hier je adres.,Write your address here.,,,het,adressen,,,,,,,,,false
+telefoon,telephone,A1,noun,At home,Mijn telefoon ligt hier.,My phone is here.,,,de,telefoons,,,,,,,,,false
+bord,plate,A1,noun,Meals and kitchen,Mijn bord is leeg.,My plate is empty.,,,het,borden,,,,,,,,,false
+kop,cup,A1,noun,Meals and kitchen,Wil je een kop thee?,Would you like a cup of tea?,"Cup in this example. Also head (especially of an animal), depending on context.",,de,koppen,,,,,,,,,false
+glas,drinking glass,A1,noun,Meals and kitchen,Mag ik een glas water?,May I have a glass of water?,,,het,glazen,,,,,,,,,false
+mes,knife,A1,noun,Meals and kitchen,Het mes ligt naast het bord.,The knife is beside the plate.,,,het,messen,,,,,,,,,false
+vork,fork,A1,noun,Meals and kitchen,Ik eet met een vork.,I eat with a fork.,,,de,vorken,,,,,,,,,false
+lepel,spoon,A1,noun,Meals and kitchen,Neem een lepel voor de soep.,Take a spoon for the soup.,,,de,lepels,,,,,,,,,false
+pan,pan,A1,noun,Meals and kitchen,De soep zit in de pan.,The soup is in the pan.,,,de,pannen,,,,,,,,,false
+fles,bottle,A1,noun,Meals and kitchen,Deze fles is leeg.,This bottle is empty.,,,de,flessen,,,,,,,,,false
+brood,bread,A1,noun,Meals and kitchen,Ik koop een brood.,I am buying a loaf of bread.,,,het,broden,,,,,,,,,false
+kaas,cheese,A1,noun,Meals and kitchen,Wil je kaas op je brood?,Would you like cheese on your bread?,,,de,kazen,,,,,,,,,false
+ei,egg,A1,noun,Meals and kitchen,Ik kook een ei.,I am boiling an egg.,,,het,eieren,,,,,,,,,false
+vlees,meat,A1,noun,Meals and kitchen,Ik eet geen vlees.,I do not eat meat.,Normally used without a plural in this meaning.,,het,,,,,,,,,,false
+vis,fish,A1,noun,Meals and kitchen,We eten vandaag vis.,We are eating fish today.,,,de,vissen,,,,,,,,,false
+rijst,rice,A1,noun,Meals and kitchen,De rijst is klaar.,The rice is ready.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+soep,soup,A1,noun,Meals and kitchen,Deze soep is warm.,This soup is warm.,,,de,soepen,,,,,,,,,false
+melk,milk,A1,noun,Meals and kitchen,Drink je melk?,Do you drink milk?,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+water,water,A1,noun,Meals and kitchen,Ik drink graag water.,I like drinking water.,Normally used without a plural in this meaning.,,het,,,,,,,,,,false
+koffie,coffee,A1,noun,Meals and kitchen,De koffie is heet.,The coffee is hot.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+thee,tea,A1,noun,Meals and kitchen,Ik wil thee zonder suiker.,I would like tea without sugar.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+sap,juice,A1,noun,Meals and kitchen,Er zit sap in de fles.,There is juice in the bottle.,,,het,sappen,,,,,,,,,false
+appel,apple,A1,noun,Food and shopping,Ik eet een rode appel.,I am eating a red apple.,,,de,appels,,,,,,,,,false
+peer,pear,A1,noun,Food and shopping,Deze peer is zoet.,This pear is sweet.,,,de,peren,,,,,,,,,false
+banaan,banana,A1,noun,Food and shopping,Neem een banaan mee.,Take a banana with you.,,,de,bananen,,,,,,,,,false
+sinaasappel,orange,A1,noun,Food and shopping,Ik koop een sinaasappel.,I am buying an orange.,,,de,sinaasappels,,,,,,,,,false
+tomaat,tomato,A1,noun,Food and shopping,Snijd de tomaat klein.,Cut the tomato into small pieces.,,,de,tomaten,,,,,,,,,false
+aardappel,potato,A1,noun,Food and shopping,Deze aardappel is nog hard.,This potato is still hard.,,,de,aardappelen,,,,,,,,,false
+ui,onion,A1,noun,Food and shopping,Er zit een ui in de soep.,There is an onion in the soup.,,,de,uien,,,,,,,,,false
+groente,vegetable,A1,noun,Food and shopping,Welke groente lust je?,Which vegetable do you like?,,,de,groenten,,,,,,,,,false
+fruit,fruit,A1,noun,Food and shopping,We eten elke dag fruit.,We eat fruit every day.,Normally used without a plural in this meaning.,,het,,,,,,,,,,false
+suiker,sugar,A1,noun,Food and shopping,Wil je suiker in je thee?,Would you like sugar in your tea?,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+zout,salt,A1,noun,Food and shopping,Er zit te veel zout in.,There is too much salt in it.,Normally used without a plural in this meaning.,,het,,,,,,,,,,false
+boter,butter,A1,noun,Food and shopping,De boter staat in de koelkast.,The butter is in the fridge.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+ontbijt,breakfast,A1,noun,Food and shopping,Het ontbijt staat klaar.,Breakfast is ready.,,,het,ontbijten,,,,,,,,,false
+lunch,lunch,A1,noun,Food and shopping,We eten samen lunch.,We are having lunch together.,,,de,lunches,,,,,,,,,false
+maaltijd,meal,A1,noun,Food and shopping,We eten samen een warme maaltijd.,We are having a hot meal together.,,,de,maaltijden,,,,,,,,,false
+winkel,shop,A1,noun,Food and shopping,De winkel gaat om negen uur open.,The shop opens at nine.,,,de,winkels,,,,,,,,,false
+supermarkt,supermarket,A1,noun,Food and shopping,Ik loop naar de supermarkt.,I am walking to the supermarket.,,,de,supermarkten,,,,,,,,,false
+geld,money,A1,noun,Food and shopping,Ik heb geen geld bij me.,I have no money with me.,Normally used without a plural in this meaning.,,het,,,,,,,,,,false
+prijs,price,A1,noun,Food and shopping,Wat is de prijs?,What is the price?,,,de,prijzen,,,,,,,,,false
+euro,euro,A1,noun,Food and shopping,Dit kost één euro.,This costs one euro.,,,de,euro's,,,,,,,,,false
+dag,day,A1,noun,Time,Een dag heeft vierentwintig uur.,A day has twenty-four hours.,,,de,dagen,,,,,,,,,false
+week,week,A1,noun,Time,Ik werk vier dagen per week.,I work four days a week.,,,de,weken,,,,,,,,,false
+maand,month,A1,noun,Time,Deze maand ben ik jarig.,It is my birthday this month.,,,de,maanden,,,,,,,,,false
+jaar,year,A1,noun,Time,Zij is twintig jaar.,She is twenty years old.,,,het,jaren,,,,,,,,,false
+uur,hour / o'clock,A1,noun,Time,Het is acht uur.,It is eight o'clock.,,,het,uren,,,,,,,,,false
+minuut,minute,A1,noun,Time,Wacht één minuut.,Wait one minute.,,,de,minuten,,,,,,,,,false
+tijd,time,A1,noun,Time,Heb je even tijd?,Do you have a moment?,,,de,tijden,,,,,,,,,false
+ochtend,morning,A1,noun,Time,In de ochtend drink ik thee.,In the morning I drink tea.,,,de,ochtenden,,,,,,,,,false
+middag,afternoon,A1,noun,Time,In de middag ben ik thuis.,In the afternoon I am at home.,,,de,middagen,,,,,,,,,false
+avond,evening,A1,noun,Time,We eten in de avond.,We eat in the evening.,,,de,avonden,,,,,,,,,false
+nacht,night,A1,noun,Time,Het is een koude nacht.,It is a cold night.,,,de,nachten,,,,,,,,,false
+maandag,Monday,A1,noun,Time,Op maandag werk ik thuis.,On Monday I work at home.,,,de,maandagen,,,,,,,,,false
+dinsdag,Tuesday,A1,noun,Time,De les is op dinsdag.,The lesson is on Tuesday.,,,de,dinsdagen,,,,,,,,,false
+woensdag,Wednesday,A1,noun,Time,Woensdag ga ik zwemmen.,On Wednesday I am going swimming.,,,de,woensdagen,,,,,,,,,false
+donderdag,Thursday,A1,noun,Time,Tot donderdag!,See you on Thursday!,,,de,donderdagen,,,,,,,,,false
+vrijdag,Friday,A1,noun,Time,Vrijdag ben ik vrij.,I am off on Friday.,,,de,vrijdagen,,,,,,,,,false
+zaterdag,Saturday,A1,noun,Time,Op zaterdag doe ik boodschappen.,On Saturday I do the shopping.,,,de,zaterdagen,,,,,,,,,false
+zondag,Sunday,A1,noun,Time,Zondag bezoeken we oma.,On Sunday we are visiting Grandma.,,,de,zondagen,,,,,,,,,false
+weekend,weekend,A1,noun,Time,Wat doe je dit weekend?,What are you doing this weekend?,,,het,weekenden,,,,,,,,,false
+verjaardag,birthday,A1,noun,Time,Vandaag is mijn verjaardag.,Today is my birthday.,,,de,verjaardagen,,,,,,,,,false
+auto,car,A1,noun,Transport,Onze auto is blauw.,Our car is blue.,,,de,auto's,,,,,,,,,false
+fiets,bicycle,A1,noun,Transport,Mijn fiets staat buiten.,My bicycle is outside.,,,de,fietsen,,,,,,,,,false
+bus,bus,A1,noun,Transport,De bus komt zo.,The bus will be here soon.,,,de,bussen,,,,,,,,,false
+trein,train,A1,noun,Transport,We nemen de trein.,We are taking the train.,,,de,treinen,,,,,,,,,false
+tram,tram,A1,noun,Transport,De tram stopt hier.,The tram stops here.,,,de,trams,,,,,,,,,false
+metro,metro,A1,noun,Transport,Ik ga met de metro.,I am taking the metro.,,,de,metro's,,,,,,,,,false
+vliegtuig,aeroplane,A1,noun,Transport,Het vliegtuig is groot.,The aeroplane is big.,,,het,vliegtuigen,,,,,,,,,false
+boot,boat,A1,noun,Transport,We zitten in een boot.,We are in a boat.,,,de,boten,,,,,,,,,false
+station,station,A1,noun,Transport,Het station is dichtbij.,The station is nearby.,,,het,stations,,,,,,,,,false
+halte,stop (public transport),A1,noun,Transport,Ik wacht bij de halte.,I am waiting at the stop.,,,de,haltes,,,,,,,,,false
+kaartje,ticket,A1,noun,Transport,Koop eerst een kaartje.,Buy a ticket first.,Ticket is an independent conventional meaning; not counted just as an inflection of kaart.,,het,kaartjes,,,,,,,,,false
+straat,street,A1,noun,Transport,Ik woon in deze straat.,I live on this street.,,,de,straten,,,,,,,,,false
+weg,road,A1,noun,Transport,Deze weg gaat naar zee.,This road leads to the sea.,,,de,wegen,,,,,,,,,false
+plein,square,A1,noun,Transport,Er staan bomen op het plein.,There are trees in the square.,,,het,pleinen,,,,,,,,,false
+brug,bridge,A1,noun,Transport,We lopen over de brug.,We are walking across the bridge.,,,de,bruggen,,,,,,,,,false
+reis,journey,A1,noun,Transport,De reis duurt twee uur.,The journey takes two hours.,,,de,reizen,,,,,,,,,false
+vakantie,holiday,A1,noun,Transport,Wij gaan morgen op vakantie.,We are going on holiday tomorrow.,,,de,vakanties,,,,,,,,,false
+hotel,hotel,A1,noun,Transport,Ons hotel ligt aan zee.,Our hotel is by the sea.,,,het,hotels,,,,,,,,,false
+paspoort,passport,A1,noun,Transport,Hier is mijn paspoort.,Here is my passport.,,,het,paspoorten,,,,,,,,,false
+koffer,suitcase,A1,noun,Transport,Mijn koffer is zwaar.,My suitcase is heavy.,,,de,koffers,,,,,,,,,false
+stad,city,A1,noun,Places and nature,Deze stad is mooi.,This city is beautiful.,,,de,steden,,,,,,,,,false
+dorp,village,A1,noun,Places and nature,Mijn oma woont in een dorp.,My grandma lives in a village.,,,het,dorpen,,,,,,,,,false
+land,country,A1,noun,Places and nature,Uit welk land kom je?,Which country are you from?,,,het,landen,,,,,,,,,false
+park,park,A1,noun,Places and nature,We wandelen in het park.,We are walking in the park.,,,het,parken,,,,,,,,,false
+school,school,A1,noun,Places and nature,De school is naast het park.,The school is next to the park.,,,de,scholen,,,,,,,,,false
+restaurant,restaurant,A1,noun,Places and nature,Dit restaurant is goedkoop.,This restaurant is inexpensive.,,,het,restaurants,,,,,,,,,false
+café,café / bar,A1,noun,Places and nature,We drinken koffie in het café.,We are having coffee in the café.,,,het,cafés,,,,,,,,,false
+bibliotheek,library,A1,noun,Places and nature,Ik leen een boek bij de bibliotheek.,I am borrowing a book from the library.,,,de,bibliotheken,,,,,,,,,false
+ziekenhuis,hospital,A1,noun,Places and nature,Hij werkt in het ziekenhuis.,He works in the hospital.,,,het,ziekenhuizen,,,,,,,,,false
+apotheek,pharmacy,A1,noun,Places and nature,De apotheek is vandaag open.,The pharmacy is open today.,,,de,apotheken,,,,,,,,,false
+markt,market,A1,noun,Places and nature,We kopen fruit op de markt.,We buy fruit at the market.,,,de,markten,,,,,,,,,false
+strand,beach,A1,noun,Places and nature,De kinderen spelen op het strand.,The children are playing on the beach.,,,het,stranden,,,,,,,,,false
+zee,sea,A1,noun,Places and nature,De zee is koud.,The sea is cold.,,,de,zeeën,,,,,,,,,false
+boom,tree,A1,noun,Places and nature,Er staat een boom voor het huis.,There is a tree in front of the house.,,,de,bomen,,,,,,,,,false
+bloem,flower,A1,noun,Places and nature,Deze bloem is geel.,This flower is yellow.,,,de,bloemen,,,,,,,,,false
+dier,animal,A1,noun,Places and nature,Welk dier vind je leuk?,Which animal do you like?,,,het,dieren,,,,,,,,,false
+hond,dog,A1,noun,Places and nature,De hond loopt met me mee.,The dog is walking with me.,,,de,honden,,,,,,,,,false
+kat,cat,A1,noun,Places and nature,De kat slaapt op de bank.,The cat is sleeping on the sofa.,,,de,katten,,,,,,,,,false
+vogel,bird,A1,noun,Places and nature,Een vogel zit in de boom.,A bird is sitting in the tree.,,,de,vogels,,,,,,,,,false
+paard,horse,A1,noun,Places and nature,Het paard eet gras.,The horse is eating grass.,,,het,paarden,,,,,,,,,false
+werk,work,A1,noun,Work and learning,Mijn werk begint om negen uur.,My work starts at nine.,Normally used without a plural in this meaning.,,het,,,,,,,,,,false
+baan,job,A1,noun,Work and learning,Ik zoek een nieuwe baan.,I am looking for a new job.,,,de,banen,,,,,,,,,false
+kantoor,office,A1,noun,Work and learning,Het kantoor is op de eerste verdieping.,The office is on the first floor.,,,het,kantoren,,,,,,,,,false
+collega,colleague,A1,noun,Work and learning,Mijn collega helpt me.,My colleague is helping me.,,,de,collega's,,,,,,,,,false
+leraar,teacher,A1,noun,Work and learning,De leraar legt het uit.,The teacher explains it.,,,de,leraren,,,,,,,,,false
+student,student,A1,noun,Work and learning,Zij is student.,She is a student.,,,de,studenten,,,,,,,,,false
+les,lesson,A1,noun,Work and learning,De les begint nu.,The lesson starts now.,,,de,lessen,,,,,,,,,false
+boek,book,A1,noun,Work and learning,Dit boek is makkelijk.,This book is easy.,,,het,boeken,,,,,,,,,false
+schrift,exercise book,A1,noun,Work and learning,Ik schrijf in mijn schrift.,I am writing in my exercise book.,,,het,schriften,,,,,,,,,false
+pen,pen,A1,noun,Work and learning,Mag ik je pen lenen?,May I borrow your pen?,,,de,pennen,,,,,,,,,false
+potlood,pencil,A1,noun,Work and learning,Ik teken met een potlood.,I draw with a pencil.,,,het,potloden,,,,,,,,,false
+papier,paper,A1,noun,Work and learning,Schrijf het op papier.,Write it on paper.,,,het,papieren,,,,,,,,,false
+woord,word,A1,noun,Work and learning,Wat betekent dit woord?,What does this word mean?,,,het,woorden,,,,,,,,,false
+zin,sentence,A1,noun,Work and learning,Lees deze zin hardop.,Read this sentence aloud.,,,de,zinnen,,,,,,,,,false
+taal,language,A1,noun,Work and learning,Welke taal spreek je?,Which language do you speak?,,,de,talen,,,,,,,,,false
+vraag,question,A1,noun,Work and learning,Ik heb een vraag.,I have a question.,,,de,vragen,,,,,,,,,false
+antwoord,answer,A1,noun,Work and learning,Het antwoord is goed.,The answer is correct.,,,het,antwoorden,,,,,,,,,false
+computer,computer,A1,noun,Work and learning,Mijn computer staat aan.,My computer is on.,,,de,computers,,,,,,,,,false
+brief,letter,A1,noun,Work and learning,Ik krijg een brief.,I receive a letter.,,,de,brieven,,,,,,,,,false
+afspraak,appointment,A1,noun,Work and learning,Ik heb morgen een afspraak.,I have an appointment tomorrow.,,,de,afspraken,,,,,,,,,false
+jas,coat,A1,noun,Clothing and belongings,Trek je jas aan.,Put your coat on.,,,de,jassen,,,,,,,,,false
+broek,trousers,A1,noun,Clothing and belongings,Mijn broek is zwart.,My trousers are black.,,,de,broeken,,,,,,,,,false
+jurk,dress,A1,noun,Clothing and belongings,Zij draagt een rode jurk.,She is wearing a red dress.,,,de,jurken,,,,,,,,,false
+rok,skirt,A1,noun,Clothing and belongings,Deze rok is lang.,This skirt is long.,,,de,rokken,,,,,,,,,false
+trui,jumper,A1,noun,Clothing and belongings,Die trui is warm.,That jumper is warm.,,,de,truien,,,,,,,,,false
+shirt,shirt,A1,noun,Clothing and belongings,Ik koop een wit shirt.,I am buying a white shirt.,,,het,shirts,,,,,,,,,false
+schoen,shoe,A1,noun,Clothing and belongings,Deze schoen is te klein.,This shoe is too small.,,,de,schoenen,,,,,,,,,false
+sok,sock,A1,noun,Clothing and belongings,Ik mis één sok.,I am missing one sock.,,,de,sokken,,,,,,,,,false
+hoed,hat,A1,noun,Clothing and belongings,Hij draagt een hoed.,He is wearing a hat.,,,de,hoeden,,,,,,,,,false
+bril,glasses,A1,noun,Clothing and belongings,Waar ligt mijn bril?,Where are my glasses?,,,de,brillen,,,,,,,,,false
+tas,bag,A1,noun,Clothing and belongings,Mijn tas is vol.,My bag is full.,,,de,tassen,,,,,,,,,false
+portemonnee,wallet,A1,noun,Clothing and belongings,Mijn geld zit in mijn portemonnee.,My money is in my wallet.,,,de,portemonnees,,,,,,,,,false
+horloge,watch,A1,noun,Clothing and belongings,Dit horloge is van mij.,This watch is mine.,,,het,horloges,,,,,,,,,false
+ring,ring,A1,noun,Clothing and belongings,Zij draagt een gouden ring.,She is wearing a gold ring.,,,de,ringen,,,,,,,,,false
+paraplu,umbrella,A1,noun,Clothing and belongings,Neem een paraplu mee.,Take an umbrella with you.,,,de,paraplu's,,,,,,,,,false
+handdoek,towel,A1,noun,Clothing and belongings,Hier is een schone handdoek.,Here is a clean towel.,,,de,handdoeken,,,,,,,,,false
+zeep,soap,A1,noun,Clothing and belongings,Was je handen met zeep.,Wash your hands with soap.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+foto,photo,A1,noun,Clothing and belongings,Dit is een foto van mijn kat.,This is a photo of my cat.,,,de,foto's,,,,,,,,,false
+cadeau,present,A1,noun,Clothing and belongings,Ik heb een cadeau voor je.,I have a present for you.,,,het,cadeaus,,,,,,,,,false
+kleur,colour,A1,noun,Clothing and belongings,Welke kleur vind je mooi?,Which colour do you like?,,,de,kleuren,,,,,,,,,false
+hoofd,head,A1,noun,Body and weather,Mijn hoofd doet pijn.,My head hurts.,,,het,hoofden,,,,,,,,,false
+oog,eye,A1,noun,Body and weather,Er zit iets in mijn oog.,There is something in my eye.,,,het,ogen,,,,,,,,,false
+oor,ear,A1,noun,Body and weather,Mijn rechteroor doet pijn.,My right ear hurts.,,,het,oren,,,,,,,,,false
+neus,nose,A1,noun,Body and weather,Mijn neus is koud.,My nose is cold.,,,de,neuzen,,,,,,,,,false
+mond,mouth,A1,noun,Body and weather,Doe je mond open.,Open your mouth.,,,de,monden,,,,,,,,,false
+tand,tooth,A1,noun,Body and weather,Deze tand doet pijn.,This tooth hurts.,,,de,tanden,,,,,,,,,false
+hand,hand,A1,noun,Body and weather,Geef me je hand.,Give me your hand.,,,de,handen,,,,,,,,,false
+arm,arm,A1,noun,Body and weather,Mijn arm is moe.,My arm is tired.,,,de,armen,,,,,,,,,false
+been,leg,A1,noun,Body and weather,Ik heb pijn in mijn been.,My leg hurts.,,,het,benen,,,,,,,,,false
+voet,foot,A1,noun,Body and weather,Mijn voet past niet in deze schoen.,My foot does not fit in this shoe.,,,de,voeten,,,,,,,,,false
+buik,belly,A1,noun,Body and weather,Mijn buik doet pijn.,My belly hurts.,,,de,buiken,,,,,,,,,false
+rug,back,A1,noun,Body and weather,Mijn rug doet pijn.,My back hurts.,,,de,ruggen,,,,,,,,,false
+dokter,doctor,A1,noun,Body and weather,Ik ga naar de dokter.,I am going to the doctor.,,,de,dokters,,,,,,,,,false
+pijn,pain,A1,noun,Body and weather,Heb je pijn?,Are you in pain?,,,de,pijnen,,,,,,,,,false
+weer,weather,A1,noun,Body and weather,Het weer is vandaag mooi.,The weather is nice today.,Noun weather. The adverb weer means again; see opnieuw. Counted only once.,,het,,,,,,,,,,false
+zon,sun,A1,noun,Body and weather,De zon schijnt.,The sun is shining.,Usually singular when referring to our sun; zonnen is possible for multiple stars/suns.,,de,zonnen,,,,,,,,,false
+regen,rain,A1,noun,Body and weather,Ik loop door de regen.,I am walking through the rain.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+wind,wind,A1,noun,Body and weather,Er staat veel wind.,It is very windy.,,,de,winden,,,,,,,,,false
+sneeuw,snow,A1,noun,Body and weather,Er ligt sneeuw in de tuin.,There is snow in the garden.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+wolk,cloud,A1,noun,Body and weather,Er is geen wolk te zien.,There is not a cloud in sight.,,,de,wolken,,,,,,,,,false
+januari,January,A1,noun,Calendar and leisure,In januari is het koud.,It is cold in January.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,januari's,,,,,,,,,false
+februari,February,A1,noun,Calendar and leisure,Mijn cursus begint in februari.,My course starts in February.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,februari's,,,,,,,,,false
+maart,March,A1,noun,Calendar and leisure,In maart komen er bloemen.,Flowers appear in March.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,maarten,,,,,,,,,false
+april,April,A1,noun,Calendar and leisure,In april gaan we op reis.,We are travelling in April.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,aprillen,,,,,,,,,false
+mei,May,A1,noun,Calendar and leisure,In mei bezoek ik mijn zus.,I am visiting my sister in May.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,meien,,,,,,,,,false
+juni,June,A1,noun,Calendar and leisure,In juni zijn de dagen lang.,The days are long in June.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,juni's,,,,,,,,,false
+juli,July,A1,noun,Calendar and leisure,In juli heb ik vakantie.,I am on holiday in July.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,juli's,,,,,,,,,false
+augustus,August,A1,noun,Calendar and leisure,In augustus is de school dicht.,The school is closed in August.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,augustussen,,,,,,,,,false
+september,September,A1,noun,Calendar and leisure,In september begint de les.,The class starts in September.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,septembers,,,,,,,,,false
+oktober,October,A1,noun,Calendar and leisure,In oktober regent het vaak.,It often rains in October.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,oktobers,,,,,,,,,false
+november,November,A1,noun,Calendar and leisure,In november draag ik een jas.,I wear a coat in November.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,novembers,,,,,,,,,false
+december,December,A1,noun,Calendar and leisure,In december zijn de dagen kort.,The days are short in December.,Month names are lowercase in Dutch. Normally used without an article; the plural is only for referring to multiple occurrences of that month.,,de,decembers,,,,,,,,,false
+muziek,music,A1,noun,Calendar and leisure,Ik luister naar muziek.,I am listening to music.,Normally used without a plural in this meaning.,,de,,,,,,,,,,false
+film,film,A1,noun,Calendar and leisure,Deze film is leuk.,This film is fun.,,,de,films,,,,,,,,,false
+sport,sport,A1,noun,Calendar and leisure,Welke sport doe je?,Which sport do you do?,,,de,sporten,,,,,,,,,false
+spel,game,A1,noun,Calendar and leisure,Dit spel is makkelijk.,This game is easy.,,,het,spellen,,,,,,,,,false
+feest,party,A1,noun,Calendar and leisure,Het feest begint om acht uur.,The party starts at eight.,,,het,feesten,,,,,,,,,false
+bal,ball,A1,noun,Calendar and leisure,Gooi de bal naar mij.,Throw the ball to me.,,,de,ballen,,,,,,,,,false
+zwembad,swimming pool,A1,noun,Calendar and leisure,Het zwembad is vandaag open.,The swimming pool is open today.,,,het,zwembaden,,,,,,,,,false
+hobby,hobby,A1,noun,Calendar and leisure,Koken is mijn hobby.,Cooking is my hobby.,,,de,hobby's,,,,,,,,,false
+zijn,to be,A1,verb,Essential actions,Ik ben thuis.,I am at home.,,,,,,irregular,false,zijn,geweest,,,,false
+hebben,to have,A1,verb,Essential actions,Wij hebben een hond.,We have a dog.,,,,,,irregular,false,hebben,gehad,,,,false
+worden,to become,A1,verb,Essential actions,Het wordt koud.,It is getting cold.,,,,,,irregular,false,zijn,geworden,,,,false
+gaan,to go,A1,verb,Essential actions,We gaan naar huis.,We are going home.,,,,,,irregular,false,zijn,gegaan,,,,false
+komen,to come,A1,verb,Essential actions,Kom je morgen?,Are you coming tomorrow?,,,,,,irregular,false,zijn,gekomen,,,,false
+doen,to do,A1,verb,Essential actions,Wat doe je vandaag?,What are you doing today?,,,,,,irregular,false,hebben,gedaan,,,,false
+maken,to make,A1,verb,Essential actions,Ik maak een foto.,I am taking a photo.,,,,,,regular,false,hebben,gemaakt,,,,false
+kunnen,can / to be able to,A1,verb,Essential actions,Kun je me helpen?,Can you help me?,The listed participle is used when applicable; before another infinitive the perfect commonly uses an infinitive instead (for example heeft moeten werken).,,,,,irregular,false,hebben,gekund,,,,false
+willen,to want,A1,verb,Essential actions,Ik wil naar buiten.,I want to go outside.,The listed participle is used when applicable; before another infinitive the perfect commonly uses an infinitive instead (for example heeft moeten werken).,,,,,irregular,false,hebben,gewild,,,,false
+moeten,must / to have to,A1,verb,Essential actions,Ik moet nu werken.,I have to work now.,The listed participle is used when applicable; before another infinitive the perfect commonly uses an infinitive instead (for example heeft moeten werken).,,,,,irregular,false,hebben,gemoeten,,,,false
+mogen,may / to be allowed to,A1,verb,Essential actions,Mag ik hier zitten?,May I sit here?,The listed participle is used when applicable; before another infinitive the perfect commonly uses an infinitive instead (for example heeft moeten werken).,,,,,irregular,false,hebben,gemogen,,,,false
+weten,to know (a fact),A1,verb,Essential actions,Weet je het antwoord?,Do you know the answer?,,,,,,irregular,false,hebben,geweten,,,,false
+kennen,to know (be familiar with),A1,verb,Essential actions,Ik ken die vrouw.,I know that woman.,,,,,,regular,false,hebben,gekend,,,,false
+zeggen,to say,A1,verb,Essential actions,Wat zeg je?,What are you saying?,,,,,,irregular,false,hebben,gezegd,,,,false
+spreken,to speak,A1,verb,Essential actions,Ik spreek een beetje Nederlands.,I speak a little Dutch.,,,,,,irregular,false,hebben,gesproken,,,,false
+praten,to talk,A1,verb,Essential actions,We praten over school.,We are talking about school.,,,,,,regular,false,hebben,gepraat,,,,false
+vragen,to ask,A1,verb,Essential actions,Ik vraag de weg.,I am asking for directions.,"Mixed pattern: vroeg, gevraagd. Marked irregular because the simple past is irregular.",,,,,irregular,false,hebben,gevraagd,,,,false
+antwoorden,to answer,A1,verb,Essential actions,Zij antwoordt meteen.,She answers straight away.,,,,,,regular,false,hebben,geantwoord,,,,false
+luisteren,to listen,A1,verb,Essential actions,Luister naar de leraar.,Listen to the teacher.,,,,,,regular,false,hebben,geluisterd,,,,false
+horen,to hear,A1,verb,Essential actions,Ik hoor een vogel.,I can hear a bird.,,,,,,regular,false,hebben,gehoord,,,,false
+kijken,to look / watch,A1,verb,Essential actions,We kijken naar een film.,We are watching a film.,,,,,,irregular,false,hebben,gekeken,,,,false
+zien,to see,A1,verb,Essential actions,Ik zie je fiets.,I can see your bicycle.,,,,,,irregular,false,hebben,gezien,,,,false
+lezen,to read,A1,verb,Essential actions,Zij leest een boek.,She is reading a book.,,,,,,irregular,false,hebben,gelezen,,,,false
+schrijven,to write,A1,verb,Essential actions,Schrijf je naam op.,Write down your name.,,,,,,irregular,false,hebben,geschreven,,,,false
+leren,to learn,A1,verb,Essential actions,Ik leer elke dag Nederlands.,I learn Dutch every day.,,,,,,regular,false,hebben,geleerd,,,,false
+begrijpen,to understand,A1,verb,Essential actions,Ik begrijp de vraag.,I understand the question.,,,,,,irregular,false,hebben,begrepen,,,,false
+denken,to think,A1,verb,Essential actions,Ik denk aan mijn familie.,I am thinking of my family.,,,,,,irregular,false,hebben,gedacht,,,,false
+vinden,to find / think of,A1,verb,Essential actions,Ik vind dit boek leuk.,I like this book.,,,,,,irregular,false,hebben,gevonden,,,,false
+geven,to give,A1,verb,Essential actions,Geef me het boek.,Give me the book.,,,,,,irregular,false,hebben,gegeven,,,,false
+nemen,to take,A1,verb,Essential actions,Ik neem de bus.,I am taking the bus.,,,,,,irregular,false,hebben,genomen,,,,false
+eten,to eat,A1,verb,Daily routines,Wij eten om zes uur.,We eat at six.,Verb infinitive to eat; also the noun het eten (food). The nominal sense is not a separate entry.,,,,,irregular,false,hebben,gegeten,,,,false
+drinken,to drink,A1,verb,Daily routines,Zij drinkt water.,She is drinking water.,,,,,,irregular,false,hebben,gedronken,,,,false
+koken,to cook,A1,verb,Daily routines,Vandaag kook ik rijst.,Today I am cooking rice.,,,,,,regular,false,hebben,gekookt,,,,false
+bakken,to bake / fry,A1,verb,Daily routines,We bakken een taart.,We are baking a cake.,"Mixed pattern: bakte, gebakken. Marked irregular because of the participle.",,,,,irregular,false,hebben,gebakken,,,,false
+kopen,to buy,A1,verb,Daily routines,Ik koop een brood.,I am buying a loaf of bread.,,,,,,irregular,false,hebben,gekocht,,,,false
+betalen,to pay,A1,verb,Daily routines,Kan ik hier betalen?,Can I pay here?,,,,,,regular,false,hebben,betaald,,,,false
+kosten,to cost,A1,verb,Daily routines,Hoeveel kost deze tas?,How much does this bag cost?,,,,,,regular,false,hebben,gekost,,,,false
+zoeken,to look for,A1,verb,Daily routines,Ik zoek mijn bril.,I am looking for my glasses.,,,,,,irregular,false,hebben,gezocht,,,,false
+wonen,to live (reside),A1,verb,Daily routines,Wij wonen in een flat.,We live in a flat.,,,,,,regular,false,hebben,gewoond,,,,false
+werken,to work,A1,verb,Daily routines,Zij werkt in een winkel.,She works in a shop.,,,,,,regular,false,hebben,gewerkt,,,,false
+slapen,to sleep,A1,verb,Daily routines,De kinderen slapen al.,The children are already asleep.,,,,,,irregular,false,hebben,geslapen,,,,false
+opstaan,to get up,A1,verb,Daily routines,Ik sta om zeven uur op.,I get up at seven.,,,,,,irregular,true,zijn,opgestaan,,,,false
+wassen,to wash,A1,verb,Daily routines,Ik was mijn handen.,I am washing my hands.,,,,,,irregular,false,hebben,gewassen,,,,false
+douchen,to shower,A1,verb,Daily routines,Ik douche elke ochtend.,I shower every morning.,,,,,,regular,false,hebben,gedoucht,,,,false
+aankleden,to get dressed,A1,verb,Daily routines,Ik kleed me aan.,I am getting dressed.,,,,,,regular,true,hebben,aangekleed,,,,false
+dragen,to wear / carry,A1,verb,Daily routines,Zij draagt een jas.,She is wearing a coat.,,,,,,irregular,false,hebben,gedragen,,,,false
+lopen,to walk,A1,verb,Daily routines,Wij lopen naar school.,We walk to school.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,irregular,false,hebben / zijn,gelopen,,,,false
+fietsen,to cycle,A1,verb,Daily routines,Ik fiets naar mijn werk.,I cycle to work.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,regular,false,hebben / zijn,gefietst,,,,false
+rijden,to drive / ride,A1,verb,Daily routines,Hij rijdt naar huis.,He is driving home.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,irregular,false,hebben / zijn,gereden,,,,false
+reizen,to travel,A1,verb,Daily routines,Wij reizen met de trein.,We travel by train.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,regular,false,hebben / zijn,gereisd,,,,false
+vliegen,to fly,A1,verb,Daily routines,Morgen vliegen we naar Spanje.,Tomorrow we are flying to Spain.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,irregular,false,hebben / zijn,gevlogen,,,,false
+zwemmen,to swim,A1,verb,Daily routines,Ik zwem in het zwembad.,I swim in the swimming pool.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,irregular,false,hebben / zijn,gezwommen,,,,false
+wandelen,to go for a walk,A1,verb,Daily routines,We wandelen in het park.,We are walking in the park.,Auxiliary depends on construction: hebben often for an activity or transitive use; zijn for direction or a change of state.,,,,,regular,false,hebben / zijn,gewandeld,,,,false
+spelen,to play,A1,verb,Daily routines,De kinderen spelen buiten.,The children are playing outside.,,,,,,regular,false,hebben,gespeeld,,,,false
+zitten,to sit,A1,verb,Daily routines,Ik zit naast het raam.,I am sitting beside the window.,,,,,,irregular,false,hebben,gezeten,,,,false
+staan,to stand,A1,verb,Daily routines,Zij staat bij de deur.,She is standing by the door.,,,,,,irregular,false,hebben,gestaan,,,,false
+liggen,to lie (be positioned),A1,verb,Daily routines,Het boek ligt op tafel.,The book is lying on the table.,,,,,,irregular,false,hebben,gelegen,,,,false
+blijven,to stay,A1,verb,Daily routines,We blijven vandaag thuis.,We are staying at home today.,,,,,,irregular,false,zijn,gebleven,,,,false
+wachten,to wait,A1,verb,Daily routines,Ik wacht op de bus.,I am waiting for the bus.,,,,,,regular,false,hebben,gewacht,,,,false
+beginnen,to begin,A1,verb,Daily routines,De les begint nu.,The lesson begins now.,,,,,,irregular,false,zijn,begonnen,,,,false
+stoppen,to stop,A1,verb,Everyday interaction,De bus stopt bij het station.,The bus stops at the station.,Stopping an activity or movement normally uses zijn; putting something into a bag uses hebben.,,,,,regular,false,hebben / zijn,gestopt,,,,false
+openen,to open,A1,verb,Everyday interaction,Ik open het raam.,I am opening the window.,,,,,,regular,false,hebben,geopend,,,,false
+sluiten,to close,A1,verb,Everyday interaction,"Sluit de deur, alstublieft.",Please close the door.,,,,,,irregular,false,hebben,gesloten,,,,false
+helpen,to help,A1,verb,Everyday interaction,Wil je mij helpen?,Will you help me?,,,,,,irregular,false,hebben,geholpen,,,,false
+bellen,to phone,A1,verb,Everyday interaction,Ik bel mijn moeder.,I am phoning my mother.,,,,,,regular,false,hebben,gebeld,,,,false
+bezoeken,to visit,A1,verb,Everyday interaction,We bezoeken onze vrienden.,We are visiting our friends.,,,,,,irregular,false,hebben,bezocht,,,,false
+ontmoeten,to meet,A1,verb,Everyday interaction,Ik ontmoet mijn collega bij het station.,I am meeting my colleague at the station.,,,,,,regular,false,hebben,ontmoet,,,,false
+houden,to like / love (with van),A1,verb,Everyday interaction,Ik houd van muziek.,I love music.,"In the meaning like/love, use houden van. The verb has other meanings, including hold and keep.",,,,,irregular,false,hebben,gehouden,,,,false
+heten,to be called,A1,verb,Everyday interaction,Hoe heet je?,What is your name?,"Mixed pattern: heette, geheten. Marked irregular because of the participle.",,,,,irregular,false,hebben,geheten,,,,false
+voelen,to feel,A1,verb,Everyday interaction,Ik voel me goed.,I feel good.,,,,,,regular,false,hebben,gevoeld,,,,false
+lachen,to laugh,A1,verb,Everyday interaction,De baby lacht.,The baby is laughing.,"Mixed pattern: lachte, gelachen. Marked irregular because of the participle.",,,,,irregular,false,hebben,gelachen,,,,false
+huilen,to cry,A1,verb,Everyday interaction,Waarom huil je?,Why are you crying?,,,,,,regular,false,hebben,gehuild,,,,false
+leven,to live (be alive),A1,verb,Everyday interaction,Vissen leven in het water.,Fish live in water.,,,,,,regular,false,hebben,geleefd,,,,false
+gebruiken,to use,A1,verb,Everyday interaction,Mag ik je telefoon gebruiken?,May I use your phone?,,,,,,regular,false,hebben,gebruikt,,,,false
+pakken,to grab / take,A1,verb,Everyday interaction,Pak je tas.,Take your bag.,,,,,,regular,false,hebben,gepakt,,,,false
+brengen,to bring,A1,verb,Everyday interaction,Ik breng je naar huis.,I will take you home.,,,,,,irregular,false,hebben,gebracht,,,,false
+halen,to fetch / get,A1,verb,Everyday interaction,Ik haal brood bij de bakker.,I get bread from the baker.,,,,,,regular,false,hebben,gehaald,,,,false
+krijgen,to get / receive,A1,verb,Everyday interaction,Ik krijg een cadeau.,I am receiving a present.,,,,,,irregular,false,hebben,gekregen,,,,false
+sturen,to send,A1,verb,Everyday interaction,Ik stuur je een bericht.,I will send you a message.,,,,,,regular,false,hebben,gestuurd,,,,false
+leggen,to put (lying down),A1,verb,Everyday interaction,Leg het boek op tafel.,Put the book on the table.,,,,,,regular,false,hebben,gelegd,,,,false
+zetten,to put (upright),A1,verb,Everyday interaction,Zet de fles op tafel.,Put the bottle on the table.,,,,,,regular,false,hebben,gezet,,,,false
+laten,to let / leave,A1,verb,Everyday interaction,Laat de deur open.,Leave the door open.,The listed participle is used when applicable; before another infinitive the perfect commonly uses an infinitive instead (for example heeft moeten werken).,,,,,irregular,false,hebben,gelaten,,,,false
+proberen,to try,A1,verb,Everyday interaction,Probeer het nog eens.,Try it again.,,,,,,regular,false,hebben,geprobeerd,,,,false
+kiezen,to choose,A1,verb,Everyday interaction,Welke kleur kies je?,Which colour do you choose?,,,,,,irregular,false,hebben,gekozen,,,,false
+vergeten,to forget,A1,verb,Everyday interaction,Ik ben mijn sleutel vergeten.,I have forgotten my key.,Both hebben and zijn occur. Forgetting to bring or do something commonly uses zijn.,,,,,irregular,false,hebben / zijn,vergeten,,,,false
+vertellen,to tell,A1,verb,Everyday interaction,Vertel me over je werk.,Tell me about your work.,,,,,,regular,false,hebben,verteld,,,,false
+oefenen,to practise,A1,verb,Everyday interaction,We oefenen samen.,We practise together.,,,,,,regular,false,hebben,geoefend,,,,false
+tekenen,to draw,A1,verb,Everyday interaction,Het kind tekent een huis.,The child is drawing a house.,,,,,,regular,false,hebben,getekend,,,,false
+zingen,to sing,A1,verb,Everyday interaction,Zij zingt een lied.,She is singing a song.,,,,,,irregular,false,hebben,gezongen,,,,false
+dansen,to dance,A1,verb,Everyday interaction,We dansen op het feest.,We are dancing at the party.,,,,,,regular,false,hebben,gedanst,,,,false
+goed,good,A1,adjective,Basic descriptions,Het eten is goed.,The food is good.,,,,,,,,,,goede,beter,best,false
+slecht,bad,A1,adjective,Basic descriptions,Het weer is slecht.,The weather is bad.,,,,,,,,,,slechte,slechter,slechtst,false
+groot,big,A1,adjective,Basic descriptions,Wij hebben een grote tuin.,We have a big garden.,,,,,,,,,,grote,groter,grootst,false
+klein,small,A1,adjective,Basic descriptions,Dat is een klein huis.,That is a small house.,,,,,,,,,,kleine,kleiner,kleinst,false
+lang,long / tall,A1,adjective,Basic descriptions,Mijn broer is lang.,My brother is tall.,,,,,,,,,,lange,langer,langst,false
+kort,short,A1,adjective,Basic descriptions,De film is kort.,The film is short.,,,,,,,,,,korte,korter,kortst,false
+hoog,high,A1,adjective,Basic descriptions,Die boom is hoog.,That tree is tall.,,,,,,,,,,hoge,hoger,hoogst,false
+laag,low,A1,adjective,Basic descriptions,Deze tafel is laag.,This table is low.,,,,,,,,,,lage,lager,laagst,false
+breed,wide,A1,adjective,Basic descriptions,De straat is breed.,The street is wide.,,,,,,,,,,brede,breder,breedst,false
+smal,narrow,A1,adjective,Basic descriptions,Dit is een smalle deur.,This is a narrow door.,,,,,,,,,,smalle,smaller,smalst,false
+nieuw,new,A1,adjective,Basic descriptions,Ik heb een nieuwe fiets.,I have a new bicycle.,,,,,,,,,,nieuwe,nieuwer,nieuwst,false
+oud,old,A1,adjective,Basic descriptions,Dit is een oud huis.,This is an old house.,,,,,,,,,,oude,ouder,oudst,false
+jong,young,A1,adjective,Basic descriptions,De hond is nog jong.,The dog is still young.,,,,,,,,,,jonge,jonger,jongst,false
+mooi,beautiful,A1,adjective,Basic descriptions,Wat een mooie bloem!,What a beautiful flower!,,,,,,,,,,mooie,mooier,mooist,false
+lelijk,ugly,A1,adjective,Basic descriptions,Ik vind die kleur lelijk.,I think that colour is ugly.,,,,,,,,,,lelijke,lelijker,lelijkst,false
+leuk,nice / fun,A1,adjective,Basic descriptions,Het feest is leuk.,The party is fun.,,,,,,,,,,leuke,leuker,leukst,false
+lekker,tasty / pleasant,A1,adjective,Basic descriptions,De soep is lekker.,The soup is tasty.,,,,,,,,,,lekkere,lekkerder,lekkerst,false
+duur,expensive,A1,adjective,Basic descriptions,Dat hotel is duur.,That hotel is expensive.,,,,,,,,,,dure,duurder,duurst,false
+goedkoop,inexpensive,A1,adjective,Basic descriptions,Deze tas is goedkoop.,This bag is inexpensive.,,,,,,,,,,goedkope,goedkoper,goedkoopst,false
+gratis,free of charge,A1,adjective,Basic descriptions,De koffie is gratis.,The coffee is free.,,,,,,,,,,gratis,,,false
+warm,warm,A1,adjective,Basic descriptions,Het water is warm.,The water is warm.,,,,,,,,,,warme,warmer,warmst,false
+koud,cold,A1,adjective,Basic descriptions,Mijn handen zijn koud.,My hands are cold.,,,,,,,,,,koude,kouder,koudst,false
+heet,hot,A1,adjective,Basic descriptions,"Pas op, de thee is heet.","Careful, the tea is hot.",,,,,,,,,,hete,heter,heetst,false
+koel,cool,A1,adjective,Basic descriptions,De kamer is lekker koel.,The room is pleasantly cool.,,,,,,,,,,koele,koeler,koelst,false
+nat,wet,A1,adjective,Basic descriptions,Mijn jas is nat.,My coat is wet.,,,,,,,,,,natte,natter,natst,false
+droog,dry,A1,adjective,Basic descriptions,De handdoek is droog.,The towel is dry.,,,,,,,,,,droge,droger,droogst,false
+schoon,clean,A1,adjective,Basic descriptions,De keuken is schoon.,The kitchen is clean.,,,,,,,,,,schone,schoner,schoonst,false
+vies,dirty,A1,adjective,Basic descriptions,Je schoenen zijn vies.,Your shoes are dirty.,,,,,,,,,,vieze,viezer,viest,false
+vol,full,A1,adjective,Basic descriptions,De bus is vol.,The bus is full.,,,,,,,,,,volle,voller,volst,false
+leeg,empty,A1,adjective,Basic descriptions,Mijn glas is leeg.,My glass is empty.,,,,,,,,,,lege,leger,leegst,false
+makkelijk,easy,A1,adjective,Basic descriptions,Deze vraag is makkelijk.,This question is easy.,,,,,,,,,,makkelijke,makkelijker,makkelijkst,false
+moeilijk,difficult,A1,adjective,Basic descriptions,Het huiswerk is moeilijk.,The homework is difficult.,,,,,,,,,,moeilijke,moeilijker,moeilijkst,false
+snel,fast,A1,adjective,Basic descriptions,Die trein is snel.,That train is fast.,,,,,,,,,,snelle,sneller,snelst,false
+langzaam,slow,A1,adjective,Basic descriptions,Deze computer is langzaam.,This computer is slow.,,,,,,,,,,langzame,langzamer,langzaamst,false
+vroeg,early,A1,adjective,Basic descriptions,De vroege trein is rustig.,The early train is quiet.,,,,,,,,,,vroege,vroeger,vroegst,false
+laat,late,A1,adjective,Basic descriptions,We nemen de late bus.,We are taking the late bus.,,,,,,,,,,late,later,laatst,false
+licht,light (not heavy),A1,adjective,Basic descriptions,Deze tas is licht.,This bag is light.,,,,,,,,,,lichte,lichter,lichtst,false
+zwaar,heavy,A1,adjective,Basic descriptions,Mijn koffer is zwaar.,My suitcase is heavy.,,,,,,,,,,zware,zwaarder,zwaarst,false
+hard,hard,A1,adjective,Basic descriptions,Het brood is hard.,The bread is hard.,,,,,,,,,,harde,harder,hardst,false
+zacht,soft,A1,adjective,Basic descriptions,Dit bed is zacht.,This bed is soft.,,,,,,,,,,zachte,zachter,zachtst,false
+blij,happy,A1,adjective,Basic descriptions,Ik ben blij met je cadeau.,I am happy with your present.,,,,,,,,,,blije,blijer,blijst,false
+boos,angry,A1,adjective,Basic descriptions,Waarom ben je boos?,Why are you angry?,,,,,,,,,,boze,bozer,boost,false
+moe,tired,A1,adjective,Basic descriptions,Na het werk ben ik moe.,After work I am tired.,,,,,,,,,,,,,false
+ziek,ill,A1,adjective,Basic descriptions,Zij is vandaag ziek.,She is ill today.,,,,,,,,,,zieke,zieker,ziekst,false
+gezond,healthy,A1,adjective,Basic descriptions,Groente is gezond.,Vegetables are healthy.,,,,,,,,,,gezonde,gezonder,gezondst,false
+druk,busy,A1,adjective,Basic descriptions,Het is druk in de winkel.,It is busy in the shop.,,,,,,,,,,drukke,drukker,drukst,false
+rustig,quiet / calm,A1,adjective,Basic descriptions,De straat is rustig.,The street is quiet.,,,,,,,,,,rustige,rustiger,rustigst,false
+aardig,kind / nice,A1,adjective,Basic descriptions,Onze buurman is aardig.,Our neighbour is nice.,,,,,,,,,,aardige,aardiger,aardigst,false
+lief,sweet / kind,A1,adjective,Basic descriptions,Wat een lief kind!,What a sweet child!,,,,,,,,,,lieve,liever,liefst,false
+bang,afraid,A1,adjective,Basic descriptions,Ik ben bang voor die hond.,I am afraid of that dog.,,,,,,,,,,bange,banger,bangst,false
+rood,red,A1,adjective,Basic descriptions,Ik draag een rode jas.,I am wearing a red coat.,,,,,,,,,,rode,roder,roodst,false
+blauw,blue,A1,adjective,Basic descriptions,De lucht is blauw.,The sky is blue.,,,,,,,,,,blauwe,blauwer,blauwst,false
+geel,yellow,A1,adjective,Basic descriptions,Die bloem is geel.,That flower is yellow.,,,,,,,,,,gele,geler,geelst,false
+groen,green,A1,adjective,Basic descriptions,De deur is groen.,The door is green.,,,,,,,,,,groene,groener,groenst,false
+zwart,black,A1,adjective,Basic descriptions,Mijn schoenen zijn zwart.,My shoes are black.,,,,,,,,,,zwarte,zwarter,zwartst,false
+wit,white,A1,adjective,Basic descriptions,Er staat een wit huis.,There is a white house.,,,,,,,,,,witte,witter,witst,false
+grijs,grey,A1,adjective,Basic descriptions,De kat is grijs.,The cat is grey.,,,,,,,,,,grijze,grijzer,grijst,false
+bruin,brown,A1,adjective,Basic descriptions,Ik heb bruine ogen.,I have brown eyes.,,,,,,,,,,bruine,bruiner,bruinst,false
+oranje,orange (colour),A1,adjective,Basic descriptions,Zij draagt een oranje shirt.,She is wearing an orange shirt.,,,,,,,,,,oranje,,,false
+roze,pink,A1,adjective,Basic descriptions,De baby heeft een roze jas.,The baby has a pink coat.,,,,,,,,,,roze,,,false
+open,open,A1,adjective,Basic descriptions,Het raam is open.,The window is open.,,,,,,,,,,open,,,false
+dicht,closed,A1,adjective,Basic descriptions,De winkel is dicht.,The shop is closed.,,,,,,,,,,,,,false
+klaar,ready / finished,A1,adjective,Basic descriptions,Ben je klaar?,Are you ready?,,,,,,,,,,,,,false
+vrij,free / off work,A1,adjective,Basic descriptions,Morgen ben ik vrij.,I am off tomorrow.,,,,,,,,,,vrije,vrijer,vrijst,false
+jarig,having a birthday,A1,adjective,Basic descriptions,Ik ben vandaag jarig.,It is my birthday today.,,,,,,,,,,jarige,,,false
+vriendelijk,friendly,A1,adjective,Basic descriptions,De leraar is vriendelijk.,The teacher is friendly.,,,,,,,,,,vriendelijke,vriendelijker,vriendelijkst,false
+donker,dark,A1,adjective,Basic descriptions,Deze kamer is donker.,This room is dark.,,,,,,,,,,donkere,donkerder,donkerst,false
+sterk,strong,A1,adjective,Basic descriptions,Mijn broer is sterk.,My brother is strong.,,,,,,,,,,sterke,sterker,sterkst,false
+zwak,weak,A1,adjective,Basic descriptions,Ik voel me nog zwak.,I still feel weak.,,,,,,,,,,zwakke,zwakker,zwakst,false
+belangrijk,important,A1,adjective,Basic descriptions,Dit is een belangrijke vraag.,This is an important question.,,,,,,,,,,belangrijke,belangrijker,belangrijkst,false
+ik,I,A1,pronoun,People and questions,Ik woon hier.,I live here.,,,,,,,,,,,,,false
+jij,"you (singular, informal)",A1,pronoun,People and questions,Waar woon jij?,Where do you live?,Stressed informal singular subject pronoun. Unstressed form: je.,,,,,,,,,,,,false
+u,you (formal),A1,pronoun,People and questions,Wilt u koffie?,Would you like coffee?,,,,,,,,,,,,,false
+hij,he,A1,pronoun,People and questions,Hij werkt vandaag.,He is working today.,,,,,,,,,,,,,false
+zij,she / they,A1,pronoun,People and questions,Zij is mijn zus.,She is my sister.,Subject pronoun: she (singular) or they (plural). Unstressed form: ze.,,,,,,,,,,,,false
+wij,we,A1,pronoun,People and questions,Wij gaan naar huis.,We are going home.,Stressed subject pronoun. Unstressed form: we.,,,,,,,,,,,,false
+jullie,you (plural),A1,pronoun,People and questions,Komen jullie ook?,Are you coming too?,,,,,,,,,,,,,false
+het,it,A1,pronoun,People and questions,Het is een mooi boek.,It is a beautiful book.,Personal pronoun it. Also the definite article for singular het-words; not counted as a second headword.,,,,,,,,,,,,false
+dit,this (with het-words),A1,pronoun,People and questions,Dit boek is nieuw.,This book is new.,,,,,,,,,,,,,false
+dat,that (with het-words),A1,pronoun,People and questions,Dat huis is groot.,That house is big.,,,,,,,,,,,,,false
+deze,this / these,A1,pronoun,People and questions,Deze stoel is vrij.,This chair is free.,,,,,,,,,,,,,false
+die,that / those,A1,pronoun,People and questions,Die jas is van mij.,That coat is mine.,,,,,,,,,,,,,false
+mijn,my,A1,pronoun,People and questions,Dit is mijn fiets.,This is my bicycle.,,,,,,,,,,,,,false
+jouw,"your (singular, informal)",A1,pronoun,People and questions,Is dat jouw tas?,Is that your bag?,,,,,,,,,,,,,false
+uw,your (formal),A1,pronoun,People and questions,Wat is uw naam?,What is your name?,,,,,,,,,,,,,false
+ons,our (with singular het-words),A1,pronoun,People and questions,Ons huis is klein.,Our house is small.,"Use ons before a singular het-word, onze before a de-word or plural. Also the object pronoun us.",,,,,,,,,,,,false
+hun,their,A1,pronoun,People and questions,Hun kinderen spelen buiten.,Their children are playing outside.,"Possessive their. As an object pronoun, usage differs from hen; not a standard subject pronoun.",,,,,,,,,,,,false
+wie,who,A1,pronoun,People and questions,Wie is die man?,Who is that man?,,,,,,,,,,,,,false
+wat,what,A1,pronoun,People and questions,Wat wil je drinken?,What would you like to drink?,,,,,,,,,,,,,false
+welke,which,A1,pronoun,People and questions,Welke bus neem je?,Which bus are you taking?,,,,,,,,,,,,,false
+in,in,A1,preposition,Position and direction,De melk staat in de koelkast.,The milk is in the fridge.,,,,,,,,,,,,,false
+op,on,A1,preposition,Position and direction,Het boek ligt op tafel.,The book is on the table.,,,,,,,,,,,,,false
+aan,at / on (attached),A1,preposition,Position and direction,De foto hangt aan de muur.,The photo hangs on the wall.,,,,,,,,,,,,,false
+bij,at / near,A1,preposition,Position and direction,Ik wacht bij de deur.,I am waiting by the door.,,,,,,,,,,,,,false
+met,with,A1,preposition,Position and direction,Ik ga met mijn broer.,I am going with my brother.,,,,,,,,,,,,,false
+zonder,without,A1,preposition,Position and direction,Ik drink koffie zonder melk.,I drink coffee without milk.,,,,,,,,,,,,,false
+voor,for / in front of,A1,preposition,Position and direction,Dit cadeau is voor jou.,This present is for you.,,,,,,,,,,,,,false
+achter,behind,A1,preposition,Position and direction,De fiets staat achter het huis.,The bicycle is behind the house.,,,,,,,,,,,,,false
+naast,next to,A1,preposition,Position and direction,Ik zit naast mijn vriend.,I am sitting next to my friend.,,,,,,,,,,,,,false
+onder,under,A1,preposition,Position and direction,De kat ligt onder de tafel.,The cat is under the table.,,,,,,,,,,,,,false
+boven,above,A1,preposition,Position and direction,De lamp hangt boven de tafel.,The lamp hangs above the table.,,,,,,,,,,,,,false
+naar,to (direction),A1,preposition,Position and direction,We gaan naar school.,We are going to school.,,,,,,,,,,,,,false
+van,of / from,A1,preposition,Position and direction,Dit is de fiets van mijn zus.,This is my sister's bicycle.,,,,,,,,,,,,,false
+uit,from / out of,A1,preposition,Position and direction,Ik kom uit Engeland.,I come from England.,,,,,,,,,,,,,false
+en,and,A1,conjunction,Joining ideas,Ik drink thee en water.,I drink tea and water.,,,,,,,,,,,,,false
+of,or,A1,conjunction,Joining ideas,Wil je thee of koffie?,Would you like tea or coffee?,,,,,,,,,,,,,false
+maar,but,A1,conjunction,Joining ideas,"Ik wil komen, maar ik werk.","I want to come, but I am working.",,,,,,,,,,,,,false
+want,because (coordinating),A1,conjunction,Joining ideas,"Ik blijf thuis, want ik ben ziek.",I am staying home because I am ill.,,,,,,,,,,,,,false
+omdat,because (subordinating),A1,conjunction,Joining ideas,Ik eet omdat ik honger heb.,I am eating because I am hungry.,,,,,,,,,,,,,false
+als,if / when,A1,conjunction,Joining ideas,Bel me als je thuis bent.,Call me when you are home.,,,,,,,,,,,,,false
+hier,here,A1,adverb,Time and place,Kom hier zitten.,Come and sit here.,,,,,,,,,,,,,false
+daar,there,A1,adverb,Time and place,Mijn fiets staat daar.,My bicycle is over there.,,,,,,,,,,,,,false
+waar,where,A1,adverb,Time and place,Waar is het station?,Where is the station?,,,,,,,,,,,,,false
+wanneer,when,A1,adverb,Time and place,Wanneer begint de les?,When does the lesson start?,,,,,,,,,,,,,false
+waarom,why,A1,adverb,Time and place,Waarom lach je?,Why are you laughing?,,,,,,,,,,,,,false
+hoe,how,A1,adverb,Time and place,Hoe gaat het?,How are you?,,,,,,,,,,,,,false
+nu,now,A1,adverb,Time and place,Ik moet nu gaan.,I have to go now.,,,,,,,,,,,,,false
+vandaag,today,A1,adverb,Time and place,Vandaag ben ik vrij.,I am off today.,,,,,,,,,,,,,false
+morgen,tomorrow,A1,adverb,Time and place,Tot morgen!,See you tomorrow!,Adverb tomorrow. The noun morgen can mean morning; that sense is covered by ochtend.,,,,,,,,,,,,false
+gisteren,yesterday,A1,adverb,Time and place,Gisteren was ik thuis.,I was at home yesterday.,,,,,,,,,,,,,false
+altijd,always,A1,adverb,Time and place,Ik eet altijd ontbijt.,I always eat breakfast.,,,,,,,,,,,,,false
+vaak,often,A1,adverb,Time and place,We fietsen vaak samen.,We often cycle together.,,,,,,,,,,,,,false
+soms,sometimes,A1,adverb,Time and place,Soms neem ik de bus.,Sometimes I take the bus.,,,,,,,,,,,,,false
+nooit,never,A1,adverb,Time and place,Ik drink nooit koffie.,I never drink coffee.,,,,,,,,,,,,,false
+al,already,A1,adverb,Time and place,Ben je al klaar?,Are you ready already?,,,,,,,,,,,,,false
+nog,still / yet,A1,adverb,Time and place,Ik ben nog niet klaar.,I am not ready yet.,,,,,,,,,,,,,false
+opnieuw,again,A1,adverb,Time and place,Lees de zin opnieuw.,Read the sentence again.,,,,,,,,,,,,,false
+niets,nothing,A1,pronoun,Things,Er zit niets in de tas.,There is nothing in the bag.,,,,,,,,,,,,,false
+iets,something,A1,pronoun,Things,Wil je iets drinken?,Would you like something to drink?,,,,,,,,,,,,,false
+er,there (existential),A1,adverb,Useful modifiers,Er staat een fiets buiten.,There is a bicycle outside.,,,,,,,,,,,,,false
+heel,very,A1,adverb,Useful modifiers,Dit boek is heel leuk.,This book is very enjoyable.,,,,,,,,,,,,,false
+erg,very,A1,adverb,Useful modifiers,Het is erg koud.,It is very cold.,,,,,,,,,,,,,false
+ook,also / too,A1,adverb,Useful modifiers,Ik kom ook.,I am coming too.,,,,,,,,,,,,,false
+alleen,alone / only,A1,adverb,Useful modifiers,Ik woon alleen.,I live alone.,,,,,,,,,,,,,false
+niet,not,A1,adverb,Useful modifiers,Ik weet het niet.,I do not know.,,,,,,,,,,,,,false
+wel,indeed / affirmative contrast,A1,adverb,Useful modifiers,"Ik drink geen koffie, maar wel thee.","I do not drink coffee, but I do drink tea.",,,,,,,,,,,,,false
+graag,gladly / like to,A1,adverb,Useful modifiers,Ik lees graag.,I like reading.,,,,,,,,,,,,,false
+misschien,perhaps,A1,adverb,Useful modifiers,Misschien kom ik morgen.,Perhaps I will come tomorrow.,,,,,,,,,,,,,false
+samen,together,A1,adverb,Useful modifiers,We koken samen.,We cook together.,,,,,,,,,,,,,false
+bijna,almost,A1,adverb,Useful modifiers,De les is bijna klaar.,The lesson is almost finished.,,,,,,,,,,,,,false
+nul,zero,A1,numeral,Numbers,Het is nul graden.,It is zero degrees.,,,,,,,,,,,,,false
+half,half,A1,numeral,Numbers,Ik eet een half broodje.,I am eating half a bread roll.,"Half as a quantity; half negen means half past eight, not half past nine.",,,,,,,,,,,,false
+twee,two,A1,numeral,Numbers,Wij hebben twee katten.,We have two cats.,,,,,,,,,,,,,false
+drie,three,A1,numeral,Numbers,Er staan drie fietsen.,There are three bicycles.,,,,,,,,,,,,,false
+vier,four,A1,numeral,Numbers,De tafel heeft vier poten.,The table has four legs.,,,,,,,,,,,,,false
+vijf,five,A1,numeral,Numbers,Ik werk vijf dagen.,I work five days.,,,,,,,,,,,,,false
+zes,six,A1,numeral,Numbers,Het is zes uur.,It is six o'clock.,,,,,,,,,,,,,false
+zeven,seven,A1,numeral,Numbers,Een week heeft zeven dagen.,A week has seven days.,,,,,,,,,,,,,false
+acht,eight,A1,numeral,Numbers,Er zijn acht stoelen.,There are eight chairs.,,,,,,,,,,,,,false
+negen,nine,A1,numeral,Numbers,De winkel opent om negen uur.,The shop opens at nine.,,,,,,,,,,,,,false
+tien,ten,A1,numeral,Numbers,Dat kost tien euro.,That costs ten euros.,,,,,,,,,,,,,false
+elf,eleven,A1,numeral,Numbers,Mijn zoon is elf jaar.,My son is eleven years old.,,,,,,,,,,,,,false
+twaalf,twelve,A1,numeral,Numbers,Het is twaalf uur.,It is twelve o'clock.,,,,,,,,,,,,,false
+dertien,thirteen,A1,numeral,Numbers,Bus dertien stopt hier.,Bus thirteen stops here.,,,,,,,,,,,,,false
+veertien,fourteen,A1,numeral,Numbers,De cursus duurt veertien dagen.,The course lasts fourteen days.,,,,,,,,,,,,,false
+vijftien,fifteen,A1,numeral,Numbers,Ik wacht vijftien minuten.,I will wait fifteen minutes.,,,,,,,,,,,,,false
+zestien,sixteen,A1,numeral,Numbers,Zij is zestien jaar.,She is sixteen years old.,,,,,,,,,,,,,false
+zeventien,seventeen,A1,numeral,Numbers,Er zitten zeventien mensen in de bus.,There are seventeen people on the bus.,,,,,,,,,,,,,false
+achttien,eighteen,A1,numeral,Numbers,Hij is achttien jaar.,He is eighteen years old.,,,,,,,,,,,,,false
+negentien,nineteen,A1,numeral,Numbers,De tas kost negentien euro.,The bag costs nineteen euros.,,,,,,,,,,,,,false
+twintig,twenty,A1,numeral,Numbers,Ik leer twintig woorden.,I am learning twenty words.,,,,,,,,,,,,,false
+dertig,thirty,A1,numeral,Numbers,De reis duurt dertig minuten.,The journey takes thirty minutes.,,,,,,,,,,,,,false
+veertig,forty,A1,numeral,Numbers,Mijn moeder is veertig jaar.,My mother is forty years old.,,,,,,,,,,,,,false
+vijftig,fifty,A1,numeral,Numbers,Dat is vijftig euro.,That is fifty euros.,,,,,,,,,,,,,false
+zestig,sixty,A1,numeral,Numbers,Een uur heeft zestig minuten.,An hour has sixty minutes.,,,,,,,,,,,,,false
+zeventig,seventy,A1,numeral,Numbers,Oma is zeventig jaar.,Grandma is seventy years old.,,,,,,,,,,,,,false
+tachtig,eighty,A1,numeral,Numbers,Het kaartje kost tachtig euro.,The ticket costs eighty euros.,,,,,,,,,,,,,false
+negentig,ninety,A1,numeral,Numbers,De film duurt negentig minuten.,The film lasts ninety minutes.,,,,,,,,,,,,,false
+honderd,hundred,A1,numeral,Numbers,Ik heb honderd euro.,I have a hundred euros.,,,,,,,,,,,,,false
+duizend,thousand,A1,numeral,Numbers,Hier wonen duizend mensen.,A thousand people live here.,,,,,,,,,,,,,false
+de,the (de-words and plurals),A1,particle,Articles and responses,De hond slaapt.,The dog is sleeping.,Definite article for de-words and all plural nouns. Articles use the app's particle category.,,,,,,,,,,,,false
+een,a / an,A1,particle,Articles and responses,Ik heb een fiets.,I have a bicycle.,Indefinite article. The same spelling also means one; the numeral is often accented één for emphasis. Articles use the app's particle category.,,,,,,,,,,,,false
+geen,no / not a,A1,particle,Articles and responses,Ik heb geen auto.,I do not have a car.,"Negative determiner before an indefinite noun: geen auto, geen water. Stored in the app's particle category.",,,,,,,,,,,,false
+ja,yes,A1,particle,Articles and responses,"Ja, ik kom.","Yes, I am coming.",,,,,,,,,,,,,false
+nee,no,A1,particle,Articles and responses,"Nee, dank je.","No, thank you.",,,,,,,,,,,,,false
+bedankt,thanks,A1,expression,Greetings and politeness,Bedankt voor je hulp.,Thanks for your help.,Lexicalised politeness expression thanks; distinct from the verb bedanken.,,,,,,,,,,,,false
+alstublieft,please / here you are (formal),A1,expression,Greetings and politeness,"Een thee, alstublieft.","A tea, please.",,,,,,,,,,,,,false
+alsjeblieft,please / here you are (informal),A1,expression,Greetings and politeness,Help me alsjeblieft.,Please help me.,,,,,,,,,,,,,false
+hallo,hello,A1,expression,Greetings and politeness,"Hallo, hoe heet je?","Hello, what is your name?",,,,,,,,,,,,,false
+goedemorgen,good morning,A1,expression,Greetings and politeness,"Goedemorgen, hebt u goed geslapen?","Good morning, did you sleep well?",,,,,,,,,,,,,false
+goedemiddag,good afternoon,A1,expression,Greetings and politeness,"Goedemiddag, kan ik u helpen?","Good afternoon, can I help you?",,,,,,,,,,,,,false
+goedenavond,good evening,A1,expression,Greetings and politeness,"Goedenavond, kom binnen.","Good evening, come in.",,,,,,,,,,,,,false
+welterusten,good night (before sleep),A1,expression,Greetings and politeness,"Welterusten, tot morgen.","Good night, see you tomorrow.",,,,,,,,,,,,,false
+tot ziens,goodbye,A1,expression,Greetings and politeness,"Tot ziens, fijne dag!","Goodbye, have a nice day!",,,,,,,,,,,,,false
+doei,bye (informal),A1,expression,Greetings and politeness,"Doei, ik ga naar huis.","Bye, I am going home.",,,,,,,,,,,,,false
+sorry,sorry,A1,expression,Greetings and politeness,"Sorry, ik ben te laat.","Sorry, I am late.",,,,,,,,,,,,,false
+pardon,excuse me,A1,expression,Greetings and politeness,"Pardon, waar is het station?","Excuse me, where is the station?",,,,,,,,,,,,,false
+welkom,welcome,A1,expression,Greetings and politeness,Welkom in ons huis.,Welcome to our home.,,,,,,,,,,,,,false
+eet smakelijk,enjoy your meal,A1,expression,Greetings and politeness,Het eten is klaar. Eet smakelijk!,The food is ready. Enjoy your meal!,,,,,,,,,,,,,false
+gezondheid,bless you (after a sneeze),A1,expression,Greetings and politeness,Je niest. Gezondheid!,You are sneezing. Bless you!,Conventional response to a sneeze. Also the noun de gezondheid (health); not counted separately.,,,,,,,,,,,,false
