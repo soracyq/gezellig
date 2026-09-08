@@ -1,5 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
+import { useSyncExternalStore } from "react";
 import { Slot } from "expo-router";
 import Head from "expo-router/head";
 import { StatusBar } from "expo-status-bar";
@@ -7,13 +8,24 @@ import { ActivityIndicator, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppShell } from "../components/AppShell";
 import { SettingsProvider } from "../state/SettingsProvider";
+import { LearningProvider } from "../state/LearningProvider";
 import { colors } from "../theme/tokens";
 import { webStyles } from "../theme/webStyles";
 
 export { ErrorBoundary } from "expo-router";
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
 export default function RootLayout() {
+  // Static HTML and the first browser render share the loading frame. Viewport
+  // measurements and this device's saved state are available after hydration.
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    clientSnapshot,
+    serverSnapshot,
+  );
   const [fontsLoaded, fontError] = useFonts(Feather.font);
-  if (!fontsLoaded && !fontError)
+  if (!hydrated || (!fontsLoaded && !fontError))
     return (
       <View
         style={{
@@ -36,10 +48,12 @@ export default function RootLayout() {
         <style>{webStyles}</style>
       </Head>
       <SettingsProvider>
-        <StatusBar style="dark" />
-        <AppShell>
-          <Slot />
-        </AppShell>
+        <LearningProvider>
+          <StatusBar style="dark" />
+          <AppShell>
+            <Slot />
+          </AppShell>
+        </LearningProvider>
       </SettingsProvider>
     </SafeAreaProvider>
   );

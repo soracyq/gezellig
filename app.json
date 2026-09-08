@@ -2,7 +2,7 @@
   "expo": {
     "name": "Dutchly",
     "slug": "dutchly",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "scheme": "dutchly",
     "orientation": "default",
     "userInterfaceStyle": "light",
@@ -14,7 +14,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "name": "Dutchly \u2014 Learn Dutch",
+      "name": "Dutchly — Learn Dutch",
       "favicon": "./assets/favicon.png"
     },
     "plugins": [

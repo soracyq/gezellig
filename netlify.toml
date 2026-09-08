@@ -1,0 +1,18 @@
+[build]
+  command = "npm run export:web"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"
+    X-Frame-Options = "DENY"
+
+[[headers]]
+  for = "/templates/*"
+  [headers.values]
+    Content-Disposition = "attachment"

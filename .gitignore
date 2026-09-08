@@ -19,3 +19,6 @@ ios/
 
 expo-env.d.ts
 # @end expo-cli
+release/
+.artifact-build/
+public/import-worker.js

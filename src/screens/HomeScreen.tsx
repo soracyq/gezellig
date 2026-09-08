@@ -7,12 +7,11 @@ import {
   Icon,
   Label,
   PageHeading,
-  ProgressBar,
   SectionHeading,
   type IconName,
 } from "../components/ui";
 import { CanalIllustration } from "../components/CanalIllustration";
-import { demoStatistics as demo, grammarTopics } from "../data/sample-content";
+import { useLearning } from "../state/LearningProvider";
 import { useSettings } from "../state/SettingsProvider";
 import { colors as c, typography } from "../theme/tokens";
 
@@ -21,6 +20,12 @@ export default function HomeScreen() {
   const wide = width >= 1250;
   const compact = width < 700;
   const { dailyTarget, isLoading } = useSettings();
+  const {
+    statistics: data,
+    grammar: grammarTopics,
+    vocabulary,
+    activityError,
+  } = useLearning();
   return (
     <View>
       <PageHeading
@@ -52,7 +57,7 @@ export default function HomeScreen() {
                 icon="arrow-right"
               />
               <Text style={s.heroCaption}>
-                Explore an A1 vocabulary sample · 8 words
+                Explore your collection · {vocabulary.length} words
               </Text>
             </View>
             {!compact && (
@@ -64,21 +69,27 @@ export default function HomeScreen() {
           <View style={[s.quickStats, compact && { flexWrap: "wrap" }]}>
             <QuickStat
               icon="book-open"
-              value={String(demo.wordsToday)}
+              value={activityError ? "—" : String(data.wordsToday)}
               label="Words today"
-              caption="Sample activity"
+              caption="Marked studied today"
             />
             <QuickStat
               icon="layers"
-              value={String(demo.vocabularySize)}
-              label="Words explored"
-              caption="Sample vocabulary size"
+              value={activityError ? "—" : String(data.vocabularySize)}
+              label="Words studied"
+              caption="Unique words studied"
             />
             <QuickStat
               icon="target"
-              value={`${demo.recentAccuracy}%`}
+              value={
+                activityError
+                  ? "Unavailable"
+                  : data.recentAccuracy === null
+                    ? "Not available"
+                    : `${data.recentAccuracy}%`
+              }
               label="Recent accuracy"
-              caption="Sample practice results"
+              caption="Last 20 submitted answers"
             />
           </View>
           <SectionHeading
@@ -91,14 +102,14 @@ export default function HomeScreen() {
                 <View style={[s.cardIcon, { backgroundColor: c.orangeSoft }]}>
                   <Icon name="refresh-cw" color={c.orange} />
                 </View>
-                <Badge tone="orange">{demo.dueReviews} due · demo</Badge>
+                <Badge tone="orange">Practice questions</Badge>
               </View>
               <Text style={s.cardTitle}>Keep it fresh</Text>
               <Body muted style={s.cardDescription}>
                 Revisit familiar words and make them feel like second nature.
               </Body>
               <Action
-                title="Preview daily review"
+                title="Start practice"
                 href="/review"
                 variant="secondary"
                 icon="arrow-right"
@@ -165,24 +176,15 @@ export default function HomeScreen() {
             </View>
             <View style={s.levelHeading}>
               <View style={s.levelBadge}>
-                <Text style={s.levelBadgeText}>{demo.estimatedLevel}</Text>
+                <Text style={s.levelBadgeText}>A1</Text>
               </View>
               <View style={{ gap: 5 }}>
                 <Text style={s.levelTitle}>A new beginning</Text>
                 <Body muted style={{ fontSize: 12 }}>
-                  Estimated level · Demo
+                  A starting point to explore
                 </Body>
               </View>
             </View>
-            <View style={s.progressLabel}>
-              <Body style={s.smallText}>Progress through A1</Body>
-              <Text style={s.percent}>{demo.levelProgress}%</Text>
-            </View>
-            <ProgressBar
-              value={demo.levelProgress}
-              label="Demonstration A1 progress"
-              color={c.blue}
-            />
             <View style={s.levelSteps}>
               {["A1", "A2", "B1", "B2", "C1"].map((level, i) => (
                 <View key={level} style={{ alignItems: "center", gap: 6 }}>
@@ -212,7 +214,8 @@ export default function HomeScreen() {
               }}
             />
             <Text style={s.certificationNote}>
-              Illustrative progress, not an official CEFR assessment.
+              Level estimate: not available. Studying words alone does not
+              assess your CEFR level.
             </Text>
           </Card>
           <Card style={[s.streakCard, !wide && { flex: 1, minWidth: 235 }]}>
@@ -221,23 +224,27 @@ export default function HomeScreen() {
                 <Icon name="sun" color={c.orange} size={26} />
               </View>
               <View>
-                <Text style={s.streakTitle}>{demo.streakDays}-day streak</Text>
+                <Text style={s.streakTitle}>
+                  {activityError
+                    ? "Streak unavailable"
+                    : `${data.streakDays}-day streak`}
+                </Text>
                 <Body muted style={{ fontSize: 12 }}>
                   A little consistency adds up.
                 </Body>
               </View>
             </View>
             <View style={s.weekDays}>
-              {demo.weeklyActivity.map((day) => (
+              {data.weeklyActivity.map((day) => (
                 <View key={day.day} style={{ gap: 8, alignItems: "center" }}>
                   <Text style={s.dayLabel}>{day.day[0]}</Text>
                   <View
                     style={[
                       s.dayCircle,
-                      day.words > 0 && { backgroundColor: c.orange },
+                      day.completed && { backgroundColor: c.orange },
                     ]}
                   >
-                    {day.words > 0 ? (
+                    {day.completed ? (
                       <Icon name="check" size={13} color={c.white} />
                     ) : (
                       <Text style={s.dayEmpty}>·</Text>
@@ -247,7 +254,8 @@ export default function HomeScreen() {
               ))}
             </View>
             <Text style={s.certificationNote}>
-              Sample activity for an example week.
+              A study day is 5 new words, 1 completed lesson, or 5 distinct
+              answered questions.
             </Text>
           </Card>
           <View style={[s.goalCard, !wide && { flex: 1, minWidth: 235 }]}>
@@ -275,8 +283,8 @@ export default function HomeScreen() {
       <View style={s.demoNote}>
         <Icon name="info" size={14} />
         <Text style={s.demoNoteText}>
-          You’re exploring the first edition. Content and activity are samples;
-          your daily target is saved on this device.
+          Your progress and imports are saved in this browser or desktop app.
+          Sample curriculum is labeled. There is no account or cloud sync.
         </Text>
       </View>
     </View>

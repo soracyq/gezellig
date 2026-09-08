@@ -1,60 +1,117 @@
-# Dutchly
+# Dutchly · Your personal Dutch learning space
 
-A calm Dutch-learning app with an English interface, designed for web, iOS, and Android. This first milestone is a working application shell with sample content, not a complete learning product or an official CEFR assessment.
+Dutchly 0.2 extends the original Expo / React Native app with vocabulary and grammar imports, real local progress, a standalone browser build, and an Electron desktop wrapper. The original starter words, grammar explanations, English interface and visual design remain.
 
-## First milestone
+You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
-Navigate between Home, Levels, Vocabulary, Grammar, Review, Statistics, and Settings. Explore small sample vocabulary and grammar collections, preview review questions, and change your daily vocabulary target. Dashboard and statistics figures are demonstration data. Learning sessions, grading, mastery, scheduling, importing, and accounts come in later milestones.
+## Open the app again — Windows
 
-The project uses Expo SDK 57, React Native, React, TypeScript, and Expo Router. React context holds the settings preference and AsyncStorage saves it on the current device or browser. No backend, accounts, secrets, or tracking services are required.
+You do not need Codex running. Open **Windows Terminal → PowerShell** and enter:
 
-## Development environment
+```powershell
+Set-Location -LiteralPath 'D:\Codex\Project\Dutch Learning APP'
+npm.cmd run web
+```
 
-Checked on Windows: Node.js 24.14.1, npm 11.11.0, and Git 2.53.0 are installed. Java and Android Debug Bridge were not found on PATH; they are unnecessary for browser development. A local iOS simulator requires a Mac. Use a physical device with a compatible Expo Go version, or configure a development build later, for mobile testing.
+The terminal prints the address, normally [http://localhost:8081](http://localhost:8081). Open it in Chrome or Edge if the browser does not open automatically. Keep the terminal open. **Ctrl+C** stops the server; closing Codex does not stop a server you started in your own Windows Terminal.
 
-## Open the app
+After the computer restarts, run those two commands again. You do not reinstall dependencies each time.
 
-Open a PowerShell terminal in `D:\Codex\Project\Dutch Learning APP`. All commands below run in that folder.
+On a new computer or after downloading a fresh checkout, install Node.js 24, open a terminal in this project folder, and run `npm.cmd ci` once before starting. This installs the exact versions in `package-lock.json`. The `.cmd` suffix avoids PowerShell's script execution policy issue. On macOS/Linux, use `npm` instead of `npm.cmd`, and `cd` to your actual project location.
 
-1. Run `npm.cmd install` the first time, or after dependencies change. It downloads the project libraries into `node_modules` without changing your brief.
-2. Run `npm.cmd run web`. This starts Expo's development server and opens the browser. The terminal prints the local address, normally `http://localhost:8081`.
-3. Keep the terminal running while using the app. Press Ctrl+C in that terminal to stop the server.
+If port 8081 is in use, first try its browser address: an existing copy may already be running. Stop your old server with Ctrl+C if you still have its terminal. Alternatively:
 
-On systems without PowerShell's script policy restrictions, `npm` works in place of `npm.cmd`.
+```powershell
+npm.cmd run web -- --port 8082
+```
 
-For a phone, run `npm.cmd start`, install a compatible [Expo Go](https://expo.dev/go) version, and scan the terminal QR code while phone and computer share a network. Physical-device support has not yet been verified. `npm.cmd run android` requires an Android emulator or a connected configured device; `npm.cmd run ios` requires macOS and Xcode.
+Use the same browser, address and port each time. `localhost:8081`, `127.0.0.1:4173`, another browser and the desktop app have separate storage. Changing address can look like a fresh account; return to the old address to find its data.
 
-## Check the app
+## Use the normal production browser version
 
-Run `npm.cmd run typecheck` to check TypeScript, `npm.cmd run lint` to check code quality, and `npm.cmd test` to check implemented data and settings rules. Run `npm.cmd run export:web` to generate the production web bundle in `dist`. These checks do not publish anything.
+Build it once after code changes, then run the small local web server:
 
-Run `npm.cmd run format:check` to check formatting. `npm.cmd run format` reformats the source and documentation for readability; it changes files but not the intended app behavior. See [verification results](docs/VERIFICATION.md) for completed browser checks and remaining limitations.
+```powershell
+Set-Location -LiteralPath 'D:\Codex\Project\Dutch Learning APP'
+npm.cmd run export:web
+npm.cmd run preview:web
+```
 
-In the browser, visit all seven navigation areas, filter the vocabulary, open a word and grammar lesson preview, reveal a review answer, and change the daily target under Settings. Reload to confirm that the target is remembered. Reduce the browser width to check the phone layout. Demonstration activity figures should remain unchanged by previews.
+Open [http://127.0.0.1:4173](http://127.0.0.1:4173). This serves the production files without Expo development tooling or Codex. Keep that terminal open while using it. Next time, only `npm.cmd run preview:web` is needed unless the code changed. If 4173 is occupied, use `npm.cmd run preview:web -- --port 4174` and open the printed address.
 
-## Where to make changes
+The production files are in `dist`. Do not double-click `dist/index.html`: browser routing, workers and local storage require the local server or an HTTPS host.
 
-- `src/app/`: screen addresses and shared router layout.
-- `src/screens/`: the seven main screens.
-- `src/components/`: reusable buttons, cards, navigation, and illustration.
-- `src/theme/tokens.ts`: colors, spacing, type, and corner sizes.
-- `src/domain/models.ts`: content and learner data definitions.
-- `src/data/sample-content.ts`: small, explicitly labelled sample curriculum.
-- `src/state/SettingsProvider.tsx`: shared daily-target preference.
-- `src/storage/settings.ts`: settings validation and persistence boundary.
-- `tests/`: checks for implemented rules.
-- `docs/`: architecture, screen map, and staged roadmap.
+## Test vocabulary import
 
-Read [DECISIONS.md](DECISIONS.md), [the architecture](docs/ARCHITECTURE.md), and [the roadmap](docs/ROADMAP.md) for rationale and planned features. Future rules in these files are proposals, not claims of implemented behavior.
+1. Open **Import → Vocabulary import**.
+2. Download **CSV example** or **XLSX example**. Keep the downloaded source file.
+3. Select it under **Select a file to preview**. You should see four valid words: _tafel_, _leren_, _nieuw_ and _alstublieft_.
+4. Choose **Confirm import (4)**. The success message reports four words imported; statistics stay unchanged.
+5. Open **Vocabulary → A1**, search for `tafel`, and open it. The noun's article and plural are preserved. **Mark studied** records one word.
+6. Import the other format of the same example. The four duplicate words are skipped; nothing is overwritten.
 
-## Configuration later
+For your own content, download the blank template, retain the headers, and fill one word per row. Only `dutch`, `english`, `cefr_level` and `word_type` are required. Optional noun, verb and adjective fields apply only to the relevant type.
 
-No environment file is needed now. When Supabase is introduced, add a documented `.env.example` containing placeholders and a local ignored `.env`. Expo variables prefixed `EXPO_PUBLIC_` are visible in the app: only public project URLs and publishable client keys belong there. Server-only credentials must remain on the server. User authorization will be enforced through Supabase policies, not just screen visibility.
+## Test grammar import
 
-## Sample content and limitations
+1. Open **Import → Grammar import**.
+2. Download and select **CSV example** or **XLSX example**.
+3. Preview two valid lessons, then choose **Confirm import (2)**.
+4. Open **Grammar → A1** and open _A first look at niet_. Check its explanation, examples and translation.
+5. **Practice** explains that this text-only lesson has no exercises. **Complete lesson** saves a real completion.
+6. Import the other example format to check duplicate detection.
 
-The sample words and two grammar topics demonstrate the software structure. Their level assignments are provisional. A qualified curriculum review and validated imports are needed before release. Browser settings remain on one browser/device; there is no cloud synchronization. Cached development code is not a guaranteed offline-installed web app.
+Grammar requires `cefr_level`, `title` and `explanation`. Existing lessons and their exercises are preserved. Full field definitions and troubleshooting are in [the import guide](docs/IMPORTS.md). The app also contains a **Show column guide** action.
 
-## Technical references
+## How progress works
 
-[Expo project setup](https://docs.expo.dev/get-started/create-a-project/) and [Expo Router installation](https://docs.expo.dev/router/installation/) were checked when selecting the compatible SDK packages. Package versions are locked in `package-lock.json` for repeatable installs.
+The old demonstration statistics were never saved as learning history. They have been removed. A fresh activity journal starts at zero once; reopening, viewing content, previewing answers and importing do not reset or increase it.
+
+- **Mark studied:** one unique word counted once until progress is reset.
+- **Complete lesson:** one unique lesson counted once until reset.
+- **Check answer:** records a submitted practice attempt and its actual correctness. Repeating practice creates another attempt; double-submitting the same attempt does not.
+- Accuracy is **Not available** before any answers. Recent accuracy uses the last 20 answers. Mistake items count unique items ever answered incorrectly; this is not a scheduled review queue.
+- A study day requires **5 new words OR 1 completed lesson OR 5 distinct answered questions**. Streaks use consecutive local calendar dates. A streak ending yesterday stays active while you have today to continue it. Weeks start on Monday. Changing your daily word target does not rewrite past activity.
+- Word study and lesson completion are self-reported study, not verified mastery. A CEFR estimate is not available yet.
+
+**Settings → Reset learning progress → Confirm progress reset** clears only learning history and its derived statistics. Cancel leaves everything unchanged. The reset preserves words, lessons, imported datasets and your daily target. It cannot be undone.
+
+Your data remains in this browser profile or desktop app profile. Keep source imports as backups. Clearing site/app storage, using a private browser window, or deleting the desktop profile can remove the local copy. Rebuilding source code does not intentionally clear saved data.
+
+## Run or build the desktop version
+
+Electron reuses the production website in its own window and saves data in a stable local profile. On this Windows computer:
+
+```powershell
+npm.cmd run desktop
+```
+
+That builds the web files and opens Dutchly. After a build exists, `npm.cmd run desktop:open` reopens it without rebuilding. To create the Windows installer:
+
+```powershell
+npm.cmd run build:desktop
+```
+
+The installer is `release/Dutchly-0.2.0-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal, an internet connection nor Codex for its local functions.
+
+The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
+
+## Hosting preparation
+
+`netlify.toml` sets `npm run export:web` as the build command and `dist` as the publish directory. No site, account or deployment was created. For a static host, deploy the complete `dist` folder at the site root over HTTPS, preserve extensionless page routing, and serve `import-worker.js` and `/templates/` as files. Browser data stays per origin and does not transfer automatically to a hosted address. See [deployment notes](docs/DEPLOYMENT.md).
+
+## Check and maintain the project
+
+```powershell
+npm.cmd run typecheck
+npm.cmd run lint
+npm.cmd test
+npm.cmd run format:check
+npm.cmd run export:web
+```
+
+The worker is generated automatically before `start`, `web` and `export:web`. Template downloads are checked-in static assets; you do not need spreadsheet authoring tools to run the app. The optional [template generator](scripts/create-templates.mjs) uses the same schema as the importer and requires the separate artifact-tool authoring runtime.
+
+Source overview: `src/app` contains routes; `src/screens` contains the eight screens; `src/imports` handles parsing/validation/commit; `src/domain` holds models and activity calculations; `src/state` connects actions to storage; `desktop` contains the Electron wrapper. Read [architecture](docs/ARCHITECTURE.md), [phase decisions](docs/PHASE_2_PLAN.md) and [verification](docs/VERIFICATION.md).
+
+Native iOS/Android file import, cloud sync, backup/restore of learning history, dataset deletion, spaced review scheduling and formal mastery/level assessment remain future work. Browser/desktop importing is implemented. Phone layouts in a browser are supported; native devices have not been tested in this phase.

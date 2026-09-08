@@ -30,6 +30,7 @@ interface VocabularyBase {
   isSample: boolean;
   notes?: string;
   datasetId?: string;
+  tags?: string[];
 }
 
 export type VerbTense =
@@ -113,6 +114,8 @@ export interface GrammarTopic {
   usageNotes?: string[];
   prerequisiteIds?: string[];
   datasetId?: string;
+  sourceLessonId?: string;
+  sortOrder?: number;
 }
 
 // Future learner contracts. The shell does not implement these learning rules.
@@ -196,6 +199,8 @@ export interface ImportedDataset {
   importedAt: string;
   itemCount: number;
   levels: CEFRLevel[];
-  format: "csv" | "json";
+  format: "csv" | "xlsx" | "json";
+  contentType: ContentType;
+  skippedCount: number;
   status: "active" | "archived";
 }

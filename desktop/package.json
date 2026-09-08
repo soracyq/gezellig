@@ -1,0 +1,9 @@
+{
+  "name": "dutchly-desktop",
+  "productName": "Dutchly",
+  "version": "0.2.0",
+  "private": true,
+  "description": "A local Dutch learning app with vocabulary and grammar imports.",
+  "author": "Dutchly",
+  "main": "main.cjs"
+}

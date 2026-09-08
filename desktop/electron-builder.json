@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "com.dutchly.learning",
+  "productName": "Dutchly",
+  "electronDist": "../node_modules/electron/dist",
+  "directories": {
+    "output": "../release",
+    "buildResources": "../assets"
+  },
+  "files": [
+    "main.cjs",
+    "static-files.cjs",
+    "package.json",
+    "!**/node_modules/**/*"
+  ],
+  "extraResources": [{ "from": "../dist", "to": "web", "filter": ["**/*"] }],
+  "asar": true,
+  "npmRebuild": false,
+  "publish": null,
+  "win": {
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
+    "icon": "../assets/dutchly.ico",
+    "artifactName": "${productName}-${version}-Setup.${ext}",
+    "signAndEditExecutable": false
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "allowElevation": false,
+    "packElevateHelper": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "deleteAppDataOnUninstall": false
+  },
+  "mac": {
+    "target": ["dmg", "zip"],
+    "category": "public.app-category.education",
+    "icon": "../assets/icon.png",
+    "identity": null,
+    "hardenedRuntime": false,
+    "notarize": false,
+    "artifactName": "${productName}-${version}-${arch}.${ext}"
+  }
+}

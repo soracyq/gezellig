@@ -1,0 +1,5 @@
+dutch,english,cefr_level,word_type,topic,example_dutch,example_english,notes,tags,article,plural,diminutive,regularity,separable,auxiliary,past_participle,inflected,comparative,superlative,is_sample
+tafel,table,A1,noun,At home,Het boek ligt op de tafel.,The book is on the table.,,,de,tafels,,,,,,,,,true
+leren,to learn,A1,verb,Learning,Ik leer Nederlands.,I am learning Dutch.,,,,,,regular,false,hebben,geleerd,,,,true
+nieuw,new,A1,adjective,Everyday life,Dit is een nieuw boek.,This is a new book.,,,,,,,,,,nieuwe,nieuwer,nieuwst,true
+alstublieft,please / here you are (polite),A1,expression,Being polite,"Een koffie, alstublieft.","A coffee, please.",,,,,,,,,,,,,true

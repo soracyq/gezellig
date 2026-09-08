@@ -302,34 +302,3 @@ export const reviewQuestions: Question[] = [
 ];
 
 /** Fictional dashboard values, never inferred from visits or preview answers. */
-export const demoStatistics = {
-  isDemo: true as const,
-  estimatedLevel: "A1" as CEFRLevel,
-  levelProgress: 28,
-  nextLevelProgress: 12,
-  streakDays: 4,
-  wordsToday: 5,
-  wordsThisWeek: 18,
-  wordsThisMonth: 42,
-  wordsThisYear: 86,
-  vocabularySize: 86,
-  recentAccuracy: 84,
-  lifetimeAccuracy: 81,
-  dueReviews: 6,
-  questionsAnswered: 120,
-  correctAnswers: 97,
-  incorrectAnswers: 23,
-  studyDays: 12,
-  longestStreak: 6,
-  lessonsCompleted: 3,
-  reviewSessionsCompleted: 9,
-  weeklyActivity: [
-    { day: "Mon", words: 0 },
-    { day: "Tue", words: 0 },
-    { day: "Wed", words: 0 },
-    { day: "Thu", words: 4 },
-    { day: "Fri", words: 4 },
-    { day: "Sat", words: 5 },
-    { day: "Sun", words: 5 },
-  ],
-};

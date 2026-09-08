@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors as c, typography } from "../theme/tokens";
+import { useLearning } from "../state/LearningProvider";
 import { Badge, Body, Icon, Label, type IconName } from "./ui";
 
 export const navigation: { label: string; href: Href; icon: IconName }[] = [
@@ -20,6 +21,7 @@ export const navigation: { label: string; href: Href; icon: IconName }[] = [
   { label: "Grammar", href: "/grammar", icon: "file-text" },
   { label: "Review", href: "/review", icon: "refresh-cw" },
   { label: "Statistics", href: "/statistics", icon: "bar-chart-2" },
+  { label: "Import", href: "/import", icon: "upload" },
   { label: "Settings", href: "/settings", icon: "sliders" },
 ];
 function Brand() {
@@ -36,6 +38,8 @@ function Brand() {
 }
 export function AppShell({ children }: { children: ReactNode }) {
   const { width } = useWindowDimensions();
+  const { loading, curriculumError, activityError, error, refresh } =
+    useLearning();
   const large = width >= 1050;
   const pathname = usePathname();
   const current =
@@ -74,11 +78,6 @@ export function AppShell({ children }: { children: ReactNode }) {
               >
                 {item.label}
               </Text>
-              {item.label === "Review" && (
-                <View style={s.navCount}>
-                  <Text style={s.navCountText}>6</Text>
-                </View>
-              )}
             </Pressable>
           </Link>
         </View>
@@ -90,7 +89,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       style={[s.app, { paddingTop: insets.top, paddingBottom: insets.bottom }]}
     >
       {large && (
-        <View style={s.sidebar}>
+        <ScrollView style={s.sidebar} contentContainerStyle={{ flexGrow: 1 }}>
           <Brand />
           <View style={s.sidebarNav}>
             <Label>YOUR LEARNING SPACE</Label>
@@ -116,7 +115,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               </View>
             </View>
           </View>
-        </View>
+        </ScrollView>
       )}
       <View style={s.workspace}>
         <View style={[s.topbar, !large && { paddingHorizontal: 20 }]}>
@@ -131,7 +130,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           )}
           <View style={[s.topRight, width < 500 && { gap: 6 }]}>
             <Badge tone="neutral">
-              {width < 500 ? "Sample" : "Sample workspace"}
+              {width < 500 ? "Local" : "Saved on this device"}
             </Badge>
             {large && <View style={s.topDivider} />}
             {large && (
@@ -164,7 +163,36 @@ export function AppShell({ children }: { children: ReactNode }) {
           ]}
         >
           <View style={s.page}>
-            {children}
+            {loading ? (
+              <Body>Loading your saved learning space…</Body>
+            ) : (
+              <>
+                {(curriculumError || activityError || error) && (
+                  <View
+                    accessibilityRole="alert"
+                    style={{
+                      padding: 20,
+                      gap: 10,
+                      backgroundColor: c.orangeSoft,
+                      marginBottom: 20,
+                    }}
+                  >
+                    <Body>{curriculumError || activityError || error}</Body>
+                    <Body muted>
+                      Your saved data has not been cleared. Statistics may be
+                      unavailable until the data can be loaded.
+                    </Body>
+                    <Pressable
+                      accessibilityRole="button"
+                      onPress={() => void refresh()}
+                    >
+                      <Body>Try loading again</Body>
+                    </Pressable>
+                  </View>
+                )}
+                {children}
+              </>
+            )}
             <View style={s.footer}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 7 }}
@@ -174,7 +202,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   A little practice goes a long way.
                 </Text>
               </View>
-              <Text style={s.footerText}>Dutchly · First edition</Text>
+              <Text style={s.footerText}>Dutchly · Personal learning</Text>
             </View>
           </View>
         </ScrollView>
@@ -231,7 +259,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <ScrollView style={{ flexShrink: 1 }}>
               {nav(() => setMenuOpen(false))}
               <Body muted style={{ fontSize: 12, marginTop: 20 }}>
-                Sample content · English interface
+                Your curriculum · English interface
               </Body>
             </ScrollView>
           </View>
@@ -244,6 +272,7 @@ const s = StyleSheet.create({
   app: { flex: 1, flexDirection: "row", backgroundColor: c.background },
   sidebar: {
     width: 226,
+    flexGrow: 0,
     backgroundColor: c.surface,
     borderRightWidth: 1,
     borderRightColor: c.line,

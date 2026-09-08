@@ -1,5 +1,9 @@
 # Decisions
 
+## Phase 2 update
+
+The user’s continuation brief advances imports, fresh statistics, browser distribution and a minimal desktop wrapper. Accepted current decisions are in [PHASE_2_PLAN.md](docs/PHASE_2_PLAN.md). Expo and the original content models remain; imports use CSV/XLSX with preview and explicit confirmation; recorded study replaces demo statistics; Electron reuses the web build. The following initial-stage decisions and future review rules are retained as design history, with import postponement superseded by version 0.2.
+
 This records the starting recommendations for the Dutch learning app. The uploaded brief is product reference material. The first delivery is a working navigation shell; later features below are proposals, not completed functionality.
 
 | Decision             | Recommendation and reason                                                                                                                                                                 | Alternatives and tradeoffs                                                                                                                                                                                              |

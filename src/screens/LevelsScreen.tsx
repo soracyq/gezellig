@@ -17,15 +17,13 @@ import {
   PageHeading,
   SectionHeading,
 } from "../components/ui";
-import {
-  cefrLevels,
-  grammarTopics,
-  vocabularyItems,
-} from "../data/sample-content";
+import { cefrLevels } from "../data/sample-content";
+import { useLearning } from "../state/LearningProvider";
 import type { CEFRLevel } from "../domain/models";
 import { colors as c, radius, spacing, typography } from "../theme/tokens";
 
 export default function LevelsScreen() {
+  const { vocabulary: vocabularyItems, grammar: grammarTopics } = useLearning();
   const [selectedLevel, setSelectedLevel] = useState<CEFRLevel>("A1");
   const { width } = useWindowDimensions();
   const wide = width >= 1050;
@@ -40,7 +38,7 @@ export default function LevelsScreen() {
         title="One level at a time."
         subtitle="Explore your route through Dutch, from A1 to C1."
       >
-        <Badge tone="orange">Sample curriculum</Badge>
+        <Badge tone="orange">Your curriculum</Badge>
       </PageHeading>
 
       <View style={s.levels}>
@@ -63,7 +61,10 @@ export default function LevelsScreen() {
                 {level}
               </Text>
               <Text style={[s.levelCaption, selected && s.selectedCaption]}>
-                {level === "A1" ? "Sample available" : "Explore level"}
+                {vocabularyItems.some((item) => item.level === level) ||
+                grammarTopics.some((item) => item.level === level)
+                  ? "Content available"
+                  : "Explore level"}
               </Text>
               <Icon
                 name={selected ? "arrow-down" : "arrow-right"}
@@ -93,22 +94,22 @@ export default function LevelsScreen() {
                   Start with the everyday.
                 </Text>
                 <Body muted>
-                  A home, a bicycle, a simple introduction. Get a feel for Dutch
-                  with a small collection of words and grammar previews.
+                  Explore the words and lessons in your collection. Import
+                  additional material whenever you are ready.
                 </Body>
               </View>
               <View style={s.counts}>
                 <View style={s.count}>
                   <Text style={s.countNumber}>{words.length}</Text>
                   <Body muted style={s.small}>
-                    sample words
+                    words available
                   </Body>
                 </View>
                 <View style={s.countDivider} />
                 <View style={s.count}>
                   <Text style={s.countNumber}>{topics.length}</Text>
                   <Body muted style={s.small}>
-                    sample topics
+                    grammar topics
                   </Body>
                 </View>
               </View>
@@ -149,7 +150,7 @@ export default function LevelsScreen() {
               <View style={s.cardFooter}>
                 <Action
                   title="Explore vocabulary"
-                  href="/vocabulary"
+                  href={`/vocabulary?level=${selectedLevel}`}
                   variant="secondary"
                   icon="arrow-right"
                 />
@@ -171,7 +172,7 @@ export default function LevelsScreen() {
                 </View>
               </View>
               <View style={s.topicList}>
-                {topics.map((topic, index) => (
+                {topics.slice(0, 5).map((topic, index) => (
                   <View key={topic.id} style={s.topic}>
                     <Text style={s.topicNumber}>
                       {String(index + 1).padStart(2, "0")}
@@ -179,7 +180,8 @@ export default function LevelsScreen() {
                     <View style={s.headingText}>
                       <Text style={s.topicTitle}>{topic.title}</Text>
                       <Body muted style={s.small}>
-                        {topic.estimatedMinutes} min · Sample preview
+                        {topic.estimatedMinutes} min ·{" "}
+                        {topic.isSample ? "Sample lesson" : "Imported lesson"}
                       </Body>
                     </View>
                   </View>
@@ -188,7 +190,7 @@ export default function LevelsScreen() {
               <View style={s.cardFooter}>
                 <Action
                   title="Explore grammar"
-                  href="/grammar"
+                  href={`/grammar?level=${selectedLevel}`}
                   variant="secondary"
                   icon="arrow-right"
                 />
@@ -199,8 +201,9 @@ export default function LevelsScreen() {
           <View style={s.footnote}>
             <Icon name="info" size={16} />
             <Body muted style={s.small}>
-              This is a small development sample, not a complete or validated
-              CEFR course. Your level and completion are not assessed here.
+              Starter samples and your imports are organized by level. This
+              collection is not a complete or independently validated CEFR
+              course.
             </Body>
           </View>
         </View>
@@ -208,12 +211,18 @@ export default function LevelsScreen() {
         <View style={s.content}>
           <SectionHeading
             title={`Explore ${selectedLevel}`}
-            subtitle="This level is accessible; sample material has not been added yet."
+            subtitle="This level is accessible; your collection is empty here."
           />
           <EmptyState
             icon="compass"
             title={`A little room to grow at ${selectedLevel}.`}
-            description="There are no sample vocabulary items or grammar topics for this level yet. Explore the A1 collection to see how learning content will be organized."
+            description="Import words or grammar lessons for this level, or explore the starter A1 collection."
+          />
+          <Action
+            title="Import learning content"
+            href="/import"
+            variant="secondary"
+            icon="upload"
           />
           <Action
             title="View A1 samples"

@@ -38,13 +38,14 @@ export function Body({
   children,
   muted = false,
   style,
+  ...props
 }: {
   children: ReactNode;
   muted?: boolean;
   style?: ComponentProps<typeof Text>["style"];
-}) {
+} & Omit<ComponentProps<typeof Text>, "children" | "style">) {
   return (
-    <Text style={[styles.body, muted && { color: c.muted }, style]}>
+    <Text {...props} style={[styles.body, muted && { color: c.muted }, style]}>
       {children}
     </Text>
   );
@@ -235,12 +236,16 @@ export function PreviewModal({
   onClose,
   title,
   contentKey,
+  eyebrow = "STUDY SPACE",
+  footer = "Progress is saved only when you choose a study action or submit an answer.",
   children,
 }: {
   visible: boolean;
   onClose: () => void;
   title: string;
   contentKey?: string;
+  eyebrow?: string;
+  footer?: string;
   children: ReactNode;
 }) {
   return (
@@ -254,7 +259,7 @@ export function PreviewModal({
         <View accessibilityViewIsModal style={styles.modalCard}>
           <View style={styles.modalHeader}>
             <View style={{ flex: 1, gap: 8 }}>
-              <Label color={c.orange}>SAMPLE PREVIEW</Label>
+              <Label color={c.orange}>{eyebrow}</Label>
               <Text accessibilityRole="header" style={styles.sectionTitle}>
                 {title}
               </Text>
@@ -276,7 +281,7 @@ export function PreviewModal({
           </ScrollView>
           <View style={styles.modalFooter}>
             <Body muted style={{ fontSize: 12, flex: 1 }}>
-              Preview only. Learning progress is not recorded.
+              {footer}
             </Body>
             <Action title="Done" onPress={onClose} />
           </View>

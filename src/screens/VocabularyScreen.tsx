@@ -19,7 +19,9 @@ import {
   PageHeading,
   PreviewModal,
 } from "../components/ui";
-import { cefrLevels, vocabularyItems } from "../data/sample-content";
+import { useLearning } from "../state/LearningProvider";
+import { CompleteItem } from "../components/CompleteItem";
+import { cefrLevels } from "../data/sample-content";
 import type { VocabularyItem } from "../domain/models";
 import { useSettings } from "../state/SettingsProvider";
 import { colors as c, typography } from "../theme/tokens";
@@ -31,12 +33,17 @@ export function wordLabel(item: VocabularyItem) {
 }
 export default function VocabularyScreen() {
   const { width } = useWindowDimensions();
-  const { preview } = useLocalSearchParams<{ preview?: string }>();
+  const { vocabulary: vocabularyItems, studiedIds } = useLearning();
+  const { preview, level: initialLevel } = useLocalSearchParams<{
+    preview?: string;
+    level?: string;
+  }>();
+  const [limit, setLimit] = useState(50);
   const router = useRouter();
   const selected = vocabularyItems.find((item) => item.id === preview) ?? null;
   const [search, setSearch] = useState("");
   const [type, setType] = useState("All words");
-  const [level, setLevel] = useState("A1");
+  const [level, setLevel] = useState(initialLevel ?? "A1");
   const { dailyTarget } = useSettings();
   const items = vocabularyItems.filter(
     (item) =>
@@ -57,13 +64,20 @@ export default function VocabularyScreen() {
         subtitle="Get to know the words that make everyday Dutch feel familiar."
       >
         <Badge tone="orange">{dailyTarget} words / day</Badge>
+        <Action
+          title="Import vocabulary"
+          href="/import?kind=vocabulary"
+          variant="secondary"
+          icon="upload"
+        />
       </PageHeading>
       <View style={s.intro}>
         <View style={{ flex: 1, gap: 8 }}>
           <Label color={c.blue}>START SMALL. STAY CURIOUS.</Label>
           <Text style={s.introTitle}>Every word opens a little door.</Text>
           <Body muted>
-            Explore 8 sample words, with examples and the details that matter.
+            Explore {vocabularyItems.length} words, including clearly labeled
+            samples and your imports.
           </Body>
         </View>
         <View style={s.introIcon}>
@@ -146,7 +160,7 @@ export default function VocabularyScreen() {
           )}
         </View>
         <Body muted style={{ fontSize: 12 }}>
-          {items.length} sample {items.length === 1 ? "word" : "words"}
+          {items.length} {items.length === 1 ? "word" : "words"}
         </Body>
       </View>
       {items.length === 0 ? (
@@ -159,13 +173,13 @@ export default function VocabularyScreen() {
           }
           description={
             level !== "A1"
-              ? "This first edition includes A1 samples. More validated curriculum can be added in a later milestone."
+              ? "Import vocabulary at this level, or try another search and word type."
               : "Try another Dutch word, English translation, or word type."
           }
         />
       ) : (
         <View style={s.grid}>
-          {items.map((item) => (
+          {items.slice(0, limit).map((item) => (
             <Pressable
               key={item.id}
               accessibilityRole="button"
@@ -194,17 +208,30 @@ export default function VocabularyScreen() {
               </View>
               <View style={s.cardFooter}>
                 <Text style={s.topic}>{item.topic}</Text>
-                <Text style={s.sampleLabel}>Sample</Text>
+                <Text style={s.sampleLabel}>
+                  {studiedIds.has(item.id)
+                    ? "Studied"
+                    : item.isSample
+                      ? "Sample"
+                      : "Imported"}
+                </Text>
               </View>
             </Pressable>
           ))}
         </View>
       )}
+      {items.length > limit && (
+        <Action
+          title="Show 50 more words"
+          variant="secondary"
+          onPress={() => setLimit((n) => n + 50)}
+        />
+      )}
       <View style={s.note}>
         <Icon name="info" size={15} />
         <Body muted style={{ fontSize: 12, flex: 1 }}>
-          These are sample word previews. Guided learning sessions and tests
-          come in the next milestone.
+          Open a word to study its details. Choose Mark studied when you finish;
+          each word counts once.
         </Body>
       </View>
       <PreviewModal
@@ -212,7 +239,16 @@ export default function VocabularyScreen() {
         onClose={closePreview}
         title={selected ? wordLabel(selected) : "Word preview"}
       >
-        {selected && <VocabularyDetails item={selected} />}
+        {selected && (
+          <>
+            <VocabularyDetails item={selected} />
+            <CompleteItem
+              key={selected.id}
+              id={selected.id}
+              type="vocabulary"
+            />
+          </>
+        )}
       </PreviewModal>
     </View>
   );
@@ -262,11 +298,13 @@ function VocabularyDetails({ item }: { item: VocabularyItem }) {
         </Badge>
         <Body>{item.english}</Body>
       </View>
-      <Card style={{ backgroundColor: c.blueSoft, gap: 8, borderWidth: 0 }}>
-        <Label color={c.blue}>IN A SENTENCE</Label>
-        <Text style={s.detailSentence}>{item.example.dutch}</Text>
-        <Body muted>{item.example.english}</Body>
-      </Card>
+      {item.example.dutch && (
+        <Card style={{ backgroundColor: c.blueSoft, gap: 8, borderWidth: 0 }}>
+          <Label color={c.blue}>IN A SENTENCE</Label>
+          <Text style={s.detailSentence}>{item.example.dutch}</Text>
+          <Body muted>{item.example.english}</Body>
+        </Card>
+      )}
       {details.filter(([, value]) => value).length > 0 && (
         <View style={{ gap: 12 }}>
           {details

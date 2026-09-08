@@ -1,4 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { useLearning } from "../state/LearningProvider";
 import {
   Badge,
   Body,
@@ -7,12 +9,30 @@ import {
   Label,
   PageHeading,
   SectionHeading,
+  Action,
+  PreviewModal,
 } from "../components/ui";
 import { useSettings } from "../state/SettingsProvider";
 import { DAILY_TARGETS } from "../storage/settings";
 import { colors as c, typography } from "../theme/tokens";
 
 export default function SettingsScreen() {
+  const { vocabulary, grammar, resetProgress, loading, busy } = useLearning();
+  const [confirmReset, setConfirmReset] = useState(false);
+  const [resetMessage, setResetMessage] = useState<string | null>(null);
+  async function reset() {
+    try {
+      await resetProgress();
+      setConfirmReset(false);
+      setResetMessage(
+        "Progress reset. Your curriculum, imported datasets and daily target are unchanged.",
+      );
+    } catch (e) {
+      setResetMessage(
+        e instanceof Error ? e.message : "Progress could not be reset.",
+      );
+    }
+  }
   const { dailyTarget, setDailyTarget, isLoading, isSaving, error } =
     useSettings();
   return (
@@ -113,10 +133,11 @@ export default function SettingsScreen() {
             <View style={{ flex: 1, gap: 5 }}>
               <Text style={s.settingTitle}>Learning content</Text>
               <Body muted style={{ fontSize: 13 }}>
-                8 vocabulary samples and 2 grammar previews
+                {vocabulary.length} vocabulary items and {grammar.length}{" "}
+                grammar lessons
               </Body>
             </View>
-            <Badge tone="orange">First edition</Badge>
+            <Badge tone="orange">Your curriculum</Badge>
           </View>
           <View
             style={[s.settingRow, { borderBottomWidth: 0, paddingBottom: 0 }]}
@@ -124,8 +145,8 @@ export default function SettingsScreen() {
             <View style={{ flex: 1, gap: 5 }}>
               <Text style={s.settingTitle}>Saved on this device</Text>
               <Body muted style={{ fontSize: 13 }}>
-                Your daily target stays in this browser or app. Cloud
-                synchronization will come later.
+                Your daily target, imports and activity stay in this browser or
+                app. Cloud synchronization will come later.
               </Body>
             </View>
             <Icon name="smartphone" color={c.blue} />
@@ -138,20 +159,73 @@ export default function SettingsScreen() {
           <View style={{ flex: 1, gap: 8 }}>
             <Label>ROOM TO GROW</Label>
             <Text style={s.settingTitle}>
-              Bring your own vocabulary, later.
+              Bring your own words and grammar.
             </Text>
             <Body muted style={{ fontSize: 13 }}>
-              CSV imports are planned after the core learning and review flows.
-              Files will be validated and previewed before you confirm an
-              import.
+              Download a CSV or Excel template, fill it in, and preview the
+              results before importing.
             </Body>
+            <Action
+              title="Open imports"
+              href="/import"
+              variant="secondary"
+              icon="upload"
+            />
           </View>
         </View>
+        <Card style={{ gap: 16 }}>
+          <SectionHeading title="Start your progress again" />
+          <Body muted>
+            This resets studied words, completed lessons, practice answers,
+            accuracy, mistakes, streaks and study days. Your curriculum, imports
+            and daily target are kept.
+          </Body>
+          <Action
+            title="Reset learning progress"
+            variant="secondary"
+            onPress={() => {
+              setResetMessage(null);
+              setConfirmReset(true);
+            }}
+            disabled={loading || busy}
+          />
+          {resetMessage && (
+            <Body accessibilityLiveRegion="polite">{resetMessage}</Body>
+          )}
+        </Card>
         <Body muted style={{ fontSize: 12 }}>
-          Dutchly 0.1 · Application shell · No account is needed for this
-          edition.
+          Dutchly 0.2 · Personal learning · No account needed.
         </Body>
       </View>
+      <PreviewModal
+        visible={confirmReset}
+        onClose={() => {
+          if (!busy) setConfirmReset(false);
+        }}
+        title="Reset learning progress?"
+        eyebrow="CONFIRM RESET"
+        footer="This affects progress only and cannot be undone."
+      >
+        <Body>
+          Your saved learning history and all statistics will return to zero.
+          Your words, grammar lessons, imported datasets and settings will
+          remain.
+        </Body>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
+          <Action
+            title="Cancel reset"
+            variant="secondary"
+            onPress={() => setConfirmReset(false)}
+            disabled={busy}
+          />
+          <Action
+            title="Confirm progress reset"
+            onPress={() => void reset()}
+            disabled={busy}
+          />
+        </View>
+        {resetMessage && <Body accessibilityRole="alert">{resetMessage}</Body>}
+      </PreviewModal>
     </View>
   );
 }

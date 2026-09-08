@@ -1,6 +1,6 @@
 # Implementation roadmap
 
-Deliver one runnable, reviewable stage at a time. The current delivery stops after the application shell; later stages are planned work.
+Deliver one runnable, reviewable stage at a time. The current delivery is version 0.2. It adds CSV/XLSX imports, explicit study and lesson completion, saved practice attempts, actual statistics and browser/desktop packaging. The table below records the original sequence; session resume, spaced scheduling, mastery and level estimation remain planned.
 
 Initial environment inspection found Node.js 24.14.1, npm 11.11.0, and Git 2.53.0. Java and Android Debug Bridge were not detected on the Windows command path. Browser development can proceed with the installed tools. A local Android emulator/build requires the appropriate Android tooling later; Windows cannot run Apple's iOS Simulator locally. See the README for the actual start commands and device options.
 

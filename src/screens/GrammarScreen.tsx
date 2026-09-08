@@ -19,25 +19,31 @@ import {
   PreviewModal,
   SectionHeading,
 } from "../components/ui";
-import { cefrLevels, grammarTopics } from "../data/sample-content";
+import { useLearning } from "../state/LearningProvider";
+import { CompleteItem } from "../components/CompleteItem";
+import { PracticeQuestion } from "../components/PracticeQuestion";
+import { cefrLevels } from "../data/sample-content";
 import type { GrammarTopic } from "../domain/models";
 import { colors as c, typography } from "../theme/tokens";
 
 export default function GrammarScreen() {
   const { width } = useWindowDimensions();
-  const { preview } = useLocalSearchParams<{ preview?: string }>();
+  const { grammar: grammarTopics, completedLessonIds } = useLearning();
+  const { preview, level: initialLevel } = useLocalSearchParams<{
+    preview?: string;
+    level?: string;
+  }>();
+  const [limit, setLimit] = useState(50);
   const router = useRouter();
-  const [level, setLevel] = useState("A1");
+  const [level, setLevel] = useState(initialLevel ?? "A1");
   const selected = grammarTopics.find((topic) => topic.id === preview) ?? null;
   const [section, setSection] = useState<
-    "Understand" | "Examples" | "Practice preview"
+    "Understand" | "Examples" | "Practice"
   >("Understand");
-  const [showAnswer, setShowAnswer] = useState(false);
   const topics = grammarTopics.filter((topic) => topic.level === level);
   function openTopic(topic: GrammarTopic) {
     router.setParams({ preview: topic.id });
     setSection("Understand");
-    setShowAnswer(false);
   }
   function closePreview() {
     router.setParams({ preview: undefined });
@@ -56,11 +62,17 @@ export default function GrammarScreen() {
         <View style={{ flex: width < 650 ? undefined : 1, gap: 7 }}>
           <Text style={s.bannerTitle}>Small lessons, useful foundations.</Text>
           <Body muted>
-            Start with articles and the present tense. These two sample lessons
-            show how grammar will work.
+            Start with articles and the present tense, or bring your own
+            lessons. Read, explore examples, and complete a lesson at your own
+            pace.
           </Body>
         </View>
-        <Badge>Sample curriculum</Badge>
+        <Action
+          title="Import grammar"
+          href="/import?kind=grammar"
+          variant="secondary"
+          icon="upload"
+        />
       </View>
       <View style={s.levels}>
         {cefrLevels.map((value) => (
@@ -98,19 +110,20 @@ export default function GrammarScreen() {
         title={
           level === "A1" ? "Start with the essentials" : `Explore ${level}`
         }
-        subtitle={`${topics.length} sample lessons available`}
+        subtitle={`${topics.length} lessons available`}
       />
       {topics.length === 0 ? (
         <EmptyState
           title={`More ${level} lessons will grow here`}
-          description="There are no sample lessons at this level yet. Return to A1 to explore the lesson structure."
+          description="Import grammar lessons for this level, or explore the A1 sample lessons."
         />
       ) : (
-        <View
-          style={{ flexDirection: width < 780 ? "column" : "row", gap: 22 }}
-        >
-          {topics.map((topic, i) => (
-            <Card key={topic.id} style={{ flex: 1, gap: 16 }}>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 22 }}>
+          {topics.slice(0, limit).map((topic, i) => (
+            <Card
+              key={topic.id}
+              style={{ width: width < 780 ? "100%" : "48%", gap: 16 }}
+            >
               <View style={s.cardHeader}>
                 <View
                   style={[
@@ -121,7 +134,7 @@ export default function GrammarScreen() {
                   <Text
                     style={[s.lessonNumberText, i === 1 && { color: c.orange }]}
                   >
-                    0{i + 1}
+                    {String(i + 1).padStart(2, "0")}
                   </Text>
                 </View>
                 <Badge>
@@ -129,6 +142,9 @@ export default function GrammarScreen() {
                 </Badge>
               </View>
               <Text style={s.lessonTitle}>{topic.title}</Text>
+              <Badge tone="neutral">
+                {topic.isSample ? "Sample lesson" : "Imported lesson"}
+              </Badge>
               <Body muted style={{ fontSize: 14 }}>
                 {topic.summary}
               </Body>
@@ -141,7 +157,11 @@ export default function GrammarScreen() {
                 <Text style={s.metaText}>{topic.examples.length} examples</Text>
               </View>
               <Action
-                title="Preview lesson"
+                title={
+                  completedLessonIds.has(topic.id)
+                    ? "Revisit lesson"
+                    : "Open lesson"
+                }
                 onPress={() => openTopic(topic)}
                 variant="secondary"
                 icon="arrow-right"
@@ -155,11 +175,18 @@ export default function GrammarScreen() {
           ))}
         </View>
       )}
+      {topics.length > limit && (
+        <Action
+          title="Show 50 more lessons"
+          onPress={() => setLimit((n) => n + 50)}
+          variant="secondary"
+        />
+      )}
       <View style={s.note}>
         <Icon name="info" size={15} />
         <Body muted style={{ flex: 1, fontSize: 12 }}>
-          Sample lessons and level assignments are provisional. Lesson
-          completion and graded tests will be added later.
+          Sample lessons and level assignments are provisional. Imported lessons
+          without exercises are available for reading and completion.
         </Body>
       </View>
       <PreviewModal
@@ -171,7 +198,7 @@ export default function GrammarScreen() {
         {selected && (
           <>
             <View style={s.sectionTabs}>
-              {(["Understand", "Examples", "Practice preview"] as const).map(
+              {(["Understand", "Examples", "Practice"] as const).map(
                 (value) => (
                   <Pressable
                     key={value}
@@ -204,6 +231,11 @@ export default function GrammarScreen() {
                   </Body>
                 </View>
                 <Body>{selected.explanation}</Body>
+                {selected.usageNotes?.map((note, i) => (
+                  <Body key={i} muted>
+                    {note}
+                  </Body>
+                ))}
                 <View style={{ gap: 12 }}>
                   <Label>KEEP IN MIND</Label>
                   {selected.rules.map((rule) => (
@@ -245,51 +277,29 @@ export default function GrammarScreen() {
                   <Body key={mistake}>{mistake}</Body>
                 ))}
                 <Action
-                  title="See practice preview"
-                  onPress={() => setSection("Practice preview")}
+                  title="Try practice"
+                  onPress={() => setSection("Practice")}
                   variant="secondary"
                   icon="arrow-right"
                 />
               </>
             )}
-            {section === "Practice preview" && (
-              <>
-                <Badge tone="orange">Example question · No grading</Badge>
-                <Body style={{ fontSize: 19, fontWeight: "600" }}>
-                  {selected.questions[0].prompt}
+            {section === "Practice" &&
+              (selected.questions.length > 0 ? (
+                selected.questions.map((question) => (
+                  <PracticeQuestion
+                    key={question.id}
+                    question={question}
+                    contentType="grammar"
+                  />
+                ))
+              ) : (
+                <Body muted>
+                  No exercises are included with this lesson. You can still read
+                  the explanation and mark the lesson complete.
                 </Body>
-                <View style={{ gap: 10 }}>
-                  {selected.questions[0].options.map((option) => (
-                    <View key={option} style={s.answerOption}>
-                      <Body>{option}</Body>
-                    </View>
-                  ))}
-                </View>
-                {showAnswer && (
-                  <Card
-                    style={{
-                      backgroundColor: c.greenSoft,
-                      borderWidth: 0,
-                      gap: 9,
-                    }}
-                  >
-                    <Label color={c.green}>
-                      ANSWER: {selected.questions[0].correctAnswer}
-                    </Label>
-                    <Body>{selected.questions[0].explanation}</Body>
-                  </Card>
-                )}
-                <Action
-                  title={showAnswer ? "Hide answer" : "Reveal answer"}
-                  onPress={() => setShowAnswer(!showAnswer)}
-                  icon="eye"
-                />
-                <Body muted style={{ fontSize: 12 }}>
-                  This preview illustrates a future practice question. It does
-                  not grade or save an attempt.
-                </Body>
-              </>
-            )}
+              ))}
+            <CompleteItem key={selected.id} id={selected.id} type="grammar" />
           </>
         )}
       </PreviewModal>

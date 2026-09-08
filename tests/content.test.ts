@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   cefrLevels,
-  demoStatistics,
   grammarTopics,
   reviewQuestions,
   vocabularyItems,
@@ -78,37 +77,5 @@ test("development content is marked as sample and includes English example trans
   for (const example of examples) {
     assert.ok(example.dutch.trim().length > 0);
     assert.ok(example.english.trim().length > 0);
-  }
-});
-
-test("fictional statistics are marked as demo and their totals reconcile", () => {
-  assert.equal(demoStatistics.isDemo, true);
-  assert.equal(
-    demoStatistics.correctAnswers + demoStatistics.incorrectAnswers,
-    demoStatistics.questionsAnswered,
-  );
-  assert.equal(
-    Math.round(
-      (demoStatistics.correctAnswers / demoStatistics.questionsAnswered) * 100,
-    ),
-    demoStatistics.lifetimeAccuracy,
-  );
-  assert.equal(
-    demoStatistics.weeklyActivity.reduce((total, day) => total + day.words, 0),
-    demoStatistics.wordsThisWeek,
-  );
-  assert.ok(demoStatistics.wordsToday <= demoStatistics.wordsThisWeek);
-  assert.ok(demoStatistics.wordsThisWeek <= demoStatistics.wordsThisMonth);
-  assert.ok(demoStatistics.wordsThisMonth <= demoStatistics.wordsThisYear);
-  assert.ok(demoStatistics.wordsThisYear <= demoStatistics.vocabularySize);
-  assert.ok(demoStatistics.streakDays <= demoStatistics.longestStreak);
-  assert.ok(demoStatistics.longestStreak <= demoStatistics.studyDays);
-  for (const percentage of [
-    demoStatistics.levelProgress,
-    demoStatistics.nextLevelProgress,
-    demoStatistics.recentAccuracy,
-    demoStatistics.lifetimeAccuracy,
-  ]) {
-    assert.ok(percentage >= 0 && percentage <= 100);
   }
 });

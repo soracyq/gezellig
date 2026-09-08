@@ -17,7 +17,7 @@ import {
   SectionHeading,
   type IconName,
 } from "../components/ui";
-import { demoStatistics as data } from "../data/sample-content";
+import { useLearning } from "../state/LearningProvider";
 import { colors as c, radius, spacing, typography } from "../theme/tokens";
 
 const periods = [
@@ -28,13 +28,6 @@ const periods = [
   "All time",
 ] as const;
 type Period = (typeof periods)[number];
-const learnedByPeriod: Record<Period, number> = {
-  Today: data.wordsToday,
-  "This week": data.wordsThisWeek,
-  "This month": data.wordsThisMonth,
-  "This year": data.wordsThisYear,
-  "All time": data.vocabularySize,
-};
 
 function Metric({
   icon,
@@ -71,6 +64,14 @@ function Metric({
 }
 
 export default function StatisticsScreen() {
+  const { statistics: data, activityError } = useLearning();
+  const learnedByPeriod: Record<Period, number> = {
+    Today: data.wordsToday,
+    "This week": data.wordsThisWeek,
+    "This month": data.wordsThisMonth,
+    "This year": data.wordsThisYear,
+    "All time": data.vocabularySize,
+  };
   const [period, setPeriod] = useState<Period>("This week");
   const { width } = useWindowDimensions();
   const wide = width >= 1100;
@@ -79,6 +80,15 @@ export default function StatisticsScreen() {
     ...data.weeklyActivity.map((day) => day.words),
   );
 
+  if (activityError)
+    return (
+      <Card>
+        <Body>
+          Statistics unavailable. Your saved history could not be read. Retry
+          loading, or use the explicit progress reset in Settings.
+        </Body>
+      </Card>
+    );
   return (
     <View style={s.page}>
       <PageHeading
@@ -86,22 +96,23 @@ export default function StatisticsScreen() {
         title="Every little step adds up."
         subtitle="See how steady practice can turn into visible progress."
       >
-        <Badge tone="orange">Demo statistics</Badge>
+        <Badge tone="orange">Your activity</Badge>
       </PageHeading>
 
       <View style={s.demoNote}>
         <Icon name="info" size={17} color={c.blue} />
         <Body muted style={s.demoText}>
-          All figures on this page are fictional demonstration data. They do not
-          represent your learning activity.
+          {data.hasActivity
+            ? "Only your saved study actions and submitted answers appear here."
+            : "No learning activity yet. Your statistics start at zero. Study a word, complete a lesson, or submit a practice answer to begin."}
         </Body>
       </View>
 
       <View style={s.periodHeader}>
         <View style={s.periodTitle}>
-          <Label color={c.orange}>WORDS LEARNED</Label>
+          <Label color={c.orange}>WORDS STUDIED</Label>
           <Body muted style={s.small}>
-            Choose a period for the words-learned card.
+            Choose a period for the words-studied card.
           </Body>
         </View>
         <View style={s.periods}>
@@ -131,28 +142,32 @@ export default function StatisticsScreen() {
       <View style={s.metrics}>
         <Metric
           icon="book-open"
-          label="Words learned"
+          label="Words studied"
           value={learnedByPeriod[period]}
-          note={`${period} · Demo`}
+          note={`${period} · Unique words`}
           orange
         />
         <Metric
           icon="check-circle"
           label="Recent accuracy"
-          value={`${data.recentAccuracy}%`}
-          note="Example recent result · Demo"
+          value={
+            data.recentAccuracy === null
+              ? "Not available"
+              : `${data.recentAccuracy}%`
+          }
+          note="Last 20 submitted answers"
         />
         <Metric
           icon="sun"
           label="Current streak"
           value={`${data.streakDays} days`}
-          note={`Longest: ${data.longestStreak} days · Demo`}
+          note={`Longest: ${data.longestStreak} days`}
         />
         <Metric
           icon="refresh-cw"
-          label="Waiting for review"
-          value={data.dueReviews}
-          note="Example due count · Demo"
+          label="Items with mistakes"
+          value={data.mistakeItems}
+          note="Unique items ever answered incorrectly"
         />
       </View>
 
@@ -160,7 +175,7 @@ export default function StatisticsScreen() {
         <Card style={s.chartCard}>
           <SectionHeading
             title="A week of small wins"
-            subtitle="Sample words learned per day · This week"
+            subtitle="Words marked studied per day · This week"
             action={<Badge tone="blue">{data.wordsThisWeek} words</Badge>}
           />
           <View style={s.chart}>
@@ -168,7 +183,7 @@ export default function StatisticsScreen() {
               <View
                 key={day.day}
                 accessible
-                accessibilityLabel={`${day.day}: ${day.words} sample words learned`}
+                accessibilityLabel={`${day.day}: ${day.words} words studied`}
                 style={s.chartColumn}
               >
                 <Text style={s.barValue}>{day.words}</Text>
@@ -190,7 +205,7 @@ export default function StatisticsScreen() {
           <View style={s.chartFooter}>
             <View style={s.legendDot} />
             <Body muted style={s.small}>
-              Illustrative activity · weekly chart stays on this week
+              Saved activity · Monday to Sunday of this week
             </Body>
           </View>
         </Card>
@@ -198,20 +213,25 @@ export default function StatisticsScreen() {
         <Card style={[s.accuracyCard, !wide && s.fullWidth]}>
           <SectionHeading
             title="Understanding, over time"
-            subtitle="All-time sample answers"
+            subtitle="All your submitted practice answers"
           />
           <Text style={s.accuracyValue}>
-            {data.lifetimeAccuracy}
-            <Text style={s.percent}>%</Text>
+            {data.lifetimeAccuracy === null
+              ? "Not available"
+              : `${data.lifetimeAccuracy}%`}
           </Text>
           <Body muted style={s.small}>
             Lifetime accuracy · rounded
           </Body>
           <View style={s.accuracyProgress}>
             <ProgressBar
-              value={data.lifetimeAccuracy}
+              value={data.lifetimeAccuracy ?? 0}
               color={c.blue}
-              label={`Demo lifetime accuracy: ${data.lifetimeAccuracy}%`}
+              label={
+                data.lifetimeAccuracy === null
+                  ? "No answers yet"
+                  : `Lifetime accuracy: ${data.lifetimeAccuracy}%`
+              }
             />
           </View>
           <View style={s.answerRow}>
@@ -240,7 +260,7 @@ export default function StatisticsScreen() {
       <View style={s.activitySection}>
         <SectionHeading
           title="The habits behind the progress"
-          subtitle="All-time demonstration activity"
+          subtitle="A study day: 5 new words, 1 lesson, or 5 distinct answered questions"
         />
         <Card style={s.activityGrid}>
           {[
@@ -255,8 +275,8 @@ export default function StatisticsScreen() {
               icon: "layers" as const,
             },
             {
-              value: data.reviewSessionsCompleted,
-              label: "Review sessions",
+              value: data.practiceAnswers,
+              label: "Practice answers",
               icon: "repeat" as const,
             },
             {
@@ -282,7 +302,7 @@ export default function StatisticsScreen() {
           <Text style={s.noteTitle}>Your learning is more than a number.</Text>
           <Body muted style={s.small}>
             A future estimated level will consider vocabulary mastery, grammar,
-            tests, and review performance. This preview does not assess or
+            tests, and review performance. Dutchly does not yet assess or
             certify your CEFR level.
           </Body>
         </View>
