@@ -38,7 +38,11 @@ The web worker avoids parsing on the UI thread and is terminated on cancel, unmo
 
 `validateTable` validates headers and rows, preserves supported optional fields and reports errors/warnings by row and column. Any error blocks the complete import. Duplicate words match normalized Dutch + word type + CEFR; grammar duplicates match a supplied source ID or normalized title + CEFR. Duplicates are skipped without replacement. `commitPreview` repeats duplicate checks against current stored curriculum, protecting against stale previews. The commit changes no activity data. Failed writes leave the previous in-memory collection intact.
 
-`vocabularyPractice` keeps the original authored questions and creates meaning questions for additional vocabulary where distinct alternatives exist. Generated questions are a simple practice aid, not a validated exam. Grammar exercise importing is outside this version.
+Daily Review uses `domain/review.ts` and `domain/translation.ts`. Eligibility comes only from the activity journal, not the curriculum array. The legacy `vocabularyPractice` helper is no longer used by Review; existing in-lesson multiple-choice exercises remain available. The selected daily target is reread inside the storage lock before each review save. Deterministic per-day/type/item event IDs prevent replay and cross-tab duplicates. Optional version-1 event fields `source`, `scheduledReview` and `answer` distinguish Daily Review from old practice without rewriting history. Local scheduling, consecutive scheduled successes and next due dates are derived from these events.
+
+Grammar examples may optionally hold explicitly authored `acceptedAnswers`; storage preserves them. No import column was added: current CSV/XLSX grammar examples use the canonical answer only. No conjugations, English plurals or dialogues are inferred from unreliable metadata. See `docs/REVIEW_IMPROVEMENTS.md` for generation and grading boundaries.
+
+Pronunciation is isolated behind `services/pronunciation.web.ts` and a native fallback. The Web Speech service loads Dutch voices through `getVoices` and `voiceschanged`; it has no access to the learning provider or storage.
 
 ## Web and desktop
 
@@ -48,4 +52,4 @@ Electron uses the secure standard `dutchly://app` protocol so relative routes, w
 
 ## Next architecture boundary
 
-Keep spaced review scheduling, five-success mastery, curriculum validation and CEFR estimation in pure domain modules when implemented. A future database/sync adapter must preserve stable item IDs and reconcile activity explicitly. No account, backend, telemetry, paid service or credentials are present now. Native mobile import, cross-device sync and deletion/restoration semantics require separate work.
+Spaced review scheduling and five-success recovery now live in pure domain modules. A future database/sync adapter must preserve stable item IDs and reconcile activity explicitly. CEFR estimation remains unimplemented. No account, backend, telemetry, paid service or credentials are present now. Native mobile import/speech, cross-device sync and deletion/restoration semantics require separate work.

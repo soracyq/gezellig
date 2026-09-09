@@ -1,6 +1,6 @@
 # Dutchly · Your personal Dutch learning space
 
-Dutchly 0.2 extends the original Expo / React Native app with vocabulary and grammar imports, real local progress, a standalone browser build, and an Electron desktop wrapper. The original starter words, grammar explanations, English interface and visual design remain.
+Dutchly 0.3 extends the existing Expo / React Native app with studied-only Daily Review, typed vocabulary and grammar translation, Dutch pronunciation and focused visual improvements. It retains vocabulary/grammar imports, local progress, the browser build and Electron desktop wrapper.
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
@@ -69,10 +69,22 @@ The old demonstration statistics were never saved as learning history. They have
 
 - **Mark studied:** one unique word counted once until progress is reset.
 - **Complete lesson:** one unique lesson counted once until reset.
-- **Check answer:** records a submitted practice attempt and its actual correctness. Repeating practice creates another attempt; double-submitting the same attempt does not.
+- **Check answer:** records a real submitted answer and its correctness. Daily Review permits one answer per word/lesson per local day and stops at the Settings target; double-submitting does not add another attempt. Existing in-lesson practice remains separate.
 - Accuracy is **Not available** before any answers. Recent accuracy uses the last 20 answers. Mistake items count unique items ever answered incorrectly; this is not a scheduled review queue.
 - A study day requires **5 new words OR 1 completed lesson OR 5 distinct answered questions**. Streaks use consecutive local calendar dates. A streak ending yesterday stays active while you have today to continue it. Weeks start on Monday. Changing your daily word target does not rewrite past activity.
 - Word study and lesson completion are self-reported study, not verified mastery. A CEFR estimate is not available yet.
+
+## Daily Review and pronunciation
+
+Review uses only marked-studied words, completed lessons or items with real prior answers. A new learner with a full imported curriculum sees **Nothing to review yet**. The existing Settings target is also the maximum number of mixed vocabulary/grammar Review questions for the local day. Fewer eligible items means fewer questions; unseen content never fills the gap. Submitted progress survives reopening, and increasing/decreasing the target preserves historical answers.
+
+Vocabulary uses English-to-Dutch typing. Nouns require the article and rotate through stored singular/plural forms across days. Stored conjugations are used with a small checked set of English prompts; imported verbs without conjugations use infinitive translation. Grammar uses the lesson's existing paired examples, with multiline answers where needed. Deterministic grading tolerates case, whitespace and sentence-ending punctuation, while retaining spelling, accents and word order. It does not recognise arbitrary synonymous translations.
+
+Due/overdue items come first, followed by weak and recently learned content. Five consecutive correct scheduled reviews establish the local mastery/recovery state. Correct early reinforcement does not advance the scheduled streak; an incorrect answer resets it. No unlimited mandatory session or answer-reveal preview remains in Review.
+
+Open a vocabulary word and choose **Listen** for Dutch pronunciation. This uses an available Dutch Web Speech voice and records no learning activity. **Mark studied** remains a separate action. If a Dutch voice is unavailable, the app shows a friendly message and disables Listen. Native Expo currently uses this unavailable fallback; no native speech package or paid API was added.
+
+See [the review improvement guide](docs/REVIEW_IMPROVEMENTS.md) for the audit, storage decisions, checks and manual steps.
 
 **Settings → Reset learning progress → Confirm progress reset** clears only learning history and its derived statistics. Cancel leaves everything unchanged. The reset preserves words, lessons, imported datasets and your daily target. It cannot be undone.
 
@@ -92,7 +104,7 @@ That builds the web files and opens Dutchly. After a build exists, `npm.cmd run 
 npm.cmd run build:desktop
 ```
 
-The installer is `release/Dutchly-0.2.0-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal, an internet connection nor Codex for its local functions.
+The installer is `release/Dutchly-0.3.0-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Core learning works offline; pronunciation depends on the available device/browser voice.
 
 The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
 
@@ -114,4 +126,4 @@ The worker is generated automatically before `start`, `web` and `export:web`. Te
 
 Source overview: `src/app` contains routes; `src/screens` contains the eight screens; `src/imports` handles parsing/validation/commit; `src/domain` holds models and activity calculations; `src/state` connects actions to storage; `desktop` contains the Electron wrapper. Read [architecture](docs/ARCHITECTURE.md), [phase decisions](docs/PHASE_2_PLAN.md) and [verification](docs/VERIFICATION.md).
 
-Native iOS/Android file import, cloud sync, backup/restore of learning history, dataset deletion, spaced review scheduling and formal mastery/level assessment remain future work. Browser/desktop importing is implemented. Phone layouts in a browser are supported; native devices have not been tested in this phase.
+Native iOS/Android file import and speech, cloud sync, backup/restore of learning history, dataset deletion and formal proficiency assessment remain future work. Daily review scheduling and five-correct item recovery are implemented, but do not certify CEFR ability. Phone layouts in a browser are supported; native devices have not been tested in this phase.

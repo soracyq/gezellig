@@ -37,7 +37,7 @@ From the same project folder:
 npm.cmd run build:desktop
 ```
 
-On Windows this produces `release\Dutchly-0.2.0-Setup.exe` and an unpacked application at `release\win-unpacked\Dutchly.exe`. Run the setup file, choose an installation location, and then open **Dutchly** from the Start menu or desktop shortcut. The installed app can be reopened without a terminal, Node.js, or Codex. `npm.cmd run build:desktop:dir` produces only the unpacked application for local checks.
+On Windows this produces `release\Dutchly-0.3.0-Setup.exe` and an unpacked application at `release\win-unpacked\Dutchly.exe`. Close the old app, run the setup file, choose an installation location, and then open **Dutchly** from the Start menu or desktop shortcut. Updates retain the same `%APPDATA%\Dutchly` profile. The installed app can be reopened without a terminal, Node.js, or Codex. `npm.cmd run build:desktop:dir` produces only the unpacked application for local checks.
 
 The build is currently unsigned. Windows may display an unknown-publisher/SmartScreen prompt. Signing and a trusted release channel are future distribution tasks. Installing an unverified download is not necessary for development; the source-run command is available above. The Windows configuration targets x64. Windows ARM64 and other targets need their own build and testing.
 

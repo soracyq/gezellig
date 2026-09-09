@@ -14,7 +14,13 @@ import {
   vocabularyItems as builtinVocabulary,
   grammarTopics as builtinGrammar,
 } from "../data/sample-content";
-import type { ContentType, Question } from "../domain/models";
+import type {
+  ContentType,
+  Question,
+  TranslationQuestion,
+} from "../domain/models";
+import { submitDailyReview } from "../domain/review";
+import { loadSettings } from "../storage/settings";
 import {
   appendEvent,
   emptyActivity,
@@ -194,6 +200,36 @@ function useLearningState() {
       setNow(new Date());
     });
   }
+  async function answerReview(
+    question: TranslationQuestion,
+    answer: string,
+    day: string,
+  ) {
+    return transact(async () => {
+      const [journal, latest, settings] = await Promise.all([
+        readActivity(AsyncStorage),
+        readCurriculum(AsyncStorage),
+        loadSettings(AsyncStorage),
+      ]);
+      if (settings.error)
+        throw new Error(
+          "Your daily target could not be loaded. Check Settings before saving a review.",
+        );
+      const result = submitDailyReview(
+        [...builtinVocabulary, ...latest.vocabulary],
+        [...builtinGrammar, ...latest.grammar],
+        journal,
+        settings.settings.dailyTarget,
+        question,
+        answer,
+        day,
+      );
+      await writeActivity(AsyncStorage, result.journal);
+      setActivity(result.journal);
+      setNow(new Date());
+      return result;
+    });
+  }
   const studiedIds = new Set(
     activity.events
       .filter((e) => e.kind === "word-studied")
@@ -210,6 +246,7 @@ function useLearningState() {
     vocabulary,
     grammar,
     statistics: getStatistics(activity, now),
+    now,
     loading,
     busy,
     curriculumError,
@@ -218,6 +255,7 @@ function useLearningState() {
     refresh,
     completeItem,
     answerQuestion,
+    answerReview,
     importContent,
     resetProgress,
     studiedIds,

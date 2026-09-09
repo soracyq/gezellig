@@ -21,6 +21,7 @@ import {
 } from "../components/ui";
 import { useLearning } from "../state/LearningProvider";
 import { CompleteItem } from "../components/CompleteItem";
+import { PronunciationButton } from "../components/PronunciationButton";
 import { cefrLevels } from "../data/sample-content";
 import type { VocabularyItem } from "../domain/models";
 import { useSettings } from "../state/SettingsProvider";
@@ -235,6 +236,7 @@ export default function VocabularyScreen() {
         </Body>
       </View>
       <PreviewModal
+        prominentTitle
         visible={selected !== null}
         onClose={closePreview}
         title={selected ? wordLabel(selected) : "Word preview"}
@@ -329,12 +331,7 @@ function VocabularyDetails({ item }: { item: VocabularyItem }) {
         </View>
       )}
       {item.notes && <Body muted>{item.notes}</Body>}
-      <Action
-        title="Browse grammar"
-        href="/grammar"
-        variant="secondary"
-        icon="arrow-right"
-      />
+      <PronunciationButton key={item.id} text={wordLabel(item)} />
     </>
   );
 }

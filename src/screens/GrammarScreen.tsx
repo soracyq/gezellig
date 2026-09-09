@@ -125,15 +125,8 @@ export default function GrammarScreen() {
               style={{ width: width < 780 ? "100%" : "48%", gap: 16 }}
             >
               <View style={s.cardHeader}>
-                <View
-                  style={[
-                    s.lessonNumber,
-                    i === 1 && { backgroundColor: c.orangeSoft },
-                  ]}
-                >
-                  <Text
-                    style={[s.lessonNumberText, i === 1 && { color: c.orange }]}
-                  >
+                <View style={s.lessonNumber}>
+                  <Text style={s.lessonNumberText}>
                     {String(i + 1).padStart(2, "0")}
                   </Text>
                 </View>

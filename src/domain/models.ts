@@ -17,6 +17,21 @@ export type WordType =
 export interface TranslatedExample {
   dutch: string;
   english: string;
+  /** Explicitly authored whole-response alternatives; never inferred by grading. */
+  acceptedAnswers?: string[];
+}
+
+export interface TranslationQuestion {
+  id: string;
+  kind: "translation";
+  relatedItemId: string;
+  contentType: ContentType;
+  prompt: string;
+  correctAnswer: string;
+  acceptedAnswers: string[];
+  hint: string;
+  label: string;
+  rule?: string;
 }
 
 interface VocabularyBase {

@@ -10,6 +10,9 @@ export type ActivityEvent = {
   timeZone: string;
   questionId?: string;
   correct?: boolean;
+  source?: "daily-review";
+  scheduledReview?: boolean;
+  answer?: string;
 };
 export type ActivityJournal = { version: 1; events: ActivityEvent[] };
 export const emptyActivity = (): ActivityJournal => ({
@@ -37,7 +40,14 @@ export function makeEvent(
   kind: ActivityEvent["kind"],
   itemId: string,
   contentType: ContentType,
-  options: { id?: string; questionId?: string; correct?: boolean } = {},
+  options: {
+    id?: string;
+    questionId?: string;
+    correct?: boolean;
+    source?: "daily-review";
+    scheduledReview?: boolean;
+    answer?: string;
+  } = {},
   now = new Date(),
 ): ActivityEvent {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;

@@ -46,7 +46,7 @@ export default function SettingsScreen() {
         <Card style={{ padding: 28 }}>
           <SectionHeading
             title="Your daily vocabulary target"
-            subtitle="Choose how many new words you’d like to study each day."
+            subtitle="Choose your new-word goal. This also sets the daily maximum for vocabulary and grammar Review questions."
             action={
               <View style={s.icon}>
                 <Icon name="flag" color={c.orange} />

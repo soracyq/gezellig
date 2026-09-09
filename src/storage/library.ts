@@ -37,7 +37,11 @@ const wordType = z.enum([
   "expression",
   "phrase",
 ]);
-const example = z.object({ dutch: text, english: text });
+const example = z.object({
+  dutch: text,
+  english: text,
+  acceptedAnswers: z.array(text).optional(),
+});
 const vocabularySchema = z.object({
   id: text.min(1),
   dutch: text.min(1),
@@ -121,6 +125,9 @@ const eventSchema = z
     timeZone: text.min(1),
     questionId: text.optional(),
     correct: z.boolean().optional(),
+    source: z.literal("daily-review").optional(),
+    scheduledReview: z.boolean().optional(),
+    answer: text.optional(),
   })
   .refine(
     (e) =>

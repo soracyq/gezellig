@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { loadVocabulary, headers, output, root } from "./vocabulary-data.mjs";
+import { loadVocabulary, headers, output } from "./vocabulary-data.mjs";
 import { readImportFile } from "../src/imports/read-file.ts";
 import { validateTable, normalizeKey } from "../src/imports/validate.ts";
 import { commitPreview } from "../src/imports/commit.ts";

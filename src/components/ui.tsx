@@ -110,6 +110,7 @@ export function ProgressBar({
 }
 export function Action({
   title,
+  accessibilityLabel,
   href,
   onPress,
   icon,
@@ -118,6 +119,7 @@ export function Action({
   style,
 }: {
   title: string;
+  accessibilityLabel?: string;
   href?: Href;
   onPress?: () => void;
   icon?: IconName;
@@ -129,7 +131,7 @@ export function Action({
   const control = (
     <Pressable
       accessibilityRole={href ? "link" : "button"}
-      accessibilityLabel={title}
+      accessibilityLabel={accessibilityLabel ?? title}
       disabled={disabled}
       onPress={onPress}
       style={StyleSheet.flatten([
@@ -236,6 +238,7 @@ export function PreviewModal({
   onClose,
   title,
   contentKey,
+  prominentTitle = false,
   eyebrow = "STUDY SPACE",
   footer = "Progress is saved only when you choose a study action or submit an answer.",
   children,
@@ -244,6 +247,7 @@ export function PreviewModal({
   onClose: () => void;
   title: string;
   contentKey?: string;
+  prominentTitle?: boolean;
   eyebrow?: string;
   footer?: string;
   children: ReactNode;
@@ -260,7 +264,16 @@ export function PreviewModal({
           <View style={styles.modalHeader}>
             <View style={{ flex: 1, gap: 8 }}>
               <Label color={c.orange}>{eyebrow}</Label>
-              <Text accessibilityRole="header" style={styles.sectionTitle}>
+              <Text
+                accessibilityRole="header"
+                style={[
+                  styles.sectionTitle,
+                  prominentTitle && {
+                    fontSize: typography.sizes.title,
+                    fontWeight: "700",
+                  },
+                ]}
+              >
                 {title}
               </Text>
             </View>

@@ -1,5 +1,7 @@
 # Dutchly 0.2 verification
 
+This is the historical 0.2 report. For the current studied-only Review, translation, pronunciation and UI changes, see [Dutchly 0.3 verification](REVIEW_IMPROVEMENTS.md).
+
 Checked on Windows on 7–8 September 2026. This phase extends the original application with imports, real local statistics, production web serving and a minimal Electron wrapper. All browser and desktop test data was created in isolated profiles; the user's normal browser/app history was not cleared.
 
 ## Automated checks
