@@ -1,6 +1,6 @@
 # Dutchly · Your personal Dutch learning space
 
-Dutchly 0.3 extends the existing Expo / React Native app with studied-only Daily Review, typed vocabulary and grammar translation, Dutch pronunciation and focused visual improvements. It retains vocabulary/grammar imports, local progress, the browser build and Electron desktop wrapper.
+Dutchly 0.3.1 extends the existing Expo / React Native app with studied-only Daily Review, typed vocabulary and grammar translation, offline Dutch pronunciation and focused visual improvements. It retains vocabulary/grammar imports, local progress, the browser build and Electron desktop wrapper.
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
@@ -82,7 +82,7 @@ Vocabulary uses English-to-Dutch typing. Nouns require the article and rotate th
 
 Due/overdue items come first, followed by weak and recently learned content. Five consecutive correct scheduled reviews establish the local mastery/recovery state. Correct early reinforcement does not advance the scheduled streak; an incorrect answer resets it. No unlimited mandatory session or answer-reveal preview remains in Review.
 
-Open a vocabulary word and choose **Listen** for Dutch pronunciation. This uses an available Dutch Web Speech voice and records no learning activity. **Mark studied** remains a separate action. If a Dutch voice is unavailable, the app shows a friendly message and disables Listen. Native Expo currently uses this unavailable fallback; no native speech package or paid API was added.
+Open a vocabulary word and choose **Listen** for Dutch pronunciation. The app prefers an installed local Dutch voice and automatically uses a bundled Dutch speech engine when one is missing. Both work without an internet connection in the Windows app or local browser version. The built-in voice sounds synthetic; no Dutch voice installation or paid API is required. Listen records no learning activity, and **Mark studied** remains a separate action. Native Expo speech remains unsupported. See [local pronunciation and troubleshooting](docs/LOCAL_PRONUNCIATION.md).
 
 See [the review improvement guide](docs/REVIEW_IMPROVEMENTS.md) for the audit, storage decisions, checks and manual steps.
 
@@ -104,7 +104,7 @@ That builds the web files and opens Dutchly. After a build exists, `npm.cmd run 
 npm.cmd run build:desktop
 ```
 
-The installer is `release/Dutchly-0.3.0-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Core learning works offline; pronunciation depends on the available device/browser voice.
+The installer is `release/Dutchly-0.3.1-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and Dutch pronunciation work offline.
 
 The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
 

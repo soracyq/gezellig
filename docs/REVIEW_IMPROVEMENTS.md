@@ -1,5 +1,7 @@
 # Dutchly 0.3.0 — review, translation and pronunciation
 
+Historical report for 0.3.0. Version 0.3.1 fixes the missing-device-voice limitation with bundled offline speech and real audio tests; see [local pronunciation](LOCAL_PRONUNCIATION.md). Use the 0.3.1 installer for the current app.
+
 This update extends the existing Expo app and Windows wrapper. Curriculum files, import formats, navigation and stored learner history are retained. The Windows output is `release/Dutchly-0.3.0-Setup.exe`; `release/win-unpacked/Dutchly.exe` can also be opened directly with its surrounding files in place.
 
 ## Audit and implementation

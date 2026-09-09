@@ -42,7 +42,7 @@ Daily Review uses `domain/review.ts` and `domain/translation.ts`. Eligibility co
 
 Grammar examples may optionally hold explicitly authored `acceptedAnswers`; storage preserves them. No import column was added: current CSV/XLSX grammar examples use the canonical answer only. No conjugations, English plurals or dialogues are inferred from unreliable metadata. See `docs/REVIEW_IMPROVEMENTS.md` for generation and grading boundaries.
 
-Pronunciation is isolated behind `services/pronunciation.web.ts` and a native fallback. The Web Speech service loads Dutch voices through `getVoices` and `voiceschanged`; it has no access to the learning provider or storage.
+Pronunciation is isolated behind `services/pronunciation.web.ts` and a native fallback. The Web Speech service loads local Dutch voices through `getVoices` and `voiceschanged`. If no local Dutch voice exists or the device speech API fails, `offlineSpeech.ts` loads the bundled eSpeak NG worker and voice data from `public/speech`. It selects `nl`, synthesizes in the worker and plays PCM using Web Audio. It resumes audio during the user gesture, limits input to 500 characters, ignores canceled requests, retries failed initialization and stops playback on modal close. No speech service has access to the learning provider or storage. There is no runtime remote dependency, new IPC bridge, or relaxed Content Security Policy; vendor provenance, source and the small CSP compatibility patch accompany the assets.
 
 ## Web and desktop
 

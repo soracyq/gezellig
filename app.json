@@ -2,7 +2,7 @@
   "expo": {
     "name": "Dutchly",
     "slug": "dutchly",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "scheme": "dutchly",
     "orientation": "default",
     "userInterfaceStyle": "light",

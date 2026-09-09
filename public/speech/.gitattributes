@@ -1,0 +1,2 @@
+# Keep pinned vendor assets byte-for-byte identical on Windows checkouts.
+* -text

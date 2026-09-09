@@ -173,9 +173,9 @@ async function studyWord(page, id) {
     exact: true,
   });
   await listen.waitFor();
-  assert(await listen.isDisabled());
+  assert(await listen.isEnabled());
   await page
-    .getByText("Dutch pronunciation is not available on this device.", {
+    .getByText("Built-in Dutch voice · works offline", {
       exact: true,
     })
     .waitFor();

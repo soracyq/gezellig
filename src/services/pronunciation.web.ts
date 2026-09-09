@@ -1,11 +1,21 @@
 import { createPronunciationService } from "./speech";
-export const pronunciationService = createPronunciationService(() =>
+import { createOfflineSpeech } from "./offlineSpeech";
+const offline = createOfflineSpeech(() =>
   typeof window !== "undefined" &&
-  window.speechSynthesis &&
-  typeof window.SpeechSynthesisUtterance === "function"
-    ? {
-        synth: window.speechSynthesis,
-        Utterance: window.SpeechSynthesisUtterance,
-      }
+  typeof Worker === "function" &&
+  typeof AudioContext === "function"
+    ? { Worker, AudioContext }
     : undefined,
+);
+export const pronunciationService = createPronunciationService(
+  () =>
+    typeof window !== "undefined" &&
+    window.speechSynthesis &&
+    typeof window.SpeechSynthesisUtterance === "function"
+      ? {
+          synth: window.speechSynthesis,
+          Utterance: window.SpeechSynthesisUtterance,
+        }
+      : undefined,
+  offline,
 );
