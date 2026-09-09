@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-09-09T11:38:24.075Z",
+  "counts": {
+    "A1": 32,
+    "A2": 40,
+    "total": 72
+  },
+  "checks": {
+    "duplicate_lesson_id": 0,
+    "duplicate_title": 0,
+    "duplicate_learning_objective": 0,
+    "duplicate_rule": 0,
+    "duplicate_explanation": 0,
+    "missingRequiredFields": 0,
+    "invalidLevels": 0,
+    "invalidSortOrders": 0,
+    "invalidPrerequisites": 0,
+    "sampleTrue": 0,
+    "missingExamplePairs": 0
+  },
+  "files": [
+    {
+      "filename": "dutch_grammar_A1.csv",
+      "rows": 32,
+      "sha256": "53c16674c7e547dc2fd5d15e7ddccacd5f89944ed51c63c80438f48aa42c2cd8",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 32,
+      "reimportSkipped": 32
+    },
+    {
+      "filename": "dutch_grammar_A1.xlsx",
+      "rows": 32,
+      "sha256": "fd3d02d4626eb453a2c3acc96b097f1a15e286dd7f444cb74295a7a7091f7b32",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 32,
+      "reimportSkipped": 32
+    },
+    {
+      "filename": "dutch_grammar_A2.csv",
+      "rows": 40,
+      "sha256": "ab3fec064e843655398f80488ff2bbbd5ac641ce6f60e88ba8e92d6e532635b3",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 40,
+      "reimportSkipped": 40
+    },
+    {
+      "filename": "dutch_grammar_A2.xlsx",
+      "rows": 40,
+      "sha256": "2270ff9a028d9d2ecfaea703f11f6602dd862d29018d13aa32d98c28bd7899c9",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 40,
+      "reimportSkipped": 40
+    }
+  ],
+  "similarWordingForEditorialReview": [],
+  "semanticReview": "See coverage-audit.md; automated equality checks do not establish linguistic or pedagogical quality."
+}

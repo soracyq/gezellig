@@ -1,0 +1,3 @@
+# Preserve quoted paragraph newlines and CSV record separators exactly.
+dutch_grammar_A1.csv -text
+dutch_grammar_A2.csv -text

@@ -1,5 +1,7 @@
 # Dutch vocabulary for import
 
+The A1/A2 grammar curriculum is also available in this folder: **32 A1 lessons and 40 A2 lessons**, in `dutch_grammar_A1.csv/.xlsx` and `dutch_grammar_A2.csv/.xlsx`. See [grammar import instructions, coverage and validation](grammar/README.md).
+
 Created on 9 September 2026 for Dutchly 0.2.0, using the existing vocabulary schema and the supplied example. The original templates and application code are unchanged.
 
 ## Files

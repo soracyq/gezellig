@@ -1,0 +1,177 @@
+{
+  "checkedAt": "2026-09-09T11:39:01.7755801Z",
+  "application": "Existing Dutchly 0.2.0 production browser and packaged Windows builds; no rebuild",
+  "files": [
+    {
+      "filename": "dutch_grammar_A1.csv",
+      "rows": 32,
+      "sha256": "53c16674c7e547dc2fd5d15e7ddccacd5f89944ed51c63c80438f48aa42c2cd8",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 32,
+      "reimportSkipped": 32
+    },
+    {
+      "filename": "dutch_grammar_A1.xlsx",
+      "rows": 32,
+      "sha256": "fd3d02d4626eb453a2c3acc96b097f1a15e286dd7f444cb74295a7a7091f7b32",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 32,
+      "reimportSkipped": 32
+    },
+    {
+      "filename": "dutch_grammar_A2.csv",
+      "rows": 40,
+      "sha256": "ab3fec064e843655398f80488ff2bbbd5ac641ce6f60e88ba8e92d6e532635b3",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 40,
+      "reimportSkipped": 40
+    },
+    {
+      "filename": "dutch_grammar_A2.xlsx",
+      "rows": 40,
+      "sha256": "2270ff9a028d9d2ecfaea703f11f6602dd862d29018d13aa32d98c28bd7899c9",
+      "issues": 0,
+      "identicalToSource": true,
+      "imported": 40,
+      "reimportSkipped": 40
+    }
+  ],
+  "results": [
+    {
+      "environment": "production browser",
+      "file": "dutch_grammar_A1.csv",
+      "records": 32,
+      "imported": 32,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a1-basic-sentences",
+        "a1-negation-geen",
+        "a1-perfect-separable"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "production browser",
+      "file": "dutch_grammar_A2.csv",
+      "records": 40,
+      "imported": 40,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a2-main-clause-order",
+        "a2-past-irregular",
+        "a2-something-adjective",
+        "a2-participle-prefixes"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "production browser",
+      "file": "dutch_grammar_A1.xlsx",
+      "records": 32,
+      "imported": 32,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a1-basic-sentences",
+        "a1-negation-geen",
+        "a1-perfect-separable"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "production browser",
+      "file": "dutch_grammar_A2.xlsx",
+      "records": 40,
+      "imported": 40,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a2-main-clause-order",
+        "a2-past-irregular",
+        "a2-something-adjective",
+        "a2-participle-prefixes"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "packaged Windows",
+      "file": "dutch_grammar_A1.csv",
+      "records": 32,
+      "imported": 32,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a1-basic-sentences",
+        "a1-negation-geen",
+        "a1-perfect-separable"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "packaged Windows",
+      "file": "dutch_grammar_A2.csv",
+      "records": 40,
+      "imported": 40,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a2-main-clause-order",
+        "a2-past-irregular",
+        "a2-something-adjective",
+        "a2-participle-prefixes"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "packaged Windows",
+      "file": "dutch_grammar_A1.xlsx",
+      "records": 32,
+      "imported": 32,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a1-basic-sentences",
+        "a1-negation-geen",
+        "a1-perfect-separable"
+      ],
+      "statisticsUnchanged": true
+    },
+    {
+      "environment": "packaged Windows",
+      "file": "dutch_grammar_A2.xlsx",
+      "records": 40,
+      "imported": 40,
+      "skipped": 0,
+      "allSavedFieldsMatch": true,
+      "allCardOrderAndSummariesMatch": true,
+      "lessonsOpened": [
+        "a2-main-clause-order",
+        "a2-past-irregular",
+        "a2-something-adjective",
+        "a2-participle-prefixes"
+      ],
+      "statisticsUnchanged": true
+    }
+  ],
+  "errors": [],
+  "notes": [
+    "All test profiles were isolated from the learner profile.",
+    "All saved lesson fields, card ordering and summaries were checked.",
+    "Three A1 and four A2 representative lesson modals were checked in each environment and format.",
+    "Statistics page text and persisted activity/settings remained unchanged.",
+    "Browser screenshots were visually reviewed. Hidden Windows screenshots were skipped after a capture timeout; all Windows DOM and import checks passed on rerun.",
+    "Native Microsoft Excel was not manually operated."
+  ]
+}
