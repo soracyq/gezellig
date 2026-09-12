@@ -47,15 +47,25 @@ export default function GrammarScreen() {
     "Understand" | "Examples" | "Practice"
   >("Understand");
   const levelTopics = grammarTopics.filter((topic) => topic.level === level);
-  const { items: topics, counts } = learningList(
+  const { items: sortedTopics, counts } = learningList(
     levelTopics,
     completedLessonIds,
     status,
   );
+  const [heldOrder, setHeldOrder] = useState<string[] | null>(() =>
+    preview ? sortedTopics.map((topic) => topic.id) : null,
+  );
+  const topics = heldOrder
+    ? heldOrder.flatMap((id) => {
+        const topic = levelTopics.find((item) => item.id === id);
+        return topic ? [topic] : [];
+      })
+    : sortedTopics;
   const lessonNumbers = new Map(
     levelTopics.map((topic, i) => [topic.id, i + 1]),
   );
   function openTopic(topic: GrammarTopic) {
+    setHeldOrder(topics.map((item) => item.id));
     router.setParams({ preview: topic.id });
     setSection("Understand");
   }
@@ -97,6 +107,7 @@ export default function GrammarScreen() {
             accessibilityState={{ selected: value === level }}
             onPress={() => {
               setLevel(value);
+              setHeldOrder(null);
               setLimit(50);
             }}
             style={[s.level, value === level && s.activeLevel]}
@@ -134,6 +145,7 @@ export default function GrammarScreen() {
         value={status}
         onChange={(value) => {
           setStatus(value);
+          setHeldOrder(null);
           setLimit(50);
         }}
         counts={counts}
@@ -242,6 +254,7 @@ export default function GrammarScreen() {
       <View style={s.note}>
         <Icon name="info" size={15} />
         <Body muted style={{ flex: 1, fontSize: 12 }}>
+          Lesson order refreshes when you change filters or return to Grammar.
           Practice answers are saved separately from lesson completion. Complete
           a lesson when you have finished studying it.
         </Body>

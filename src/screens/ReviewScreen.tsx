@@ -10,6 +10,7 @@ import {
   SectionHeading,
 } from "../components/ui";
 import { dailyReview } from "../domain/review";
+import { ReviewRefresh } from "../components/ReviewRefresh";
 import type { TranslationQuestion } from "../domain/models";
 import { useLearning } from "../state/LearningProvider";
 import { useSettings } from "../state/SettingsProvider";
@@ -32,7 +33,7 @@ export default function ReviewScreen() {
       <PageHeading
         eyebrow="A LITTLE PRACTICE, OFTEN"
         title="Make it stick."
-        subtitle="Translate what you’ve studied. A few useful questions each day."
+        subtitle="Refresh what’s due, then test your Dutch. A little practice over time."
       />
       {loading || isLoading ? (
         <Body>Loading today’s review…</Body>
@@ -56,6 +57,7 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
   const { answerReview, busy, refresh } = useLearning();
   const { refresh: refreshSettings } = useSettings();
   const [chosen, setChosen] = useState<string | null>(null);
+  const [refreshed, setRefreshed] = useState<Set<string>>(() => new Set());
   const [feedback, setFeedback] = useState<{
     question: TranslationQuestion;
     correct: boolean;
@@ -67,6 +69,9 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
     feedback?.question ??
     plan.questions.find((c) => c.question.id === chosen)?.question ??
     plan.questions[0]?.question;
+  const needsRefresh =
+    !feedback &&
+    plan.questions.some((item) => !refreshed.has(item.question.id));
   async function submit(answer: string) {
     if (!current || feedback || submitting.current) return;
     submitting.current = true;
@@ -89,7 +94,7 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
       <View style={{ gap: 20 }}>
         <EmptyState
           title="Nothing to review yet"
-          description="Learn some vocabulary or complete a grammar lesson first. Your review questions will appear here as you study."
+          description="Mark a vocabulary word studied or complete a grammar lesson first. Its first review is scheduled for the next day."
         />
         <StudyActions />
         <Body muted>
@@ -116,13 +121,28 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
           most once today.
         </Body>
       </Card>
-      {current ? (
+      {needsRefresh ? (
+        <ReviewRefresh
+          key={plan.questions.map((item) => item.key).join("|")}
+          questions={plan.questions}
+          start={() =>
+            setRefreshed(
+              (previous) =>
+                new Set([
+                  ...previous,
+                  ...plan.questions.map((item) => item.question.id),
+                ]),
+            )
+          }
+        />
+      ) : current ? (
         <Card style={{ gap: 18, maxWidth: 850 }}>
           <Badge>
             {current.contentType === "grammar"
               ? "Grammar translation"
               : "Vocabulary translation"}
           </Badge>
+          <Body muted>Phase 2 · Test</Body>
           <Body accessibilityRole="header" style={s.heading}>
             Translate into Dutch
           </Body>
@@ -199,23 +219,33 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
         </Card>
       ) : (
         <Card style={{ gap: 16, maxWidth: 850 }}>
-          <SectionHeading title="Review complete" />
+          <SectionHeading
+            title={plan.completed ? "Review complete" : "No reviews due today"}
+          />
           <Body>
             {plan.completed >= plan.target
               ? `You completed your ${plan.completed} review questions for today.`
               : "You’re all caught up for today."}
           </Body>
-          <Body>
-            {plan.correct} correct · {plan.incorrect} incorrect ·{" "}
-            {plan.accuracy ?? 0}% accuracy
-          </Body>
+          {plan.completed > 0 && (
+            <Body>
+              {plan.correct} correct · {plan.incorrect} incorrect ·{" "}
+              {plan.accuracy ?? 0}% accuracy
+            </Body>
+          )}
           <Body>
             {plan.vocabularyReviewed} vocabulary items reviewed ·{" "}
             {plan.grammarReviewed} grammar lessons reviewed
           </Body>
           <Body muted>
-            Your next daily allowance starts on your next local calendar day.
-            Your learning history stays saved.
+            {plan.deferred
+              ? `${plan.deferred} due items remain saved for a future daily allowance. `
+              : ""}
+            {plan.nextDueDay
+              ? `Next scheduled review: ${plan.nextDueDay}. `
+              : ""}
+            Your daily allowance renews on your next local calendar day. Your
+            learning history stays saved.
           </Body>
           <Action title="Return home" href="/" />
           <StudyActions />
@@ -223,7 +253,8 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
       )}
       <Body muted>
         {plan.mastered} items have reached five consecutive correct scheduled
-        reviews. Extra early reinforcement does not advance that count.
+        reviews. Reviews are spaced over separate scheduled days; practice and
+        refreshing do not advance that count.
       </Body>
     </View>
   );

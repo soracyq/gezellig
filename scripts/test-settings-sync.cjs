@@ -29,7 +29,13 @@ let browser;
   const history = JSON.stringify({
     version: 1,
     events: vocabularyItems.map((v) =>
-      makeEvent("word-studied", v.id, "vocabulary"),
+      makeEvent(
+        "word-studied",
+        v.id,
+        "vocabulary",
+        {},
+        new Date(Date.now() - 86400000),
+      ),
     ),
   });
   await settings.evaluate(

@@ -22,11 +22,49 @@ const snapshot = (page) =>
   }));
 async function go(page, route) {
   console.log(`Opening ${route}`);
+  if (route === "/review" && page.url().startsWith(base)) {
+    // Isolated regression profile: simulate the next day after its UI study
+    // actions so the due-only scheduler can exercise the historical flow.
+    await page.evaluate(() => {
+      const raw = localStorage.getItem("@dutchly/activity/v1");
+      if (!raw) return;
+      const journal = JSON.parse(raw),
+        now = new Date(),
+        yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const today = now.toLocaleDateString("en-CA");
+      let changed = false;
+      for (const event of journal.events)
+        if (event.kind !== "answer" && event.day === today) {
+          event.day = yesterday.toLocaleDateString("en-CA");
+          event.occurredAt = yesterday.toISOString();
+          changed = true;
+        }
+      if (changed)
+        localStorage.setItem("@dutchly/activity/v1", JSON.stringify(journal));
+    });
+  }
   await page.goto(base + route);
   await page
     .getByText("Loading your saved learning space…", { exact: true })
     .waitFor({ state: "hidden" });
   await page.getByRole("heading").first().waitFor();
+  if (route === "/review") await startTest(page);
+}
+async function startTest(page) {
+  for (
+    let i = 0;
+    i < 50 &&
+    (await page
+      .getByRole("button", { name: "Next material", exact: true })
+      .count());
+    i++
+  )
+    await page
+      .getByRole("button", { name: "Next material", exact: true })
+      .click();
+  const start = page.getByRole("button", { name: "Start test", exact: true });
+  if (await start.count()) await start.click();
 }
 function speechMock() {
   let voices = [];
@@ -261,6 +299,7 @@ async function studyWord(page, id) {
     );
   }
   async function submitOne(wrong = false) {
+    await startTest(page);
     const p = await expected(),
       q = p.questions[0].question;
     await page.getByText(q.prompt, { exact: true }).waitFor();
@@ -318,6 +357,7 @@ async function studyWord(page, id) {
   await page
     .getByText("4 of 10 completed · 6 remaining", { exact: true })
     .waitFor();
+  await startTest(page);
   if (!desktop) {
     const other = await session.newPage();
     await go(other, "/review");

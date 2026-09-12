@@ -157,6 +157,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </View>
         <ScrollView
           key={pathname}
+          testID="learning-page-scroll"
           contentContainerStyle={[
             s.scrollContent,
             { padding: width < 650 ? 20 : 36 },

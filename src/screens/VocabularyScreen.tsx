@@ -28,16 +28,13 @@ import {
 } from "../components/LearningStatus";
 import { learningList, type LearningFilter } from "../domain/learningStatus";
 import { googleTranslateUrl } from "../domain/externalLinks";
+import { vocabularyLabel } from "../domain/homeLearning";
 import { cefrLevels } from "../data/sample-content";
 import type { VocabularyItem } from "../domain/models";
 import { useSettings } from "../state/SettingsProvider";
 import { colors as c, learningColors, typography } from "../theme/tokens";
 
-export function wordLabel(item: VocabularyItem) {
-  return item.wordType === "noun" && item.article
-    ? `${item.article} ${item.dutch.replace(/^(de|het)\s+/i, "")}`
-    : item.dutch;
-}
+export const wordLabel = vocabularyLabel;
 export default function VocabularyScreen() {
   const { width } = useWindowDimensions();
   const { vocabulary: vocabularyItems, studiedIds } = useLearning();

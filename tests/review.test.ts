@@ -44,9 +44,23 @@ const studied = (
 ): ActivityJournal => ({
   version: 1,
   events: [
-    ...items.map((w) => makeEvent("word-studied", w.id, "vocabulary", {}, now)),
+    ...items.map((w) =>
+      makeEvent(
+        "word-studied",
+        w.id,
+        "vocabulary",
+        {},
+        new Date(now.getTime() - 86400000),
+      ),
+    ),
     ...lessons.map((g) =>
-      makeEvent("lesson-completed", g.id, "grammar", {}, now),
+      makeEvent(
+        "lesson-completed",
+        g.id,
+        "grammar",
+        {},
+        new Date(now.getTime() - 86400000),
+      ),
     ),
   ],
 });
@@ -105,7 +119,7 @@ test("four words and two completed lessons yield six items, not all variations",
   );
   assert(p.questions.some((q) => q.question.contentType === "grammar"));
 });
-test("old real answers create eligibility but do not consume today’s new daily allowance", () => {
+test("practice-only historical answers do not create review eligibility or consume the allowance", () => {
   const journal = appendEvent(
     emptyActivity(),
     makeEvent(
@@ -117,7 +131,7 @@ test("old real answers create eligibility but do not consume today’s new daily
     ),
   );
   const p = dailyReview(vocabularyItems, [], journal, 10, now);
-  assert.equal(p.eligible, 1);
+  assert.equal(p.eligible, 0);
   assert.equal(p.completed, 0);
 });
 test("persisted four answers reopen as four completed and six remaining, with raw answers retained", async () => {
@@ -143,6 +157,7 @@ test("persisted four answers reopen as four completed and six remaining, with ra
     4,
   );
   assert.deepEqual(restored, journal);
+  assert.deepEqual(reviewProgress(restored), reviewProgress(journal));
 });
 test("changing targets mid-day preserves attempts and never makes remaining negative", () => {
   const ws = words(100);
@@ -209,7 +224,15 @@ test("duplicate submission is idempotent; stale quota and unseen questions canno
   assert.equal(again.alreadySaved, true);
   assert.deepEqual(again.journal, journal);
   for (let i = 1; i < 5; i++) journal = answerNext(ws, [], journal, 5);
-  const q6 = vocabularyTranslations(ws[19])[0];
+  const q6 = vocabularyTranslations(
+    ws.find(
+      (word) =>
+        !journal.events.some(
+          (event) =>
+            event.source === "daily-review" && event.itemId === word.id,
+        ),
+    )!,
+  )[0];
   assert.throws(
     () =>
       submitDailyReview(ws, [], journal, 5, q6, q6.correctAnswer, p.day, now),
@@ -230,7 +253,7 @@ test("duplicate submission is idempotent; stale quota and unseen questions canno
     /changed or is complete/,
   );
 });
-test("due/overdue then weak and recent items take priority over dataset order", () => {
+test("overdue then previously incorrect reviews take priority over dataset order", () => {
   const ws = words(3);
   let journal = studied(ws);
   journal = appendEvent(
@@ -239,8 +262,14 @@ test("due/overdue then weak and recent items take priority over dataset order", 
       "answer",
       ws[2].id,
       "vocabulary",
-      { id: "mistake", questionId: "q", correct: false },
-      now,
+      {
+        id: "mistake",
+        questionId: "q",
+        correct: false,
+        source: "daily-review",
+        scheduledReview: true,
+      },
+      new Date(now.getTime() - 86400000),
     ),
   );
   assert.equal(
@@ -260,7 +289,7 @@ test("due/overdue then weak and recent items take priority over dataset order", 
 test("five correct scheduled days establish mastery; early answers do not advance and mistakes reset it", () => {
   const ws = words(1);
   let journal = studied(ws);
-  for (const offset of [0, 1, 3, 7, 14])
+  for (const offset of [0, 1, 4, 11, 25])
     journal = answerNext(
       ws,
       [],
@@ -271,23 +300,33 @@ test("five correct scheduled days establish mastery; early answers do not advanc
   let state = reviewProgress(journal).get("vocabulary:word-0")!;
   assert.equal(state.consecutiveCorrectReviews, 5);
   assert.equal(
-    dailyReview(ws, [], journal, 10, new Date("2026-09-24T12:00:00Z")).mastered,
+    dailyReview(ws, [], journal, 10, new Date("2026-10-05T12:00:00Z")).mastered,
     1,
   );
-  journal = answerNext(
+  assert.equal(
+    dailyReview(ws, [], journal, 10, new Date("2026-10-05T12:00:00Z")).questions
+      .length,
+    0,
+  );
+  let recovery = answerNext(ws, [], studied(ws));
+  recovery = answerNext(
     ws,
     [],
-    journal,
+    recovery,
     10,
-    new Date("2026-09-24T12:00:00Z"),
+    new Date("2026-09-10T12:00:00Z"),
     false,
   );
-  state = reviewProgress(journal).get("vocabulary:word-0")!;
+  state = reviewProgress(recovery).get("vocabulary:word-0")!;
   assert.equal(state.consecutiveCorrectReviews, 0);
   assert.equal(state.mistakes, 1);
   let early = answerNext(ws, [], studied(ws));
   early = answerNext(ws, [], early, 10, new Date("2026-09-10T12:00:00Z"));
-  early = answerNext(ws, [], early, 10, new Date("2026-09-11T12:00:00Z"));
+  assert.equal(
+    dailyReview(ws, [], early, 10, new Date("2026-09-11T12:00:00Z")).questions
+      .length,
+    0,
+  );
   assert.equal(
     reviewProgress(early).get("vocabulary:word-0")!.consecutiveCorrectReviews,
     2,

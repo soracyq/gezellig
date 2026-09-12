@@ -1,4 +1,12 @@
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  continueLearning,
+  randomWord,
+  vocabularyLabel,
+} from "../domain/homeLearning";
+import type { VocabularyItem } from "../domain/models";
 import {
   Action,
   Badge,
@@ -24,8 +32,10 @@ export default function HomeScreen() {
     statistics: data,
     grammar: grammarTopics,
     vocabulary,
+    activity,
     activityError,
   } = useLearning();
+  const continuation = continueLearning(vocabulary, activity);
   return (
     <View>
       <PageHeading
@@ -51,11 +61,25 @@ export default function HomeScreen() {
                 From your first hello to everyday conversations. Your next small
                 step starts here.
               </Body>
-              <Action
-                title="Continue learning"
-                href="/vocabulary?preview=vocab-huis"
-                icon="arrow-right"
-              />
+              {continuation.next && !activityError ? (
+                <Action
+                  title={
+                    continuation.started
+                      ? "Continue learning"
+                      : "Start learning"
+                  }
+                  href={`/vocabulary?level=${continuation.next.level}&preview=${encodeURIComponent(continuation.next.id)}`}
+                  icon="arrow-right"
+                />
+              ) : (
+                <Body>
+                  {activityError
+                    ? "Your learning history is unavailable. Try reloading before continuing."
+                    : continuation.complete
+                      ? "You’ve studied every word in your collection. Review what you know, or import more vocabulary."
+                      : "Import vocabulary to start learning."}
+                </Body>
+              )}
               <Text style={s.heroCaption}>
                 Explore your collection · {vocabulary.length} words
               </Text>
@@ -137,27 +161,7 @@ export default function HomeScreen() {
               />
             </Card>
           </View>
-          <View style={s.wordStrip}>
-            <View style={s.wordLeaf}>
-              <Icon name="feather" color={c.green} size={23} />
-            </View>
-            <View style={{ flex: 1, gap: 5 }}>
-              <Label color={c.green}>A WORD TO TAKE WITH YOU</Label>
-              <Text style={s.wordOfDay}>
-                het huis <Text style={s.wordMeaning}>/ house</Text>
-              </Text>
-              <Body muted style={{ fontSize: 12 }}>
-                Ik woon in een klein huis.{" "}
-                <Text>— I live in a small house.</Text>
-              </Body>
-            </View>
-            <Action
-              title="Explore word"
-              href="/vocabulary?preview=vocab-huis"
-              variant="quiet"
-              icon="arrow-up-right"
-            />
-          </View>
+          <RandomWordCard vocabulary={vocabulary} />
         </View>
         <View
           style={[
@@ -287,6 +291,55 @@ export default function HomeScreen() {
           Sample curriculum is labeled. There is no account or cloud sync.
         </Text>
       </View>
+    </View>
+  );
+}
+function RandomWordCard({ vocabulary }: { vocabulary: VocabularyItem[] }) {
+  const [featured, setFeatured] = useState<VocabularyItem | undefined>();
+  useEffect(() => {
+    let active = true;
+    const key = "@dutchly/home-featured-word/v1";
+    // Cosmetic preference only: never creates learning activity or statistics.
+    void AsyncStorage.getItem(key)
+      .catch(() => null)
+      .then((previous) => {
+        if (!active) return;
+        const word = randomWord(vocabulary, previous ?? undefined);
+        setFeatured(word);
+        if (word)
+          void AsyncStorage.setItem(key, word.id).catch(() => undefined);
+      });
+    return () => {
+      active = false;
+    };
+    // A Home visit selects once; ordinary learning updates must not change its word.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  if (!featured) return null;
+  return (
+    <View style={s.wordStrip}>
+      <View style={s.wordLeaf}>
+        <Icon name="feather" color={c.green} size={23} />
+      </View>
+      <View style={{ flex: 1, gap: 5 }}>
+        <Label color={c.green}>A WORD TO TAKE WITH YOU</Label>
+        <Text style={s.wordOfDay}>
+          {vocabularyLabel(featured)}{" "}
+          <Text style={s.wordMeaning}>/ {featured.english}</Text>
+        </Text>
+        {!!featured.example.dutch && (
+          <Body muted style={{ fontSize: 12 }}>
+            {featured.example.dutch}{" "}
+            {featured.example.english && `— ${featured.example.english}`}
+          </Body>
+        )}
+      </View>
+      <Action
+        title="Explore word"
+        href={`/vocabulary?level=${featured.level}&preview=${encodeURIComponent(featured.id)}`}
+        variant="quiet"
+        icon="arrow-up-right"
+      />
     </View>
   );
 }

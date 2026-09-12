@@ -1,6 +1,6 @@
 # Dutchly · Your personal Dutch learning space
 
-Dutchly 0.4.0 adds learning-status filters, unstudied-first vocabulary and incomplete-first grammar sorting, an optional Google Translate link, and five structured practice questions for every supplied A1/A2 grammar lesson. It extends the existing Expo / React Native app and retains imports, local progress, Daily Review, offline pronunciation and the Electron desktop wrapper. See [the update guide](docs/LEARNING_IMPROVEMENTS_0_4_0.md).
+Dutchly 0.5.0 fixes Home continuation, keeps grammar cards steady during completion, and introduces Refresh → Test with due-only spaced review. Home also features a random imported word on each visit. Learning-status filters, Google Translate, structured A1/A2 grammar practice, imports, local progress and offline pronunciation remain available. See [the continuation and review guide](docs/CONTINUE_REVIEW_0_5_0.md).
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
@@ -104,7 +104,7 @@ That builds the web files and opens Dutchly. After a build exists, `npm.cmd run 
 npm.cmd run build:desktop
 ```
 
-The installer is `release/Dutchly-0.4.0-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and built-in Dutch pronunciation work offline. Google Translate is an optional online link that opens in your system browser.
+The installer is `release/Dutchly-0.5.0-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and built-in Dutch pronunciation work offline. Google Translate is an optional online link that opens in your system browser.
 
 The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
 

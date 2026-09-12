@@ -20,54 +20,89 @@ import {
 export const reviewKey = (type: ContentType, id: string) => `${type}:${id}`;
 const afterDays = (day: string, days: number) =>
   new Date((dayNumber(day) + days) * 86400000).toISOString().slice(0, 10);
+export const REVIEW_SCHEDULE = {
+  firstReviewDays: 1,
+  mistakeDays: 1,
+  correctIntervals: [1, 3, 7, 14],
+  masteryStreak: 5,
+} as const;
+export interface ReviewProgress {
+  firstStudiedAt: string;
+  lastActivityAt: string;
+  dueDay: string;
+  consecutiveCorrectReviews: number;
+  mistakes: number;
+  reviews: number;
+  lastReviewedAt?: string;
+  lastScheduledDay?: string;
+  nextReviewAt: string | null;
+  reviewStatus: "learning" | "mastered";
+}
+/** Stable daily pseudorandom ranks preserve selection across renders, tabs and reopening. */
+function dailyRank(seed: string, key: string) {
+  let value = 2166136261;
+  for (const character of `${seed}:${key}`)
+    value = Math.imul(value ^ character.charCodeAt(0), 16777619);
+  value ^= value >>> 16;
+  value = Math.imul(value, 0x7feb352d);
+  value ^= value >>> 15;
+  return value >>> 0;
+}
 export function reviewProgress(journal: ActivityJournal) {
-  const result = new Map<
-    string,
-    {
-      firstStudiedAt: string;
-      lastActivityAt: string;
-      dueDay: string;
-      consecutiveCorrectReviews: number;
-      mistakes: number;
-      reviews: number;
-      lastScheduledDay?: string;
-    }
-  >();
+  const result = new Map<string, ReviewProgress>();
   for (const e of [...journal.events].sort((a, b) =>
     a.occurredAt.localeCompare(b.occurredAt),
   )) {
     const key = reviewKey(e.contentType, e.itemId);
-    const state = result.get(key) ?? {
+    const isStudy =
+      (e.kind === "word-studied" && e.contentType === "vocabulary") ||
+      (e.kind === "lesson-completed" && e.contentType === "grammar");
+    if (!result.has(key) && !isStudy) continue;
+    const state: ReviewProgress = result.get(key) ?? {
       firstStudiedAt: e.occurredAt,
       lastActivityAt: e.occurredAt,
-      dueDay: e.day,
+      dueDay: afterDays(e.day, REVIEW_SCHEDULE.firstReviewDays),
       consecutiveCorrectReviews: 0,
       mistakes: 0,
       reviews: 0,
+      nextReviewAt: afterDays(e.day, REVIEW_SCHEDULE.firstReviewDays),
+      reviewStatus: "learning",
     };
     state.lastActivityAt = e.occurredAt;
-    if (e.kind === "answer") {
+    if (e.kind === "answer" && e.source === "daily-review") {
+      state.reviews++;
+      state.lastReviewedAt = e.occurredAt;
       if (e.correct === false) {
         state.mistakes++;
         state.consecutiveCorrectReviews = 0;
-        state.dueDay =
-          e.source === "daily-review" ? afterDays(e.day, 1) : e.day;
+        state.dueDay = afterDays(e.day, REVIEW_SCHEDULE.mistakeDays);
+        state.nextReviewAt = state.dueDay;
+        state.reviewStatus = "learning";
       }
-      if (e.source === "daily-review") {
-        state.reviews++;
-        if (e.scheduledReview && state.lastScheduledDay !== e.day) {
-          if (e.correct) {
-            state.consecutiveCorrectReviews = Math.min(
-              5,
-              state.consecutiveCorrectReviews + 1,
-            );
+      // Preserve historical scheduled-review credits. New submissions are
+      // independently checked against their due date inside the storage lock.
+      if (e.scheduledReview && state.lastScheduledDay !== e.day) {
+        if (e.correct) {
+          state.consecutiveCorrectReviews = Math.min(
+            REVIEW_SCHEDULE.masteryStreak,
+            state.consecutiveCorrectReviews + 1,
+          );
+          if (
+            state.consecutiveCorrectReviews >= REVIEW_SCHEDULE.masteryStreak
+          ) {
+            state.reviewStatus = "mastered";
+            state.nextReviewAt = null;
+          } else {
             state.dueDay = afterDays(
               e.day,
-              [1, 2, 4, 7, 14][state.consecutiveCorrectReviews - 1],
+              REVIEW_SCHEDULE.correctIntervals[
+                state.consecutiveCorrectReviews - 1
+              ],
             );
+            state.nextReviewAt = state.dueDay;
           }
-          state.lastScheduledDay = e.day;
         }
+        state.lastScheduledDay = e.day;
       }
     }
     result.set(key, state);
@@ -109,7 +144,10 @@ export function dailyReview(
     ];
   });
   const available = candidates
-    .filter((c) => !done.has(c.key))
+    .filter(
+      (c) =>
+        !done.has(c.key) && c.scheduled && c.state.reviewStatus !== "mastered",
+    )
     .sort((a, b) => {
       // Overdue first; equally due weak items before easy ones, then recent learning.
       if (a.scheduled !== b.scheduled) return a.scheduled ? -1 : 1;
@@ -120,9 +158,8 @@ export function dailyReview(
         weakB = b.state.mistakes > 0 && b.state.consecutiveCorrectReviews < 5;
       if (weakA !== weakB) return weakA ? -1 : 1;
       return (
-        b.state.firstStudiedAt.localeCompare(a.state.firstStudiedAt) ||
-        a.state.lastActivityAt.localeCompare(b.state.lastActivityAt) ||
-        a.key.localeCompare(b.key)
+        dailyRank(`${day}:selection`, a.key) -
+          dailyRank(`${day}:selection`, b.key) || a.key.localeCompare(b.key)
       );
     });
   const remaining = Math.max(
@@ -137,7 +174,23 @@ export function dailyReview(
     remaining,
     target,
     eligible: candidates.length,
-    questions: available.slice(0, remaining),
+    due: available.length,
+    deferred: Math.max(0, available.length - remaining),
+    nextDueDay:
+      candidates
+        .filter(
+          (c) => c.state.reviewStatus !== "mastered" && c.state.dueDay > day,
+        )
+        .map((c) => c.state.dueDay)
+        .sort()[0] ?? null,
+    questions: available
+      .slice(0, remaining)
+      .sort(
+        (a, b) =>
+          dailyRank(`${day}:presentation`, a.key) -
+            dailyRank(`${day}:presentation`, b.key) ||
+          a.key.localeCompare(b.key),
+      ),
     correct,
     incorrect: attempts.length - correct,
     accuracy: attempts.length
