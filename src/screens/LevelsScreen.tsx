@@ -22,6 +22,14 @@ import { useLearning } from "../state/LearningProvider";
 import type { CEFRLevel } from "../domain/models";
 import { colors as c, radius, spacing, typography } from "../theme/tokens";
 
+const levelNames: Record<CEFRLevel, string> = {
+  A1: "Beginner",
+  A2: "Elementary",
+  B1: "Intermediate",
+  B2: "Upper-intermediate",
+  C1: "Advanced",
+};
+
 export default function LevelsScreen() {
   const { vocabulary: vocabularyItems, grammar: grammarTopics } = useLearning();
   const [selectedLevel, setSelectedLevel] = useState<CEFRLevel>("A1");
@@ -48,7 +56,7 @@ export default function LevelsScreen() {
             <Pressable
               key={level}
               accessibilityRole="button"
-              accessibilityLabel={`Explore level ${level}`}
+              accessibilityLabel={`${level} — ${levelNames[level]}`}
               accessibilityState={{ selected }}
               onPress={() => setSelectedLevel(level)}
               style={({ pressed }) => [
@@ -61,10 +69,7 @@ export default function LevelsScreen() {
                 {level}
               </Text>
               <Text style={[s.levelCaption, selected && s.selectedCaption]}>
-                {vocabularyItems.some((item) => item.level === level) ||
-                grammarTopics.some((item) => item.level === level)
-                  ? "Content available"
-                  : "Explore level"}
+                {levelNames[level]}
               </Text>
               <Icon
                 name={selected ? "arrow-down" : "arrow-right"}

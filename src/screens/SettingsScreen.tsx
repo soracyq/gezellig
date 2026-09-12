@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
+import { Link } from "expo-router";
 import { version } from "../../package.json";
 import { useLearning } from "../state/LearningProvider";
 import {
@@ -21,6 +22,8 @@ export default function SettingsScreen() {
   const { vocabulary, grammar, resetProgress, loading, busy } = useLearning();
   const [confirmReset, setConfirmReset] = useState(false);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
+  const [storageHovered, setStorageHovered] = useState(false);
+  const [storageFocused, setStorageFocused] = useState(false);
   async function reset() {
     try {
       await resetProgress();
@@ -37,13 +40,13 @@ export default function SettingsScreen() {
   const { dailyTarget, setDailyTarget, isLoading, isSaving, error } =
     useSettings();
   return (
-    <View>
+    <View style={s.content} testID="settings-content">
       <PageHeading
         eyebrow="MAKE IT YOURS"
         title="Find your own pace."
         subtitle="A learning routine that fits into your everyday life."
       />
-      <View style={{ maxWidth: 820, gap: 24 }}>
+      <View style={{ gap: 24 }}>
         <Card style={{ padding: 28 }}>
           <SectionHeading
             title="Your daily vocabulary target"
@@ -150,7 +153,23 @@ export default function SettingsScreen() {
                 app. Cloud synchronization will come later.
               </Body>
             </View>
-            <Icon name="smartphone" color={c.blue} />
+            <Link href="/import" asChild>
+              <Pressable
+                accessibilityRole="link"
+                accessibilityLabel="Open imported study files"
+                onHoverIn={() => setStorageHovered(true)}
+                onHoverOut={() => setStorageHovered(false)}
+                onFocus={() => setStorageFocused(true)}
+                onBlur={() => setStorageFocused(false)}
+                style={StyleSheet.flatten([
+                  s.storageLink,
+                  storageHovered && { backgroundColor: c.blueSoft },
+                  storageFocused && { borderColor: c.blue },
+                ])}
+              >
+                <Icon name="smartphone" color={c.blue} />
+              </Pressable>
+            </Link>
           </View>
         </Card>
         <View style={s.future}>
@@ -169,7 +188,7 @@ export default function SettingsScreen() {
             <Action
               title="Open imports"
               href="/import"
-              variant="secondary"
+              variant="warm"
               icon="upload"
             />
           </View>
@@ -183,7 +202,7 @@ export default function SettingsScreen() {
           </Body>
           <Action
             title="Reset learning progress"
-            variant="secondary"
+            variant="warm"
             onPress={() => {
               setResetMessage(null);
               setConfirmReset(true);
@@ -206,6 +225,7 @@ export default function SettingsScreen() {
         title="Reset learning progress?"
         eyebrow="CONFIRM RESET"
         footer="This affects progress only and cannot be undone."
+        showDone={false}
       >
         <Body>
           Your saved learning history and all statistics will return to zero.
@@ -231,6 +251,17 @@ export default function SettingsScreen() {
   );
 }
 const s = StyleSheet.create({
+  content: { width: "100%", maxWidth: 820, alignSelf: "center" },
+  storageLink: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: c.transparent,
+    cursor: "pointer",
+  },
   icon: {
     width: 43,
     height: 43,

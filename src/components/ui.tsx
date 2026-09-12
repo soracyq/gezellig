@@ -1,6 +1,6 @@
 import { Feather } from "@expo/vector-icons";
 import { Link, type Href } from "expo-router";
-import type { ComponentProps, ReactNode } from "react";
+import { useState, type ComponentProps, type ReactNode } from "react";
 import {
   Modal,
   Pressable,
@@ -11,7 +11,12 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { colors as c, radius, typography } from "../theme/tokens";
+import {
+  colors as c,
+  learningColors,
+  radius,
+  typography,
+} from "../theme/tokens";
 
 export type IconName = ComponentProps<typeof Feather>["name"];
 export function Icon({
@@ -131,11 +136,18 @@ export function Action({
   target?: "_blank";
   onPress?: () => void;
   icon?: IconName;
-  variant?: "primary" | "secondary" | "quiet";
+  variant?: "primary" | "secondary" | "quiet" | "warm";
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
-  const foreground = variant === "primary" ? c.white : c.navy;
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const foreground =
+    variant === "primary"
+      ? c.white
+      : variant === "warm"
+        ? learningColors.new.text
+        : c.navy;
   const control = (
     <Pressable
       accessibilityRole={href ? "link" : "button"}
@@ -143,6 +155,10 @@ export function Action({
       {...(target ? { hrefAttrs: { target, rel: "noopener noreferrer" } } : {})}
       disabled={disabled}
       onPress={onPress}
+      onHoverIn={() => setHovered(true)}
+      onHoverOut={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
       style={StyleSheet.flatten([
         styles.button,
         variant === "primary"
@@ -153,7 +169,19 @@ export function Action({
                 borderWidth: 1,
                 borderColor: c.line,
               }
-            : { backgroundColor: c.transparent },
+            : variant === "warm"
+              ? {
+                  backgroundColor: c.orangeSoft,
+                  borderWidth: 2,
+                  borderColor:
+                    !disabled && focused
+                      ? c.navy
+                      : !disabled && hovered
+                        ? c.orange
+                        : learningColors.new.border,
+                  cursor: disabled ? "auto" : "pointer",
+                }
+              : { backgroundColor: c.transparent },
         { opacity: disabled ? 0.5 : 1 },
         style,
       ])}
@@ -256,6 +284,7 @@ export function PreviewModal({
   prominentTitle = false,
   eyebrow = "STUDY SPACE",
   footer = "Progress is saved only when you choose a study action or submit an answer.",
+  showDone = true,
   children,
 }: {
   visible: boolean;
@@ -266,6 +295,7 @@ export function PreviewModal({
   prominentTitle?: boolean;
   eyebrow?: string;
   footer?: string;
+  showDone?: boolean;
   children: ReactNode;
 }) {
   return (
@@ -313,7 +343,7 @@ export function PreviewModal({
             <Body muted style={{ fontSize: 12, flex: 1 }}>
               {footer}
             </Body>
-            <Action title="Done" onPress={onClose} />
+            {showDone && <Action title="Done" onPress={onClose} />}
           </View>
         </View>
       </View>
