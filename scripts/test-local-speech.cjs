@@ -9,6 +9,7 @@ const { chromium, _electron: electron } = createRequire(
 )("playwright");
 const desktop = process.argv.includes("--desktop");
 const sourceBuild = process.argv.includes("--source");
+const stalledNative = process.argv.includes("--stalled-native");
 const out = path.join(root, "test-results/local-speech");
 fs.mkdirSync(out, { recursive: true });
 let session;
@@ -85,6 +86,35 @@ const snapshot = (page) =>
   }
   page.setDefaultTimeout(30000);
   await page.context().addInitScript(observeAudio);
+  if (stalledNative)
+    await page.context().addInitScript(() => {
+      const events = new EventTarget();
+      Object.defineProperty(window, "speechSynthesis", {
+        configurable: true,
+        value: {
+          getVoices: () => [
+            {
+              name: "Stalled Dutch device",
+              lang: "nl-NL",
+              localService: true,
+              voiceURI: "stalled",
+            },
+          ],
+          speak: () => {},
+          cancel: () => {},
+          addEventListener: (...args) => events.addEventListener(...args),
+          removeEventListener: (...args) => events.removeEventListener(...args),
+        },
+      });
+      Object.defineProperty(window, "SpeechSynthesisUtterance", {
+        configurable: true,
+        value: class {
+          constructor(text) {
+            this.text = text;
+          }
+        },
+      });
+    });
   const errors = [],
     externalRequests = [],
     speechFiles = [];
@@ -108,7 +138,12 @@ const snapshot = (page) =>
       .map((v) => ({ name: v.name, lang: v.lang, local: v.localService })),
   );
   await page
-    .getByText("Built-in Dutch voice · works offline", { exact: true })
+    .getByText(
+      stalledNative
+        ? "Dutch device voice · works offline"
+        : "Built-in Dutch voice · works offline",
+      { exact: true },
+    )
     .waitFor();
   assert(await listen.isEnabled());
   const before = await snapshot(page);
@@ -158,7 +193,12 @@ const snapshot = (page) =>
     polling: 10,
   });
   await page
-    .getByText("Built-in Dutch voice · works offline", { exact: true })
+    .getByText(
+      stalledNative
+        ? "Dutch device voice · works offline"
+        : "Built-in Dutch voice · works offline",
+      { exact: true },
+    )
     .waitFor();
   assert.deepEqual(await snapshot(page), before);
   if (!desktop)
@@ -169,13 +209,16 @@ const snapshot = (page) =>
     checkedAt: new Date().toISOString(),
     platform: desktop ? "Windows Electron" : "Chrome localhost",
     sourceBuild,
+    stalledNative,
     voices,
     audio,
     speechFiles,
     externalRequests,
     errors,
     checks: [
-      "Real bundled Dutch synthesis and Web Audio playback with no installed Dutch voice",
+      stalledNative
+        ? "Stalled native speech switches to real bundled synthesis and playback"
+        : "Real bundled Dutch synthesis and Web Audio playback with no installed Dutch voice",
       desktop
         ? "Network mode offline with no external requests"
         : "External network requests blocked; only localhost allowed",
@@ -185,7 +228,10 @@ const snapshot = (page) =>
     ],
   };
   fs.writeFileSync(
-    path.join(out, desktop ? "windows-report.json" : "browser-report.json"),
+    path.join(
+      out,
+      `${desktop ? "windows" : "browser"}${stalledNative ? "-stalled-native" : ""}-report.json`,
+    ),
     JSON.stringify(report, null, 2) + "\n",
   );
   console.log(JSON.stringify(report, null, 2));

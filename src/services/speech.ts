@@ -34,6 +34,11 @@ export function createPronunciationService(
 ) {
   let utterance: SpeechSynthesisUtterance | undefined;
   let generation = 0;
+  let startTimeout: ReturnType<typeof setTimeout> | undefined;
+  function clearStartTimeout() {
+    clearTimeout(startTimeout);
+    startTimeout = undefined;
+  }
   const nativeVoice = () => {
     try {
       return chooseDutchVoice(environment()?.synth.getVoices() ?? []);
@@ -47,6 +52,7 @@ export function createPronunciationService(
     getMode() === "unavailable" ? "unavailable" : "available";
   function cancel() {
     generation++;
+    clearStartTimeout();
     try {
       environment()?.synth.cancel();
     } catch {
@@ -76,7 +82,37 @@ export function createPronunciationService(
       const fallback = () => {
         if (request !== generation || usedFallback) return false;
         usedFallback = true;
-        return offline?.available() && offline.speak(text, onError, events);
+        clearStartTimeout();
+        // A voice can be listed but never start. Stop its queued utterance
+        // before starting the bundled voice so it cannot speak over the fallback.
+        if (utterance) {
+          utterance.onstart = null;
+          utterance.onend = null;
+          utterance.onerror = null;
+          utterance = undefined;
+          try {
+            environment()?.synth.cancel();
+          } catch {
+            /* A failing device API does not prevent bundled speech. */
+          }
+        }
+        return (
+          offline?.available() &&
+          offline.speak(
+            text,
+            () => {
+              if (request === generation) onError?.();
+            },
+            {
+              onStart: () => {
+                if (request === generation) events?.onStart?.();
+              },
+              onEnd: () => {
+                if (request === generation) events?.onEnd?.();
+              },
+            },
+          )
+        );
       };
       try {
         const env = environment(),
@@ -86,10 +122,16 @@ export function createPronunciationService(
         utterance.lang = "nl-NL";
         utterance.voice = voice;
         utterance.onstart = () => {
-          if (request === generation) events?.onStart?.();
+          if (request === generation && !usedFallback) {
+            clearStartTimeout();
+            events?.onStart?.();
+          }
         };
         utterance.onend = () => {
-          if (request === generation && !usedFallback) events?.onEnd?.();
+          if (request === generation && !usedFallback) {
+            clearStartTimeout();
+            events?.onEnd?.();
+          }
         };
         utterance.onerror = (event) => {
           if (
@@ -101,6 +143,10 @@ export function createPronunciationService(
             if (!fallback()) onError?.();
           }
         };
+        startTimeout = setTimeout(() => {
+          if (request === generation && !usedFallback && !fallback())
+            onError?.();
+        }, 3000);
         env.synth.speak(utterance);
         return true;
       } catch {

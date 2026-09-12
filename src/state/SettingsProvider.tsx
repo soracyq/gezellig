@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppState, Platform } from "react-native";
 import {
   createContext,
   useCallback,
@@ -11,10 +12,12 @@ import {
 
 import {
   DEFAULT_DAILY_TARGET,
+  SETTINGS_STORAGE_KEY,
   loadSettings,
   saveSettings,
   type DailyTarget,
 } from "../storage/settings";
+import { withStorageLock } from "../storage/lock";
 
 type SettingsContextValue = {
   dailyTarget: DailyTarget;
@@ -23,6 +26,7 @@ type SettingsContextValue = {
   isSaving: boolean;
   error: string | null;
   clearError: () => void;
+  refresh: () => Promise<void>;
 };
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
@@ -37,25 +41,42 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
   const isMounted = useRef(false);
   const saveQueue = useRef<Promise<void>>(Promise.resolve());
   const pendingSaves = useRef(0);
+  const readSequence = useRef(0);
+
+  const refresh = useCallback(async () => {
+    const sequence = ++readSequence.current;
+    // A refresh must not replace an in-flight local choice with an older value.
+    await saveQueue.current;
+    const result = await loadSettings(AsyncStorage);
+    if (!isMounted.current || sequence !== readSequence.current) return;
+    updateDailyTarget(result.settings.dailyTarget);
+    setError(result.error);
+    hasLoaded.current = true;
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
-    let cancelled = false;
     isMounted.current = true;
-
-    void loadSettings(AsyncStorage).then((result) => {
-      if (cancelled) return;
-
-      updateDailyTarget(result.settings.dailyTarget);
-      setError(result.error);
-      hasLoaded.current = true;
-      setIsLoading(false);
+    // Hydration and subsequent external changes both apply awaited storage reads.
+    void refresh();
+    const subscription = AppState.addEventListener("change", (state) => {
+      if (state === "active") void refresh();
     });
-
-    return () => {
-      cancelled = true;
-      isMounted.current = false;
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === SETTINGS_STORAGE_KEY || event.key === null)
+        void refresh();
     };
-  }, []);
+    if (Platform.OS === "web") window.addEventListener("storage", onStorage);
+    return () => {
+      isMounted.current = false;
+      // Invalidate outstanding reads; this ref is a counter, not a DOM node.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      readSequence.current++;
+      subscription.remove();
+      if (Platform.OS === "web")
+        window.removeEventListener("storage", onStorage);
+    };
+  }, [refresh]);
 
   const setDailyTarget = useCallback((target: DailyTarget): Promise<void> => {
     if (!hasLoaded.current || !isMounted.current) {
@@ -65,13 +86,14 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     }
 
     pendingSaves.current += 1;
+    readSequence.current++;
     setIsSaving(true);
 
     const save = saveQueue.current.then(async () => {
       if (isMounted.current) setError(null);
 
       try {
-        await saveSettings(AsyncStorage, target);
+        await withStorageLock(() => saveSettings(AsyncStorage, target));
         if (isMounted.current) updateDailyTarget(target);
       } catch {
         if (isMounted.current) {
@@ -101,6 +123,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         isSaving,
         error,
         clearError,
+        refresh,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { createOfflineSpeech } from "../src/services/offlineSpeech.ts";
 type WorkerRequest = { method: string; args: unknown[]; callback?: string };
 type WorkerMessage =
   "ready" | { callback?: string; result?: unknown[]; done?: boolean };
-function mockEnvironment() {
+function mockEnvironment(resume = () => Promise.resolve()) {
   const workers: FakeWorker[] = [];
   const contexts: FakeAudioContext[] = [];
   const order: string[] = [];
@@ -89,7 +89,7 @@ function mockEnvironment() {
     resume() {
       this.resumes++;
       order.push("resume");
-      return Promise.resolve();
+      return resume();
     }
     createBuffer(channels: number, length: number, rate: number) {
       const pcm = new Float32Array(length);
@@ -314,5 +314,88 @@ test("a missing bundled Dutch voice fails before any text is synthesized", async
   assert.equal(mock.contexts[0].sources.length, 0);
   assert.equal(worker.terminated, true);
   assert.equal(errors, 1);
+  service.cancel();
+});
+
+test("audio resume that stays pending fails after ten seconds even after the voice is ready, and Listen can retry", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  let blocked = true;
+  let lateResume: (() => void) | undefined;
+  const mock = mockEnvironment(() =>
+    blocked
+      ? new Promise<void>((resolve) => {
+          lateResume = resolve;
+        })
+      : Promise.resolve(),
+  );
+  const service = createOfflineSpeech(() => mock.environment);
+  let errors = 0;
+  let starts = 0;
+  service.speak("het huis", () => errors++, { onStart: () => starts++ });
+  const first = mock.workers[0];
+  first.ready();
+  await setImmediate();
+  t.mock.timers.tick(9999);
+  await setImmediate();
+  assert.equal(errors, 0);
+  t.mock.timers.tick(1);
+  await setImmediate();
+  assert.deepEqual([errors, starts], [1, 0]);
+  assert(first.terminated);
+  assert.equal(
+    first.requests.some((request) => request.method === "synthesize"),
+    false,
+  );
+  lateResume?.();
+  await setImmediate();
+  assert.equal(mock.contexts[0].sources.length, 0);
+  blocked = false;
+  service.speak("de jongen", () => errors++, { onStart: () => starts++ });
+  const second = mock.workers[1];
+  second.ready();
+  await setImmediate();
+  second.complete(second.request());
+  await setImmediate();
+  t.mock.timers.tick(30000);
+  await setImmediate();
+  assert.deepEqual([errors, starts], [1, 1]);
+  assert.equal(mock.contexts[0].sources[0].starts, 1);
+  assert.equal(second.terminated, false);
+  service.cancel();
+});
+
+test("cancelling a blocked resume clears its deadline and cannot disturb newer playback", async (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  let attempts = 0;
+  let lateResume: (() => void) | undefined;
+  const mock = mockEnvironment(() =>
+    attempts++ === 0
+      ? new Promise<void>((resolve) => {
+          lateResume = resolve;
+        })
+      : Promise.resolve(),
+  );
+  const service = createOfflineSpeech(() => mock.environment);
+  let errors = 0;
+  let starts = 0;
+  service.speak("huis", () => errors++, { onStart: () => starts++ });
+  const worker = mock.workers[0];
+  worker.ready();
+  await setImmediate();
+  t.mock.timers.tick(1000);
+  service.cancel();
+  service.speak("zijn", () => errors++, { onStart: () => starts++ });
+  await setImmediate();
+  const request = worker.request();
+  assert.deepEqual(request.args, ["zijn"]);
+  worker.complete(request);
+  await setImmediate();
+  lateResume?.();
+  t.mock.timers.tick(30000);
+  await setImmediate();
+  assert.deepEqual([errors, starts], [0, 1]);
+  assert.equal(worker.terminated, false);
+  assert.equal(mock.contexts[0].sources.length, 1);
+  assert.equal(mock.contexts[0].sources[0].stops, 0);
   service.cancel();
 });

@@ -90,7 +90,11 @@ function useLearningState() {
       if (state === "active") void refresh();
     });
     const onStorage = (event: StorageEvent) => {
-      if (event.key === ACTIVITY_KEY || event.key === CURRICULUM_KEY)
+      if (
+        event.key === null ||
+        event.key === ACTIVITY_KEY ||
+        event.key === CURRICULUM_KEY
+      )
         void refresh();
     };
     if (Platform.OS === "web") window.addEventListener("storage", onStorage);

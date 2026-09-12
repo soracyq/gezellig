@@ -54,6 +54,7 @@ function StudyActions() {
 }
 function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
   const { answerReview, busy, refresh } = useLearning();
+  const { refresh: refreshSettings } = useSettings();
   const [chosen, setChosen] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<{
     question: TranslationQuestion;
@@ -191,7 +192,7 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
               <Action
                 title="Refresh review"
                 variant="secondary"
-                onPress={() => void refresh()}
+                onPress={() => void Promise.all([refresh(), refreshSettings()])}
               />
             </View>
           )}

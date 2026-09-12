@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
+import { version } from "../../package.json";
 import { useLearning } from "../state/LearningProvider";
 import {
   Badge,
@@ -194,7 +195,7 @@ export default function SettingsScreen() {
           )}
         </Card>
         <Body muted style={{ fontSize: 12 }}>
-          Dutchly 0.2 · Personal learning · No account needed.
+          Dutchly {version} · Personal learning · No account needed.
         </Body>
       </View>
       <PreviewModal

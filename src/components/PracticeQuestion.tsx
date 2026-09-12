@@ -15,17 +15,19 @@ export function PracticeQuestion({
 }) {
   const { answerQuestion, busy, loading, activityError } = useLearning();
   const [answer, setAnswer] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [submittedAnswer, setSubmittedAnswer] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [attemptId] = useState(() => randomUUID());
   const submitting = useRef(false);
+  const submitted = submittedAnswer !== null;
+  const optionsDisabled = submitted || busy || loading || !!activityError;
   async function submit() {
     if (!answer || submitted || submitting.current) return;
     submitting.current = true;
     setError(null);
     try {
       await answerQuestion(question, answer, contentType, attemptId);
-      setSubmitted(true);
+      setSubmittedAnswer(answer);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not save the answer.");
     } finally {
@@ -42,12 +44,15 @@ export function PracticeQuestion({
         <Pressable
           key={option}
           accessibilityRole="radio"
+          aria-checked={(submittedAnswer ?? answer) === option}
           accessibilityState={{
-            checked: answer === option,
-            disabled: submitted,
+            checked: (submittedAnswer ?? answer) === option,
+            disabled: optionsDisabled,
           }}
-          disabled={submitted}
-          onPress={() => setAnswer(option)}
+          disabled={optionsDisabled}
+          onPress={() => {
+            if (!submitting.current) setAnswer(option);
+          }}
           style={{
             padding: 16,
             minHeight: 48,
@@ -65,15 +70,17 @@ export function PracticeQuestion({
         <Card
           style={{
             backgroundColor:
-              answer === question.correctAnswer
+              submittedAnswer === question.correctAnswer
                 ? colors.greenSoft
                 : colors.orangeSoft,
             gap: 8,
           }}
         >
           <Body style={{ fontWeight: "600" }}>
-            {answer === question.correctAnswer ? "Correct." : "Not quite."} The
-            answer is {question.correctAnswer}.
+            {submittedAnswer === question.correctAnswer
+              ? "Correct."
+              : "Not quite."}{" "}
+            The answer is {question.correctAnswer}.
           </Body>
           <Body>{question.explanation}</Body>
         </Card>

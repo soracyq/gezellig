@@ -234,3 +234,94 @@ test("a native speech error falls back once, while cancellation and stale errors
   assert.equal(fallback.spoken.length, 1);
   assert.equal(errors, 0);
 });
+
+test("an advertised Dutch voice that stays silent falls back after three seconds without overlapping late native events", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const mock = mockSpeech();
+  const fallback = mockOffline();
+  const service = createPronunciationService(() => mock.env, fallback.service);
+  mock.setVoices([voice("nl-NL", "Silent Dutch voice")]);
+  let starts = 0;
+  let ends = 0;
+  let errors = 0;
+  assert(
+    service.speakDutch("het huis", () => errors++, {
+      onStart: () => starts++,
+      onEnd: () => ends++,
+    }),
+  );
+  const native = mock.spoken[0];
+  const lateStart = native.onstart;
+  const lateEnd = native.onend;
+  const lateError = native.onerror;
+  t.mock.timers.tick(2999);
+  assert.equal(fallback.spoken.length, 0);
+  t.mock.timers.tick(1);
+  assert.equal(fallback.spoken.length, 1);
+  assert.equal(fallback.spoken[0].text, "het huis");
+  assert.equal(mock.cancels(), 2);
+  assert.equal(native.onstart, null);
+  lateStart?.call(native, {} as SpeechSynthesisEvent);
+  lateEnd?.call(native, {} as SpeechSynthesisEvent);
+  lateError?.call(native, {
+    error: "synthesis-failed",
+  } as SpeechSynthesisErrorEvent);
+  assert.deepEqual([starts, ends, errors], [0, 0, 0]);
+  fallback.spoken[0].events?.onStart?.();
+  fallback.spoken[0].events?.onEnd?.();
+  assert.deepEqual([starts, ends, errors], [1, 1, 0]);
+  service.cancel();
+  fallback.spoken[0].events?.onStart?.();
+  fallback.spoken[0].onError?.();
+  t.mock.timers.tick(30000);
+  assert.deepEqual([starts, ends, errors], [1, 1, 0]);
+  assert.equal(fallback.spoken.length, 1);
+});
+
+test("native start, completion, cancellation and replacement clear their pending fallback deadlines", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const mock = mockSpeech();
+  const fallback = mockOffline();
+  const service = createPronunciationService(() => mock.env, fallback.service);
+  mock.setVoices([voice("nl-NL", "Dutch")]);
+  service.speakDutch("het huis");
+  mock.spoken[0].onstart?.({} as SpeechSynthesisEvent);
+  t.mock.timers.tick(30000);
+  assert.equal(fallback.spoken.length, 0);
+  service.speakDutch("de jongen");
+  mock.spoken[1].onend?.({} as SpeechSynthesisEvent);
+  t.mock.timers.tick(30000);
+  assert.equal(fallback.spoken.length, 0);
+  service.speakDutch("zijn");
+  service.cancel();
+  t.mock.timers.tick(30000);
+  assert.equal(fallback.spoken.length, 0);
+  service.speakDutch("oud");
+  t.mock.timers.tick(2000);
+  service.speakDutch("nieuw");
+  t.mock.timers.tick(1000);
+  assert.equal(fallback.spoken.length, 0);
+  t.mock.timers.tick(2000);
+  assert.deepEqual(
+    fallback.spoken.map((item) => item.text),
+    ["nieuw"],
+  );
+  service.cancel();
+});
+
+test("silent native speech without a bundled voice reports a bounded error and can be retried", (t) => {
+  t.mock.timers.enable({ apis: ["setTimeout"] });
+  const mock = mockSpeech();
+  const service = createPronunciationService(() => mock.env);
+  mock.setVoices([voice("nl-NL", "Dutch")]);
+  let errors = 0;
+  assert(service.speakDutch("huis", () => errors++));
+  t.mock.timers.tick(3000);
+  assert.equal(errors, 1);
+  assert(service.speakDutch("huis", () => errors++));
+  mock.spoken[1].onstart?.({} as SpeechSynthesisEvent);
+  mock.spoken[1].onend?.({} as SpeechSynthesisEvent);
+  t.mock.timers.tick(30000);
+  assert.equal(errors, 1);
+  service.cancel();
+});

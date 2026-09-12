@@ -1,5 +1,7 @@
 # Dutchly 0.3.1 — local pronunciation
 
+Version 0.3.2 adds recovery when device speech never starts or audio resume remains blocked. Use `release/Dutchly-0.3.2-Setup.exe` for the current update. See [the 0.3.2 bug-fix report](BUGFIXES_0_3_2.md); the implementation and original 0.3.1 checks below remain background for the bundled voice.
+
 The disabled Listen button in 0.3.0 depended on the browser exposing an installed Dutch speech voice. The checked Windows computer has Chinese and English voices but no Dutch voice. An early desktop probe returned an empty voice list; later checks returned those non-Dutch voices. The old tests simulated Dutch voices and did not catch the missing real voice.
 
 ## Fix

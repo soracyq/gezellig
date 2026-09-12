@@ -20,8 +20,10 @@ export function createOfflineSpeech(
     | undefined;
   let initReject: ((error: Error) => void) | undefined;
   let timeout: ReturnType<typeof setTimeout> | undefined;
+  let resumeWait: { finish: (error?: Error) => void } | undefined;
   function reset(error: Error) {
     clearTimeout(timeout);
+    resumeWait?.finish(error);
     initReject?.(error);
     initReject = undefined;
     pending?.reject(error);
@@ -29,6 +31,33 @@ export function createOfflineSpeech(
     worker?.terminate();
     worker = undefined;
     ready = undefined;
+  }
+  function resumeAudio(audioContext: AudioContext) {
+    // Browsers may leave resume() pending when audio is blocked. Its deadline
+    // must be independent of the worker deadline, which ends when voices load.
+    const resumed = audioContext.resume();
+    return new Promise<void>((resolve, reject) => {
+      let settled = false;
+      const wait = {
+        finish(error?: Error) {
+          if (settled) return;
+          settled = true;
+          clearTimeout(resumeTimeout);
+          if (resumeWait === wait) resumeWait = undefined;
+          if (error) reject(error);
+          else resolve();
+        },
+      };
+      const resumeTimeout = setTimeout(
+        () => wait.finish(new Error("Audio output did not become available")),
+        10000,
+      );
+      resumeWait = wait;
+      void resumed.then(
+        () => wait.finish(),
+        () => wait.finish(new Error("Audio output could not be resumed")),
+      );
+    });
   }
   function initialize(env: Environment) {
     if (ready) return ready;
@@ -83,6 +112,7 @@ export function createOfflineSpeech(
   }
   function cancel() {
     generation++;
+    resumeWait?.finish();
     if (source) {
       source.onended = null;
       try {
@@ -109,7 +139,7 @@ export function createOfflineSpeech(
       try {
         context ??= new env.AudioContext();
         // Resume during the click gesture, before awaiting voice files.
-        const resumed = context.resume();
+        const resumed = resumeAudio(context);
         void (async () => {
           try {
             await Promise.all([initialize(env), resumed]);

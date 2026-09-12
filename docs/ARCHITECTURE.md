@@ -1,4 +1,4 @@
-# Dutchly 0.2 architecture
+# Dutchly architecture
 
 The existing Expo 57, React Native and TypeScript project remains the application. Expo Router connects eight screens: Home, Levels, Vocabulary, Grammar, Review, Statistics, Import and Settings. React Native Web provides the browser UI; Electron loads the exact production web export for desktop.
 
@@ -17,6 +17,8 @@ Desktop → secure local protocol → the same dist files and browser UI
 `src/state/LearningProvider.tsx` shares content and real progress between screens. It reads storage before showing the learning space. Asynchronous reads never write defaults over damaged data. Each mutation rereads the latest stored value, runs a pure operation and writes the validated result before updating the UI. A promise queue serializes changes within a provider; `navigator.locks` serializes browser/Electron writes across tabs/windows. Native storage uses the in-process queue. Storage events refresh other browser tabs. Errors are visible and damaged curriculum/history blocks writes to that data.
 
 The initial static HTML and first browser render share a loading frame. The responsive shell appears after hydration, avoiding a server/client mismatch between unknown server dimensions and the real viewport. Saved private content is loaded on the device, not embedded in static HTML.
+
+Settings refresh on browser storage events and app activation. Reads wait for queued local saves and use a sequence counter to avoid replacing newer choices with stale results. Settings saves use the same storage lock as learning writes. Review's refresh action reloads settings as well as history. Practice disables answer choices while saving and renders feedback from the submitted answer, so a slow write cannot make the display disagree with stored correctness.
 
 ## Independent storage keys
 
@@ -43,6 +45,8 @@ Daily Review uses `domain/review.ts` and `domain/translation.ts`. Eligibility co
 Grammar examples may optionally hold explicitly authored `acceptedAnswers`; storage preserves them. No import column was added: current CSV/XLSX grammar examples use the canonical answer only. No conjugations, English plurals or dialogues are inferred from unreliable metadata. See `docs/REVIEW_IMPROVEMENTS.md` for generation and grading boundaries.
 
 Pronunciation is isolated behind `services/pronunciation.web.ts` and a native fallback. The Web Speech service loads local Dutch voices through `getVoices` and `voiceschanged`. If no local Dutch voice exists or the device speech API fails, `offlineSpeech.ts` loads the bundled eSpeak NG worker and voice data from `public/speech`. It selects `nl`, synthesizes in the worker and plays PCM using Web Audio. It resumes audio during the user gesture, limits input to 500 characters, ignores canceled requests, retries failed initialization and stops playback on modal close. No speech service has access to the learning provider or storage. There is no runtime remote dependency, new IPC bridge, or relaxed Content Security Policy; vendor provenance, source and the small CSP compatibility patch accompany the assets.
+
+A native voice that does not start within three seconds is canceled before using bundled speech. Audio-context resume has its own ten-second deadline; a ready voice worker cannot accidentally remove that deadline. Cancellation clears the deadlines, and stale callbacks cannot affect a newer request.
 
 ## Web and desktop
 

@@ -1,6 +1,6 @@
 # Dutchly · Your personal Dutch learning space
 
-Dutchly 0.3.1 extends the existing Expo / React Native app with studied-only Daily Review, typed vocabulary and grammar translation, offline Dutch pronunciation and focused visual improvements. It retains vocabulary/grammar imports, local progress, the browser build and Electron desktop wrapper.
+Dutchly 0.3.2 extends the existing Expo / React Native app with studied-only Daily Review, typed vocabulary and grammar translation, offline Dutch pronunciation and focused visual improvements. It retains vocabulary/grammar imports, local progress, the browser build and Electron desktop wrapper. The latest update fixes stalled speech, daily-target synchronization and practice-answer feedback; see [the bug-fix report](docs/BUGFIXES_0_3_2.md).
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
@@ -104,7 +104,7 @@ That builds the web files and opens Dutchly. After a build exists, `npm.cmd run 
 npm.cmd run build:desktop
 ```
 
-The installer is `release/Dutchly-0.3.1-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and Dutch pronunciation work offline.
+The installer is `release/Dutchly-0.3.2-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and Dutch pronunciation work offline.
 
 The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
 
