@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "appId": "com.dutchly.learning",
-  "productName": "Dutchly",
+  "productName": "Gezellig",
   "electronDist": "../node_modules/electron/dist",
   "directories": {
     "output": "../release",
@@ -20,9 +20,9 @@
   "publish": null,
   "win": {
     "target": [{ "target": "nsis", "arch": ["x64"] }],
-    "icon": "../assets/dutchly.ico",
+    "icon": "../assets/gezellig.ico",
     "artifactName": "${productName}-${version}-Setup.${ext}",
-    "signAndEditExecutable": false
+    "signExecutable": false
   },
   "nsis": {
     "oneClick": false,

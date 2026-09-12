@@ -6,7 +6,7 @@ const path = require("node:path");
 const root = path.resolve(__dirname, "..");
 if (!fs.existsSync(path.join(root, "dist", "index.html"))) {
   console.error(
-    "No production web build found. Run npm run desktop to build and open Dutchly.",
+    "No production web build found. Run npm run desktop to build and open Gezellig.",
   );
   process.exit(1);
 }
@@ -27,7 +27,7 @@ const child = spawn(
   { cwd: root, stdio: "inherit", windowsHide: true, env },
 );
 child.on("error", (error) => {
-  console.error("Dutchly could not start:", error.message);
+  console.error("Gezellig could not start:", error.message);
   process.exitCode = 1;
 });
 child.on("exit", (code) => {

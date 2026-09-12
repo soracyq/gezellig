@@ -12,9 +12,12 @@ export default function Root({ children }: PropsWithChildren) {
         <meta name="theme-color" content={colors.background} />
         <meta
           name="description"
-          content="A little Dutch, every day. Explore your personal learning space with Dutchly."
+          content="A little Dutch, every day. Explore your personal learning space with Gezellig."
         />
-        <title>Dutchly · Your learning space</title>
+        <title>Gezellig · Your learning space</title>
+        <link rel="icon" href="/brand/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/brand/icon-192.png" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <ScrollViewStyleReset />
         <style
           dangerouslySetInnerHTML={{

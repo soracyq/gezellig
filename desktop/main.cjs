@@ -19,7 +19,9 @@ const {
 } = require("./static-files.cjs");
 
 const APP_URL = "dutchly://app/";
-app.setName("Dutchly");
+app.setName("Gezellig");
+app.setAppUserModelId("com.dutchly.learning");
+// Keep the original origin and profile for existing saved learning data.
 // A stable profile persists across reopening and new application builds.
 // Chromium's explicit user-data-dir switch supports isolated local testing.
 const profile = app.commandLine.getSwitchValue("user-data-dir");
@@ -73,7 +75,7 @@ async function saveTemplate(pathname) {
       throw new Error("This template is missing from the application build.");
     const filename = path.posix.basename(pathname);
     const result = await dialog.showSaveDialog(mainWindow, {
-      title: "Save Dutchly template or example",
+      title: "Save Gezellig template or example",
       defaultPath: path.join(app.getPath("downloads"), filename),
       filters: [
         {
@@ -98,7 +100,8 @@ async function saveTemplate(pathname) {
 
 async function createWindow() {
   mainWindow = new BrowserWindow({
-    title: "Dutchly",
+    title: "Gezellig · Your learning space",
+    icon: path.join(getExportRoot(), "brand", "icon-512.png"),
     width: 1360,
     height: 920,
     minWidth: 360,
@@ -173,7 +176,7 @@ if (!app.requestSingleInstanceLock()) {
       const exportRoot = getExportRoot();
       if (!(await resolveStaticFile(exportRoot, "/"))) {
         dialog.showErrorBox(
-          "Dutchly needs a web build",
+          "Gezellig needs a web build",
           "Run npm run export:web in the project folder, then npm run desktop:open.",
         );
         app.quit();
@@ -230,7 +233,7 @@ if (!app.requestSingleInstanceLock()) {
         // Electron supplies the ordinary Save As dialog. No automatic overwrite,
         // arbitrary renderer filesystem API, or broad IPC bridge is needed.
         item.setSaveDialogOptions({
-          title: "Save Dutchly template or example",
+          title: "Save Gezellig template or example",
           defaultPath: path.join(app.getPath("downloads"), filename),
           filters: [
             {
@@ -259,7 +262,7 @@ if (!app.requestSingleInstanceLock()) {
           ...(process.platform === "darwin"
             ? [
                 {
-                  label: "Dutchly",
+                  label: "Gezellig",
                   submenu: [
                     { role: "about" },
                     { type: "separator" },
@@ -307,8 +310,8 @@ if (!app.requestSingleInstanceLock()) {
       });
     })
     .catch((error) => {
-      console.error("Dutchly could not start:", error);
-      dialog.showErrorBox("Dutchly could not start", error.message);
+      console.error("Gezellig could not start:", error);
+      dialog.showErrorBox("Gezellig could not start", error.message);
       app.quit();
     });
 }

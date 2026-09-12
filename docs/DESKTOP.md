@@ -1,6 +1,6 @@
-# Dutchly on your computer
+# Gezellig on your computer
 
-Dutchly's Electron wrapper displays the same production web app as the browser version. It includes the web assets, import parser, and templates, so normal use works offline. A development server and Codex are not required for an installed build.
+Gezellig's Electron wrapper displays the same production web app as the browser version. It includes the web assets, import parser, and templates, so normal use works offline. A development server and Codex are not required for an installed build.
 
 Electron was chosen because the existing Expo export runs in its bundled Chromium browser and the project already uses Node.js. Tauri would produce a smaller application but adds Rust and operating-system webview/toolchain differences. Electron therefore keeps this first wrapper small in implementation, although the installer is larger. See the [Electron security guide](https://www.electronjs.org/docs/latest/tutorial/security/), [custom protocol documentation](https://www.electronjs.org/docs/latest/api/protocol), and [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/).
 
@@ -37,7 +37,7 @@ From the same project folder:
 npm.cmd run build:desktop
 ```
 
-On Windows this produces `release\Dutchly-0.3.2-Setup.exe` and an unpacked application at `release\win-unpacked\Dutchly.exe`. Close the old app, run the setup file, choose an installation location, and then open **Dutchly** from the Start menu or desktop shortcut. Updates retain the same `%APPDATA%\Dutchly` profile. The installed app can be reopened without a terminal, Node.js, or Codex. `npm.cmd run build:desktop:dir` produces only the unpacked application for local checks. A bundled Dutch pronunciation fallback makes **Listen** work offline without installing a Dutch Windows voice; see [pronunciation troubleshooting](LOCAL_PRONUNCIATION.md).
+On Windows this produces `release\Gezellig-0.6.0-Setup.exe` and an unpacked application at `release\win-unpacked\Gezellig.exe`. Close the old app, run the setup file, choose an installation location, and then open **Gezellig** from the Start menu or desktop shortcut. Updates retain the same `%APPDATA%\Dutchly` profile. The installed app can be reopened without a terminal, Node.js, or Codex. `npm.cmd run build:desktop:dir` produces only the unpacked application for local checks. A bundled Dutch pronunciation fallback makes **Listen** work offline without installing a Dutch Windows voice; see [pronunciation troubleshooting](LOCAL_PRONUNCIATION.md).
 
 The build is currently unsigned. Windows may display an unknown-publisher/SmartScreen prompt. Signing and a trusted release channel are future distribution tasks. Installing an unverified download is not necessary for development; the source-run command is available above. The Windows configuration targets x64. Windows ARM64 and other targets need their own build and testing.
 
@@ -57,7 +57,7 @@ The supplied macOS configuration targets DMG and ZIP output for the current Mac'
 
 Use **Import** to pick a local CSV or XLSX file. Chromium supplies the native file picker; only a file you choose is read. Template/example downloads open a normal **Save As** dialog, initially pointing to your Downloads folder. Choose the destination and save the file. The importer and all eight downloadable files are packaged inside the application.
 
-Desktop data is local to the application's profile: `%APPDATA%\Dutchly` on Windows and `~/Library/Application Support/Dutchly` on macOS. Reopening and rebuilding preserve the profile. The installer does not request deletion of it during uninstall. Do not manually delete this folder unless you intend to remove your local data.
+Desktop data is local to the application's profile: `%APPDATA%\Dutchly` on Windows and `~/Library/Application Support/Dutchly` on macOS. These internal folder names are retained after the Gezellig rename to preserve existing data. Reopening and rebuilding preserve the profile. The installer does not request deletion of it during uninstall. Do not manually delete this folder unless you intend to remove your local data.
 
 Browser and desktop data are separate. Browser data also belongs to a specific origin: switching between `localhost` and `127.0.0.1`, using a different port, or opening a hosted site produces a different local store. There is no account synchronization or backup/export feature yet. Import the same source files separately if you want the same curriculum in each environment.
 

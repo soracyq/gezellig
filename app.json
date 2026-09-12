@@ -1,26 +1,19 @@
 {
   "expo": {
-    "name": "Dutchly",
-    "slug": "dutchly",
-    "version": "0.5.2",
+    "name": "Gezellig",
+    "slug": "gezellig",
+    "version": "0.6.0",
     "scheme": "dutchly",
     "orientation": "default",
     "userInterfaceStyle": "light",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "web": {
       "bundler": "metro",
       "output": "static",
-      "name": "Dutchly — Learn Dutch",
+      "name": "Gezellig — Learn Dutch",
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },

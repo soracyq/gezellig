@@ -1,6 +1,6 @@
-# Dutchly · Your personal Dutch learning space
+# Gezellig · Your personal Dutch learning space
 
-Dutchly 0.5.2 centers Settings, adds an accessible import shortcut to the device icon, uses warm Settings buttons, simplifies reset confirmation, and labels Levels with CEFR difficulty names. See [the Settings and Levels update](docs/SETTINGS_LEVELS_0_5_2.md). The [grammar sorting fix](docs/GRAMMAR_SCROLL_0_5_1.md), [Home continuation and spaced review](docs/CONTINUE_REVIEW_0_5_0.md), imports and offline pronunciation remain available.
+Gezellig 0.6.0 is the new name for Dutchly, with a warm tulip logo and matching web and desktop icons. This branding update preserves existing learning data and functionality. See [the branding guide](docs/BRANDING_0_6_0.md). The [Settings and Levels improvements](docs/SETTINGS_LEVELS_0_5_2.md), [grammar sorting fix](docs/GRAMMAR_SCROLL_0_5_1.md), [Home continuation and spaced review](docs/CONTINUE_REVIEW_0_5_0.md), imports and offline pronunciation remain available.
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
@@ -98,13 +98,13 @@ Electron reuses the production website in its own window and saves data in a sta
 npm.cmd run desktop
 ```
 
-That builds the web files and opens Dutchly. After a build exists, `npm.cmd run desktop:open` reopens it without rebuilding. To create the Windows installer:
+That builds the web files and opens Gezellig. After a build exists, `npm.cmd run desktop:open` reopens it without rebuilding. To create the Windows installer:
 
 ```powershell
 npm.cmd run build:desktop
 ```
 
-The installer is `release/Dutchly-0.5.2-Setup.exe`; the unpacked app is `release/win-unpacked/Dutchly.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and built-in Dutch pronunciation work offline. Google Translate is an optional online link that opens in your system browser.
+The installer is `release/Gezellig-0.6.0-Setup.exe`; the unpacked app is `release/win-unpacked/Gezellig.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and built-in Dutch pronunciation work offline. Google Translate is an optional online link that opens in your system browser.
 
 The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
 

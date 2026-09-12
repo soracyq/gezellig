@@ -1,6 +1,6 @@
 # Import vocabulary and grammar
 
-Open **Imports** in Dutchly. Both vocabulary and grammar accept comma-separated UTF-8 CSV files and Excel `.xlsx` workbooks. Download the matching template or example directly from that screen. The same files are stored in [public/templates](../public/templates).
+Open **Imports** in Gezellig. Both vocabulary and grammar accept comma-separated UTF-8 CSV files and Excel `.xlsx` workbooks. Download the matching template or example directly from that screen. The same files are stored in [public/templates](../public/templates).
 
 ## Try an example
 
@@ -106,7 +106,7 @@ Progress reset clears learning activity only. It preserves imported datasets, bu
 
 ## Regenerate the downloads (maintainers)
 
-The eight checked-in downloads are ready to use. Running or building Dutchly does not require the spreadsheet authoring runtime.
+The eight checked-in downloads are ready to use. Running or building Gezellig does not require the spreadsheet authoring runtime.
 
 If the import schema changes, the optional `scripts/create-templates.mjs` command regenerates the files from `src/imports/schema.ts`. It needs Node 24 or newer and the bundled `@oai/artifact-tool` and `jszip` dependencies supplied by Codex. Use the workspace dependency loader to locate those dependencies. Set `DUTCHLY_ARTIFACT_NODE_MODULES` to that bundle's `node_modules` directory, or create a `.artifact-build/node_modules` junction to it. Keep that runtime separate from the application's `node_modules`.
 

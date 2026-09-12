@@ -1,6 +1,7 @@
 import { Link, usePathname, type Href } from "expo-router";
 import { useState, type ReactNode } from "react";
 import {
+  Image,
   Modal,
   Pressable,
   ScrollView,
@@ -27,12 +28,8 @@ export const navigation: { label: string; href: Href; icon: IconName }[] = [
 function Brand() {
   return (
     <View style={s.brand}>
-      <View style={s.brandMark}>
-        <Icon name="wind" color={c.white} size={23} />
-      </View>
-      <Text style={s.brandName}>
-        dutchly<Text style={{ color: c.orange }}>.</Text>
-      </Text>
+      <Image source={require("../../assets/icon.png")} style={s.brandMark} />
+      <Text style={s.brandName}>Gezellig</Text>
     </View>
   );
 }
@@ -203,7 +200,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                   A little practice goes a long way.
                 </Text>
               </View>
-              <Text style={s.footerText}>Dutchly · Personal learning</Text>
+              <Text style={s.footerText}>Gezellig · Personal learning</Text>
             </View>
           </View>
         </ScrollView>
@@ -284,15 +281,11 @@ const s = StyleSheet.create({
   brandMark: {
     width: 35,
     height: 35,
-    backgroundColor: c.orange,
-    borderRadius: 11,
-    alignItems: "center",
-    justifyContent: "center",
   },
   brandName: {
     fontSize: 27,
     fontWeight: "700",
-    letterSpacing: -1.2,
+    letterSpacing: -0.8,
     color: c.navy,
     fontFamily: typography.family,
   },

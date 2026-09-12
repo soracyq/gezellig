@@ -37,7 +37,7 @@ const server = http.createServer(async (request, response) => {
         ...securityHeaders,
         "Content-Type": "text/plain; charset=utf-8",
       });
-      response.end("Page not found. Open / to return to Dutchly.");
+      response.end("Page not found. Open / to return to Gezellig.");
       return;
     }
     response.writeHead(200, {
@@ -65,7 +65,7 @@ server.on("error", (error) => {
   process.exitCode = 1;
 });
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Dutchly production preview: http://127.0.0.1:${port}`);
+  console.log(`Gezellig production preview: http://127.0.0.1:${port}`);
   console.log("Keep this terminal open. Press Ctrl+C to stop.");
   console.log(
     "Use this same address and port again to keep the same browser data.",

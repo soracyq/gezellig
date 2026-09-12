@@ -71,7 +71,7 @@ async function inspectWord(page, level, label, expected) {
     let page;
     if (desktop) {
       session = await electron.launch({
-        executablePath: path.join(root, "release/win-unpacked/Dutchly.exe"),
+        executablePath: path.join(root, "release/win-unpacked/Gezellig.exe"),
         args: ["--hidden", `--user-data-dir=${profile}`],
         timeout: 45000,
       });

@@ -29,7 +29,7 @@ fs.mkdirSync(out, { recursive: true });
   try {
     if (desktop) {
       app = await _electron.launch({
-        executablePath: path.join(root, "release/win-unpacked/Dutchly.exe"),
+        executablePath: path.join(root, "release/win-unpacked/Gezellig.exe"),
         args: [
           "--hidden",
           "--disable-background-timer-throttling",

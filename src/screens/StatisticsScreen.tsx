@@ -302,7 +302,7 @@ export default function StatisticsScreen() {
           <Text style={s.noteTitle}>Your learning is more than a number.</Text>
           <Body muted style={s.small}>
             A future estimated level will consider vocabulary mastery, grammar,
-            tests, and review performance. Dutchly does not yet assess or
+            tests, and review performance. Gezellig does not yet assess or
             certify your CEFR level.
           </Body>
         </View>

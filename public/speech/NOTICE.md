@@ -1,6 +1,6 @@
 # Bundled offline Dutch speech
 
-Dutchly includes eSpeak NG's JavaScript port as an optional local pronunciation
+Gezellig includes eSpeak NG's JavaScript port as an optional local pronunciation
 engine. The worker and voice data are application assets. They require no cloud
 API, account, runtime CDN request, or operating-system Dutch voice. Speech is
 synthetic; this is not a recording of a native speaker.
@@ -29,7 +29,7 @@ synthetic; this is not a recording of a native speaker.
 
 The distributed worker is unchanged except for its first initialization
 expression. When `Module` is undefined, the upstream generated code evaluates
-a constant function expression that returns `{}`. Dutchly directly assigns
+a constant function expression that returns `{}`. Gezellig directly assigns
 `{}` in that branch instead. The replacement avoids startup `eval` so the
 worker runs under the app's existing Content Security Policy. No speech,
 language, or pronunciation rules changed, and no broader script permissions
@@ -48,7 +48,7 @@ browser must load them through the local web server; opening an HTML file
 directly with `file://` is not a supported browser deployment. The Windows
 application serves them through its local `dutchly://app` protocol.
 
-## Worker message API used by Dutchly
+## Worker message API used by Gezellig
 
 1. Create a worker from `espeakng.worker.js`; wait for the literal message
    `"ready"`.

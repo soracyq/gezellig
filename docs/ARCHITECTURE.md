@@ -1,4 +1,4 @@
-# Dutchly architecture
+# Gezellig architecture
 
 The existing Expo 57, React Native and TypeScript project remains the application. Expo Router connects eight screens: Home, Levels, Vocabulary, Grammar, Review, Statistics, Import and Settings. React Native Web provides the browser UI; Electron loads the exact production web export for desktop.
 

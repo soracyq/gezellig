@@ -13,7 +13,7 @@ Choose **one format per level**. CSV and Excel contain the same lesson data. The
 
 ## How to import
 
-1. Open your existing Dutchly app on Windows or in your browser.
+1. Open your existing Gezellig app on Windows or in your browser.
 2. Select **Grammar**, then **Import grammar**. You can also select **Import** and choose **Grammar**.
 3. Click **Choose CSV or Excel file** and open `dutch_grammar_A1.xlsx` from the folder above. CSV works too.
 4. Review the preview. On a fresh profile, it offers **32** new lessons. Click **Confirm import (32)**.
@@ -63,7 +63,7 @@ The schema supports reading lessons but has no exercise columns. The **Practice*
 - `scripts/validate-grammar-files.mjs`: reopens the final files and validates them through the real importer.
 - `scripts/test-grammar-imports.cjs`: tests browser imports; add `--desktop` to test the existing packaged Windows executable.
 
-From the project folder, run `node scripts/validate-grammar-files.mjs` to validate the saved files. To run browser tests, start the existing production preview with `node scripts/preview-web.cjs`, then run `node scripts/test-grammar-imports.cjs` in another terminal. Desktop tests use `release/win-unpacked/Dutchly.exe` with an isolated profile and hidden window. They check DOM content but skip screenshots because capturing a hidden Electron window can stall.
+From the project folder, run `node scripts/validate-grammar-files.mjs` to validate the saved files. To run browser tests, start the existing production preview with `node scripts/preview-web.cjs`, then run `node scripts/test-grammar-imports.cjs` in another terminal. Desktop tests use `release/win-unpacked/Gezellig.exe` with an isolated profile and hidden window. They check DOM content but skip screenshots because capturing a hidden Electron window can stall.
 
 Authoring and browser testing use the configured bundled dependencies via `.artifact-build/node_modules` or `DUTCHLY_ARTIFACT_NODE_MODULES`. They add no runtime app dependencies. Change the source files before regenerating; do not independently edit only one export format. Keep IDs stable because the importer uses them for duplicate detection.
 

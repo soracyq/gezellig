@@ -15,7 +15,7 @@ All four files are in `D:\Codex\Project\Dutch Learning APP\public\import-data`. 
 
 ## How to import
 
-1. Open Dutchly and select **Import**, then **Vocabulary**.
+1. Open Gezellig and select **Import**, then **Vocabulary**.
 2. Click **Choose CSV or Excel file**.
 3. Select the A1 file from the folder above.
 4. Review the preview, then click **Confirm import**.

@@ -56,7 +56,7 @@ const snapshot = (page) =>
         root,
         sourceBuild
           ? "node_modules/electron/dist/electron.exe"
-          : "release/win-unpacked/Dutchly.exe",
+          : "release/win-unpacked/Gezellig.exe",
       ),
       args: [
         ...(sourceBuild ? [path.join(root, "desktop")] : []),

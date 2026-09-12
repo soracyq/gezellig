@@ -214,7 +214,7 @@ export default function SettingsScreen() {
           )}
         </Card>
         <Body muted style={{ fontSize: 12 }}>
-          Dutchly {version} · Personal learning · No account needed.
+          Gezellig {version} · Personal learning · No account needed.
         </Body>
       </View>
       <PreviewModal

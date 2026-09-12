@@ -1,6 +1,6 @@
 {
-  "name": "dutchly",
-  "version": "0.5.2",
+  "name": "gezellig",
+  "version": "0.6.0",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
@@ -15,6 +15,7 @@
     "format": "prettier --write src tests docs README.md DECISIONS.md",
     "format:check": "prettier --check src tests docs README.md DECISIONS.md",
     "build:imports": "node scripts/build-import-worker.cjs",
+    "build:brand": "node scripts/build-brand-assets.cjs",
     "prestart": "npm run build:imports",
     "preweb": "npm run build:imports",
     "preexport:web": "npm run build:imports",

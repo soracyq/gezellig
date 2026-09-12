@@ -96,7 +96,7 @@ let browser;
     .waitFor();
   const version = require("../package.json").version;
   await settings
-    .getByText(`Dutchly ${version} · Personal learning · No account needed.`, {
+    .getByText(`Gezellig ${version} · Personal learning · No account needed.`, {
       exact: true,
     })
     .waitFor();

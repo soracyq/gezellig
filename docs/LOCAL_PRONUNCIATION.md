@@ -1,6 +1,6 @@
-# Dutchly 0.3.1 — local pronunciation
+# Gezellig — local pronunciation
 
-Version 0.3.2 adds recovery when device speech never starts or audio resume remains blocked. Use `release/Dutchly-0.3.2-Setup.exe` for the current update. See [the 0.3.2 bug-fix report](BUGFIXES_0_3_2.md); the implementation and original 0.3.1 checks below remain background for the bundled voice.
+Version 0.3.2 adds recovery when device speech never starts or audio resume remains blocked. Use `release/Gezellig-0.6.0-Setup.exe` for the current update. See [the 0.3.2 bug-fix report](BUGFIXES_0_3_2.md); the implementation and original 0.3.1 checks below remain background for the bundled voice.
 
 The disabled Listen button in 0.3.0 depended on the browser exposing an installed Dutch speech voice. The checked Windows computer has Chinese and English voices but no Dutch voice. An early desktop probe returned an empty voice list; later checks returned those non-Dutch voices. The old tests simulated Dutch voices and did not catch the missing real voice.
 
@@ -14,8 +14,8 @@ The worker and language data are roughly 3.3 MB. Its GPL license, pinned source 
 
 ## Use it on Windows
 
-1. Close the older Dutchly window.
-2. Run `release/Dutchly-0.3.1-Setup.exe`, then open Dutchly normally. Alternatively, open `release/win-unpacked/Dutchly.exe` with its surrounding files in place.
+1. Close the older Gezellig window.
+2. Run `release/Gezellig-0.6.0-Setup.exe`, then open Gezellig normally. Alternatively, open `release/win-unpacked/Gezellig.exe` with its surrounding files in place.
 3. Open Vocabulary, choose **het huis**, then press **Listen**.
 4. Repeat with the internet disconnected. Speech assets are included in the app.
 

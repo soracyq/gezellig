@@ -36,7 +36,7 @@ export default function RootLayout() {
         }}
       >
         <ActivityIndicator
-          accessibilityLabel="Loading Dutchly"
+          accessibilityLabel="Loading Gezellig"
           color={colors.orange}
         />
       </View>
@@ -44,7 +44,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <Head>
-        <title>Dutchly · Your learning space</title>
+        <title>Gezellig · Your learning space</title>
         <style>{webStyles}</style>
       </Head>
       <SettingsProvider>
