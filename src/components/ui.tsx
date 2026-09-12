@@ -112,6 +112,7 @@ export function Action({
   title,
   accessibilityLabel,
   href,
+  target,
   onPress,
   icon,
   variant = "primary",
@@ -121,6 +122,7 @@ export function Action({
   title: string;
   accessibilityLabel?: string;
   href?: Href;
+  target?: "_blank";
   onPress?: () => void;
   icon?: IconName;
   variant?: "primary" | "secondary" | "quiet";
@@ -132,6 +134,7 @@ export function Action({
     <Pressable
       accessibilityRole={href ? "link" : "button"}
       accessibilityLabel={accessibilityLabel ?? title}
+      {...(target ? { hrefAttrs: { target, rel: "noopener noreferrer" } } : {})}
       disabled={disabled}
       onPress={onPress}
       style={StyleSheet.flatten([
@@ -154,7 +157,12 @@ export function Action({
     </Pressable>
   );
   return href ? (
-    <Link href={href} asChild>
+    <Link
+      href={href}
+      target={target}
+      rel={target ? "noopener noreferrer" : undefined}
+      asChild
+    >
       {control}
     </Link>
   ) : (

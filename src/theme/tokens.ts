@@ -32,6 +32,20 @@ export const colors = {
     sun: "#E3AE6F",
   },
 } as const;
+export const learningColors = {
+  new: {
+    background: colors.orangeSoft,
+    border: "#E9CCBC",
+    accent: colors.orange,
+    text: "#8B3E22",
+  },
+  completed: {
+    background: colors.blueSoft,
+    border: "#C7DCE5",
+    accent: colors.blue,
+    text: colors.blue,
+  },
+} as const;
 export const spacing = {
   xs: 4,
   sm: 8,

@@ -10,6 +10,7 @@
   "files": [
     "main.cjs",
     "static-files.cjs",
+    "external-links.cjs",
     "package.json",
     "!**/node_modules/**/*"
   ],

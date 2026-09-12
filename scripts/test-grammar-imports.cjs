@@ -89,7 +89,7 @@ async function inspectLesson(page, row, capture) {
   }
   await page.getByRole("button", { name: "Practice", exact: true }).click();
   await page
-    .getByText("No exercises are included with this lesson.", { exact: false })
+    .getByText("Question 1 of 5", { exact: true })
     .waitFor();
   await page
     .getByRole("button", { name: "Close preview", exact: true })

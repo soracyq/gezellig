@@ -20,6 +20,7 @@ import type {
   TranslationQuestion,
 } from "../domain/models";
 import { submitDailyReview } from "../domain/review";
+import { submitGrammarPractice } from "../domain/grammarAttempt";
 import { loadSettings } from "../storage/settings";
 import {
   appendEvent,
@@ -196,6 +197,34 @@ function useLearningState() {
       return { imported: result.imported, skipped: result.skipped };
     });
   }
+  async function answerGrammar(
+    lessonId: string,
+    questionId: string,
+    answer: string,
+    attemptId: string,
+  ) {
+    return transact(async () => {
+      const [journal, latest] = await Promise.all([
+        readActivity(AsyncStorage),
+        readCurriculum(AsyncStorage),
+      ]);
+      const lesson = [...builtinGrammar, ...latest.grammar].find(
+        (item) => item.id === lessonId,
+      );
+      if (!lesson) throw new Error("This lesson is no longer available.");
+      const result = submitGrammarPractice(
+        journal,
+        lesson,
+        questionId,
+        answer,
+        attemptId,
+      );
+      await writeActivity(AsyncStorage, result.journal);
+      setActivity(result.journal);
+      setNow(new Date());
+      return result;
+    });
+  }
   async function resetProgress() {
     await transact(async () => {
       await resetActivity(AsyncStorage);
@@ -259,6 +288,7 @@ function useLearningState() {
     refresh,
     completeItem,
     answerQuestion,
+    answerGrammar,
     answerReview,
     importContent,
     resetProgress,

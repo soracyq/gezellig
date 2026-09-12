@@ -4,6 +4,7 @@ import type {
   TranslationQuestion,
   VocabularyItem,
 } from "./models.ts";
+import { grammarExercises } from "./grammarPractice.ts";
 
 /** Keep accents, apostrophes, word order and internal punctuation meaningful. */
 export function normalizeAnswer(value: string): string {
@@ -16,7 +17,7 @@ export function normalizeAnswer(value: string): string {
     .trim();
 }
 export function matchesAnswer(
-  question: TranslationQuestion,
+  question: Pick<TranslationQuestion, "correctAnswer" | "acceptedAnswers">,
   answer: string,
 ): boolean {
   const normalized = normalizeAnswer(answer);
@@ -154,6 +155,9 @@ export function vocabularyTranslations(
 export function grammarTranslations(
   lesson: GrammarTopic,
 ): TranslationQuestion[] {
+  const prepared = grammarExercises(lesson).filter(
+    (exercise) => exercise.kind === "translation",
+  );
   // Each authored pair stays intact. Unrelated examples are never spliced into a dialogue.
   return lesson.examples.flatMap((example, i) =>
     example.dutch.trim() && example.english.trim()
@@ -165,7 +169,14 @@ export function grammarTranslations(
             contentType: "grammar" as const,
             prompt: example.english,
             correctAnswer: example.dutch,
-            acceptedAnswers: example.acceptedAnswers ?? [],
+            acceptedAnswers: [
+              ...new Set([
+                ...(example.acceptedAnswers ?? []),
+                ...(prepared.find(
+                  (exercise) => exercise.correctAnswer === example.dutch,
+                )?.acceptedAnswers ?? []),
+              ]),
+            ],
             hint: "Use the wording from the lesson example.",
             label: `${lesson.title} · ${lesson.category}`,
             rule: lesson.rules[0],

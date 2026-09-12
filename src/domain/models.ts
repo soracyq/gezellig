@@ -133,6 +133,26 @@ export interface GrammarTopic {
   sortOrder?: number;
 }
 
+/** Prepared lesson practice; order and accepted variants are authored curriculum data. */
+export interface GrammarExercise {
+  id: string;
+  kind:
+    | "multiple-choice"
+    | "fill-blank"
+    | "translation"
+    | "ordering"
+    | "correction";
+  relatedItemId: string;
+  prompt: string;
+  correctAnswer: string;
+  acceptedAnswers: string[];
+  explanation: string;
+  hint: string;
+  options?: string[];
+  chunks?: string[];
+  sortOrder: number;
+}
+
 // Future learner contracts. The shell does not implement these learning rules.
 // Timestamps are ISO 8601 UTC strings; learning days use UserSettings.timeZone.
 export interface User {

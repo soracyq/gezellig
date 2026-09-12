@@ -1,0 +1,73 @@
+lesson_id|focus_1|wrong_1|wrong_2|focus_2|blank_hint|third_type
+a1-basic-sentences|woon|woont|wonen|komt|Use komen with de bus.|ordering
+a1-subject-pronouns|Zij|Wij|Jullie|Zij|Use zij or ze for they.|correction
+a1-present-zijn|ben|is|zijn|zijn|Use zijn with the plural subject.|correction
+a1-infinitives-stems|woon|won|woont|reis|Write the stem of reizen.|correction
+a1-present-regular|werkt|werk|werken|wonen|Use wonen with wij.|correction
+a1-present-common-irregulars|heeft|heb|hebben|gaan|Use gaan with wij.|correction
+a1-yes-no-questions|Werk|Werkt|Werken|Heeft|Use hebben with u.|ordering
+a1-question-words|Wanneer|Wie|Wat|Welk|Use the form of which that belongs with boek.|ordering
+a1-verb-second|werkt|werk|werken|ga|Use gaan with ik after the opening phrase.|ordering
+a1-articles|een|het|de|De|Use the definite plural article.|correction
+a1-noun-plurals|auto's|auto|autoen|boeken|Write the plural of boek.|correction
+a1-diminutives|tafeltje|tafelje|tafeltjen|huisjes|Write the plural diminutive of huis.|correction
+a1-demonstratives|Deze|Dit|Dat|Dat|Use the form of that belonging with huis.|correction
+a1-possessives|Ons|Onze|Onz|Onze|Write our before a plural noun.|correction
+a1-adjective-position|mooie|mooi|moois|klein|Use klein after zijn.|correction
+a1-adjective-endings|kleine|klein|kleins|groot|Use groot after een before the het-word raam.|correction
+a1-negation-geen|geen|niet|niets|geen|Negate the indefinite noun melk.|correction
+a1-negation-niet|niet|geen|niets|niet|Negate knowing this definite person.|ordering
+a1-object-pronouns|me|ik|mijn|jou|Use the object form for you after voor.|correction
+a1-place-prepositions|onder|naar|tot|naar|Supply the destination preposition.|correction
+a1-time-prepositions|op|om|in|tot|Complete van negen ... vijf.|correction
+a1-time-manner-place|ga|gaat|gaan|ga|Use gaan with ik after morgen.|ordering
+a1-modals-ability-permission|kan|kunt|kunnen|Mag|Use mogen to ask permission.|ordering
+a1-modals-obligation-wishes|moeten|moet|moetens|wil|Use willen with zij (she).|correction
+a1-separable-present|op|opstaan|opsta|opstaan|Use the infinitive of opstaan after moeten.|ordering
+a1-imperative|Lees|Leest|Lezen|Doe|Write the imperative of doen.|correction
+a1-coordination|want|omdat|dat|maar|Use the coordinating conjunction meaning but.|ordering
+a1-existential-er|is|zijn|ben|er|Supply the word that introduces the presence of chairs.|correction
+a1-perfect-introduction|gewerkt|werken|gewerk|gewerkt|Supply the participle of werken.|ordering
+a1-perfect-regular|gewoond|gewoont|gewoon|gekookt|Supply the participle of koken.|correction
+a1-perfect-common-irregulars|gegeten|geëet|gegeten heb|gegaan|Supply the participle of gaan.|correction
+a1-perfect-separable|opgestaan|geopstaan|opgestaand|schoongemaakt|Supply the participle of schoonmaken.|correction
+a2-main-clause-order|gelezen|lezen|geleest|kopen|Use kopen after wil.|ordering
+a2-object-pronoun-order|hem|hij|zijn|ze|Use ze for the plural direct object them.|ordering
+a2-reflexive-verbs|me|ik|mijn|je|Use the reflexive pronoun that agrees with jullie.|correction
+a2-possessive-extensions|mij|ik|mijn|Anna's|Write the possessive of Anna.|correction
+a2-demonstrative-extensions|Die|Dit|Dat|Dit|Use dit when introducing these people.|correction
+a2-adjective-extensions|houten|houtene|houte|witte|Use wit before the plural noun muren.|correction
+a2-quantities|Elke|Elk|Elken|Sommige|Write some before a plural noun.|correction
+a2-niet-scope|niet|geen|niets|niet|Put the negation before the time being corrected.|ordering
+a2-negative-words|Niemand|Geen|Niet|nooit|Write the negative time word never.|correction
+a2-not-yet-no-longer|nog niet|niet meer|niet nog|niet meer|Write no longer.|correction
+a2-omdat|omdat|want|maar|omdat|Use the subordinating conjunction because.|ordering
+a2-dat-clauses|is|zijn|ben|woont|Use wonen with haar broer in the subordinate clause.|ordering
+a2-als-wanneer|als|want|maar|wanneer|Use wanneer for the time connection.|ordering
+a2-fronted-subclauses|blijf|blijft|blijven|nemen|Use nemen with we after the opening clause.|ordering
+a2-terwijl-voordat|terwijl|want|maar|Voordat|Write before at the start of the subordinate clause.|ordering
+a2-perfect-auxiliaries|heb|ben|bent|ben|Choose the auxiliary for movement toward home.|correction
+a2-participle-prefixes|gestudeerd|studeerd|gestudeert|betaald|Supply the participle of betalen.|correction
+a2-perfect-subclauses|heb|hebt|heeft|heeft|Use hebben with zij (she).|ordering
+a2-past-zijn-hebben|was|waren|wast|hadden|Use the simple past of hebben with we.|correction
+a2-past-regular|wachtte|wachte|wachtde|woonden|Use the plural simple past of wonen.|correction
+a2-past-irregular|gingen|ging|gaanden|kon|Use the singular simple past of kunnen.|correction
+a2-past-choices|was|waren|wast|woonde|Use the singular simple past of wonen.|ordering
+a2-nadat|Nadat|Want|Maar|hebben|Use hebben with we in the perfect clause.|ordering
+a2-future-plans|werk|werkt|werken|maken|Use maken after gaan.|ordering
+a2-future-zullen|Zal|Zullen|Zalt|regenen|Use regenen after zal.|ordering
+a2-zou|Zou|Zouden|Zout|zou|Use zou with ik in the main clause.|ordering
+a2-te-infinitives|te|om|aan|te|Supply the infinitive marker after hoeven.|correction
+a2-om-te|om|want|voor|te|Supply the infinitive marker in the purpose clause.|ordering
+a2-separable-clause-forms|aankomt|komt aan|aankomen|op te bellen|Place te inside the separable verb opbellen.|ordering
+a2-progressive|aan het|te|om te|te|Supply the infinitive marker after zit.|correction
+a2-comparatives|dan|als|dat|als|Complete the equality pattern even groot ... .|correction
+a2-superlatives|goedkoopste|goedkoopst|goedkoper|grootst|Use groot after het in a predicate superlative.|correction
+a2-relative-die-dat|die|dat|dit|dat|Choose the relative pronoun for the singular het-word boek.|ordering
+a2-indirect-questions|waar|of|wat|of|Use whether for an indirect yes/no question.|ordering
+a2-fixed-prepositions|op|naar|voor|naar|Supply the preposition belonging with luisteren.|correction
+a2-er-place|er|het|hem|er|Refer back to the known place with er.|correction
+a2-er-quantity|er|het|ze|er|Supply the word used with a number when the counted noun is omitted.|correction
+a2-duration|al|over|geleden|Over|Write in before a future interval.|correction
+a2-linking-adverbs|Daarom|Omdat|Want|Toch|Write nevertheless as the opening linking adverb.|ordering
+a2-something-adjective|leuks|leuke|leuk|nieuws|Use nieuw after niets without a noun.|correction

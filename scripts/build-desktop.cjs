@@ -1,7 +1,6 @@
 /* global __dirname */
 const path = require("node:path");
 const { build } = require("electron-builder");
-const config = require("../desktop/electron-builder.json");
 const args = process.argv.slice(2);
 if (args.length && (args.length !== 1 || args[0] !== "--dir")) {
   console.error("Usage: node scripts/build-desktop.cjs [--dir]");
@@ -13,7 +12,8 @@ build({
   projectDir: path.resolve(__dirname, "../desktop"),
   dir: args.includes("--dir"),
   config: {
-    ...config,
+    // electron-builder already loads desktop/electron-builder.json. Passing it
+    // again concatenates resource/target arrays and races duplicate file copies.
     electronVersion: require("electron/package.json").version,
   },
 }).catch((error) => {

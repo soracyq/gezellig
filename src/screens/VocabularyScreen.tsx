@@ -22,14 +22,20 @@ import {
 import { useLearning } from "../state/LearningProvider";
 import { CompleteItem } from "../components/CompleteItem";
 import { PronunciationButton } from "../components/PronunciationButton";
+import {
+  LearningStatus,
+  LearningStatusFilter,
+} from "../components/LearningStatus";
+import { learningList, type LearningFilter } from "../domain/learningStatus";
+import { googleTranslateUrl } from "../domain/externalLinks";
 import { cefrLevels } from "../data/sample-content";
 import type { VocabularyItem } from "../domain/models";
 import { useSettings } from "../state/SettingsProvider";
-import { colors as c, typography } from "../theme/tokens";
+import { colors as c, learningColors, typography } from "../theme/tokens";
 
 export function wordLabel(item: VocabularyItem) {
   return item.wordType === "noun" && item.article
-    ? `${item.article} ${item.dutch}`
+    ? `${item.article} ${item.dutch.replace(/^(de|het)\s+/i, "")}`
     : item.dutch;
 }
 export default function VocabularyScreen() {
@@ -45,8 +51,9 @@ export default function VocabularyScreen() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState("All words");
   const [level, setLevel] = useState(initialLevel ?? "A1");
+  const [status, setStatus] = useState<LearningFilter>("all");
   const { dailyTarget } = useSettings();
-  const items = vocabularyItems.filter(
+  const filtered = vocabularyItems.filter(
     (item) =>
       item.level === level &&
       (type === "All words" || item.wordType === type) &&
@@ -54,6 +61,7 @@ export default function VocabularyScreen() {
         .toLowerCase()
         .includes(search.trim().toLowerCase()),
   );
+  const { items, counts } = learningList(filtered, studiedIds, status);
   function closePreview() {
     router.setParams({ preview: undefined });
   }
@@ -93,7 +101,10 @@ export default function VocabularyScreen() {
             placeholder="Search Dutch or English…"
             placeholderTextColor={c.muted}
             value={search}
-            onChangeText={setSearch}
+            onChangeText={(value) => {
+              setSearch(value);
+              setLimit(50);
+            }}
             style={s.searchInput}
           />
           {search.length > 0 && (
@@ -114,7 +125,10 @@ export default function VocabularyScreen() {
               accessibilityRole="button"
               accessibilityLabel={`Vocabulary level ${value}`}
               accessibilityState={{ selected: value === level }}
-              onPress={() => setLevel(value)}
+              onPress={() => {
+                setLevel(value);
+                setLimit(50);
+              }}
               style={[s.levelFilter, value === level && s.levelFilterActive]}
             >
               <Text
@@ -140,7 +154,10 @@ export default function VocabularyScreen() {
                   value === "All words" ? value : `Filter ${value}s`
                 }
                 key={value}
-                onPress={() => setType(value)}
+                onPress={() => {
+                  setType(value);
+                  setLimit(50);
+                }}
                 style={[
                   s.typeFilter,
                   type === value && { backgroundColor: c.blueSoft },
@@ -164,18 +181,26 @@ export default function VocabularyScreen() {
           {items.length} {items.length === 1 ? "word" : "words"}
         </Body>
       </View>
+      <LearningStatusFilter
+        value={status}
+        onChange={(value) => {
+          setStatus(value);
+          setLimit(50);
+        }}
+        counts={counts}
+      />
       {items.length === 0 ? (
         <EmptyState
           icon="search"
           title={
-            level !== "A1"
+            !vocabularyItems.some((item) => item.level === level)
               ? `Your ${level} collection is still to come`
               : "No matching words"
           }
           description={
-            level !== "A1"
+            !vocabularyItems.some((item) => item.level === level)
               ? "Import vocabulary at this level, or try another search and word type."
-              : "Try another Dutch word, English translation, or word type."
+              : "Try another search, word type, or learning-status filter."
           }
         />
       ) : (
@@ -189,6 +214,11 @@ export default function VocabularyScreen() {
               style={({ pressed }) => [
                 s.wordCard,
                 {
+                  borderColor: studiedIds.has(item.id)
+                    ? learningColors.completed.border
+                    : learningColors.new.border,
+                },
+                {
                   width:
                     width >= 1450 ? "31.9%" : width >= 720 ? "48.6%" : "100%",
                   opacity: pressed ? 0.8 : 1,
@@ -201,6 +231,9 @@ export default function VocabularyScreen() {
                 </Badge>
                 <Icon name="arrow-up-right" size={18} />
               </View>
+              <View style={{ marginTop: 12 }}>
+                <LearningStatus learned={studiedIds.has(item.id)} />
+              </View>
               <Text style={s.dutchWord}>{wordLabel(item)}</Text>
               <Body muted>{item.english}</Body>
               <View style={s.example}>
@@ -210,11 +243,7 @@ export default function VocabularyScreen() {
               <View style={s.cardFooter}>
                 <Text style={s.topic}>{item.topic}</Text>
                 <Text style={s.sampleLabel}>
-                  {studiedIds.has(item.id)
-                    ? "Studied"
-                    : item.isSample
-                      ? "Sample"
-                      : "Imported"}
+                  {item.isSample ? "Sample" : "Imported"}
                 </Text>
               </View>
             </Pressable>
@@ -331,7 +360,20 @@ function VocabularyDetails({ item }: { item: VocabularyItem }) {
         </View>
       )}
       {item.notes && <Body muted>{item.notes}</Body>}
-      <PronunciationButton key={item.id} text={wordLabel(item)} />
+      <PronunciationButton key={item.id} text={wordLabel(item)}>
+        <Action
+          title="Google Translate"
+          accessibilityLabel={`Open ${wordLabel(item)} in Google Translate`}
+          href={googleTranslateUrl(wordLabel(item))}
+          target="_blank"
+          variant="secondary"
+          icon="external-link"
+        />
+      </PronunciationButton>
+      <Body muted style={{ fontSize: 12 }}>
+        Google Translate opens in your browser. Use its speaker button to listen
+        there.
+      </Body>
     </>
   );
 }

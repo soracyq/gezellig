@@ -21,10 +21,15 @@ import {
 } from "../components/ui";
 import { useLearning } from "../state/LearningProvider";
 import { CompleteItem } from "../components/CompleteItem";
-import { PracticeQuestion } from "../components/PracticeQuestion";
+import { GrammarPractice } from "../components/GrammarPractice";
+import {
+  LearningStatus,
+  LearningStatusFilter,
+} from "../components/LearningStatus";
+import { learningList, type LearningFilter } from "../domain/learningStatus";
 import { cefrLevels } from "../data/sample-content";
 import type { GrammarTopic } from "../domain/models";
-import { colors as c, typography } from "../theme/tokens";
+import { colors as c, typography, learningColors } from "../theme/tokens";
 
 export default function GrammarScreen() {
   const { width } = useWindowDimensions();
@@ -36,11 +41,20 @@ export default function GrammarScreen() {
   const [limit, setLimit] = useState(50);
   const router = useRouter();
   const [level, setLevel] = useState(initialLevel ?? "A1");
+  const [status, setStatus] = useState<LearningFilter>("all");
   const selected = grammarTopics.find((topic) => topic.id === preview) ?? null;
   const [section, setSection] = useState<
     "Understand" | "Examples" | "Practice"
   >("Understand");
-  const topics = grammarTopics.filter((topic) => topic.level === level);
+  const levelTopics = grammarTopics.filter((topic) => topic.level === level);
+  const { items: topics, counts } = learningList(
+    levelTopics,
+    completedLessonIds,
+    status,
+  );
+  const lessonNumbers = new Map(
+    levelTopics.map((topic, i) => [topic.id, i + 1]),
+  );
   function openTopic(topic: GrammarTopic) {
     router.setParams({ preview: topic.id });
     setSection("Understand");
@@ -81,7 +95,10 @@ export default function GrammarScreen() {
             accessibilityRole="button"
             accessibilityLabel={`Grammar level ${value}`}
             accessibilityState={{ selected: value === level }}
-            onPress={() => setLevel(value)}
+            onPress={() => {
+              setLevel(value);
+              setLimit(50);
+            }}
             style={[s.level, value === level && s.activeLevel]}
           >
             <Text
@@ -112,28 +129,75 @@ export default function GrammarScreen() {
         }
         subtitle={`${topics.length} lessons available`}
       />
+      <LearningStatusFilter
+        grammar
+        value={status}
+        onChange={(value) => {
+          setStatus(value);
+          setLimit(50);
+        }}
+        counts={counts}
+      />
       {topics.length === 0 ? (
         <EmptyState
-          title={`More ${level} lessons will grow here`}
-          description="Import grammar lessons for this level, or explore the A1 sample lessons."
+          title={
+            levelTopics.length
+              ? "No lessons match this status"
+              : `More ${level} lessons will grow here`
+          }
+          description="Choose another status or level, or import grammar lessons."
         />
       ) : (
         <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 22 }}>
-          {topics.slice(0, limit).map((topic, i) => (
+          {topics.slice(0, limit).map((topic) => (
             <Card
               key={topic.id}
-              style={{ width: width < 780 ? "100%" : "48%", gap: 16 }}
+              style={{
+                width: width < 780 ? "100%" : "48%",
+                gap: 16,
+                borderColor:
+                  learningColors[
+                    completedLessonIds.has(topic.id) ? "completed" : "new"
+                  ].border,
+                borderTopWidth: 3,
+              }}
             >
               <View style={s.cardHeader}>
-                <View style={s.lessonNumber}>
-                  <Text style={s.lessonNumberText}>
-                    {String(i + 1).padStart(2, "0")}
+                <View
+                  style={[
+                    s.lessonNumber,
+                    {
+                      backgroundColor:
+                        learningColors[
+                          completedLessonIds.has(topic.id) ? "completed" : "new"
+                        ].background,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      s.lessonNumberText,
+                      {
+                        color:
+                          learningColors[
+                            completedLessonIds.has(topic.id)
+                              ? "completed"
+                              : "new"
+                          ].text,
+                      },
+                    ]}
+                  >
+                    {String(lessonNumbers.get(topic.id)).padStart(2, "0")}
                   </Text>
                 </View>
                 <Badge>
                   {topic.level} · {topic.category}
                 </Badge>
               </View>
+              <LearningStatus
+                grammar
+                learned={completedLessonIds.has(topic.id)}
+              />
               <Text style={s.lessonTitle}>{topic.title}</Text>
               <Badge tone="neutral">
                 {topic.isSample ? "Sample lesson" : "Imported lesson"}
@@ -178,8 +242,8 @@ export default function GrammarScreen() {
       <View style={s.note}>
         <Icon name="info" size={15} />
         <Body muted style={{ flex: 1, fontSize: 12 }}>
-          Sample lessons and level assignments are provisional. Imported lessons
-          without exercises are available for reading and completion.
+          Practice answers are saved separately from lesson completion. Complete
+          a lesson when you have finished studying it.
         </Body>
       </View>
       <PreviewModal
@@ -277,21 +341,12 @@ export default function GrammarScreen() {
                 />
               </>
             )}
-            {section === "Practice" &&
-              (selected.questions.length > 0 ? (
-                selected.questions.map((question) => (
-                  <PracticeQuestion
-                    key={question.id}
-                    question={question}
-                    contentType="grammar"
-                  />
-                ))
-              ) : (
-                <Body muted>
-                  No exercises are included with this lesson. You can still read
-                  the explanation and mark the lesson complete.
-                </Body>
-              ))}
+            {section === "Practice" && (
+              <GrammarPractice
+                key={`practice:${selected.id}`}
+                lesson={selected}
+              />
+            )}
             <CompleteItem key={selected.id} id={selected.id} type="grammar" />
           </>
         )}

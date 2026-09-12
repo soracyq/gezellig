@@ -6,9 +6,11 @@ const {
   Menu,
   protocol,
   session,
+  shell,
 } = require("electron");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { isGoogleTranslateURL } = require("./external-links.cjs");
 const {
   resolveStaticFile,
   responseHeaders,
@@ -113,7 +115,20 @@ async function createWindow() {
       spellcheck: false,
     },
   });
-  mainWindow.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (isGoogleTranslateURL(url)) {
+      void shell.openExternal(url).catch(() => {
+        if (mainWindow && !mainWindow.isDestroyed())
+          void dialog.showMessageBox(mainWindow, {
+            type: "error",
+            title: "Could not open Google Translate",
+            message:
+              "Check your default browser and try again. Built-in Listen is still available.",
+          });
+      });
+    }
+    return { action: "deny" };
+  });
   mainWindow.webContents.on("will-navigate", (event, url) => {
     if (!isAppURL(url)) {
       event.preventDefault();

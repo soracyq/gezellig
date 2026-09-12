@@ -1,11 +1,32 @@
-import { useEffect, useState, useSyncExternalStore } from "react";
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 import { View } from "react-native";
 import { pronunciationService } from "../services/pronunciation";
 import { Action, Body } from "./ui";
-export function PronunciationButton({ text }: { text: string }) {
-  return <PronunciationControl key={text} text={text} />;
+export function PronunciationButton({
+  text,
+  children,
+}: {
+  text: string;
+  children?: ReactNode;
+}) {
+  return (
+    <PronunciationControl key={text} text={text}>
+      {children}
+    </PronunciationControl>
+  );
 }
-function PronunciationControl({ text }: { text: string }) {
+function PronunciationControl({
+  text,
+  children,
+}: {
+  text: string;
+  children?: ReactNode;
+}) {
   const mode = useSyncExternalStore(
     pronunciationService.subscribe,
     pronunciationService.getMode,
@@ -18,28 +39,31 @@ function PronunciationControl({ text }: { text: string }) {
   useEffect(() => () => pronunciationService.cancel(), [text]);
   return (
     <View style={{ gap: 8 }}>
-      <Action
-        title="Listen"
-        accessibilityLabel={`Listen to Dutch pronunciation of ${text}`}
-        icon="volume-2"
-        variant="secondary"
-        disabled={mode === "unavailable"}
-        onPress={() => {
-          setFailed(false);
-          setPlayback("preparing");
-          const failure = () => {
-            setFailed(true);
-            setPlayback("idle");
-          };
-          if (
-            !pronunciationService.speakDutch(text, failure, {
-              onStart: () => setPlayback("playing"),
-              onEnd: () => setPlayback("idle"),
-            })
-          )
-            failure();
-        }}
-      />
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
+        <Action
+          title="Listen"
+          accessibilityLabel={`Listen to Dutch pronunciation of ${text}`}
+          icon="volume-2"
+          variant="secondary"
+          disabled={mode === "unavailable"}
+          onPress={() => {
+            setFailed(false);
+            setPlayback("preparing");
+            const failure = () => {
+              setFailed(true);
+              setPlayback("idle");
+            };
+            if (
+              !pronunciationService.speakDutch(text, failure, {
+                onStart: () => setPlayback("playing"),
+                onEnd: () => setPlayback("idle"),
+              })
+            )
+              failure();
+          }}
+        />
+        {children}
+      </View>
       <Body muted accessibilityLiveRegion="polite">
         {failed
           ? "Could not play pronunciation. Check your sound output and try Listen again."
