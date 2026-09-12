@@ -215,9 +215,6 @@ fs.mkdirSync(out, { recursive: true });
       await page.waitForTimeout(300);
       const scroll = page.getByTestId("learning-page-scroll");
       const before = await scroll.evaluate((element) => element.scrollTop);
-      const cardTop = await card.evaluate(
-        (element) => element.getBoundingClientRect().top,
-      );
       await open.click();
       await page
         .getByRole("button", { name: "Complete lesson", exact: true })
@@ -243,18 +240,12 @@ fs.mkdirSync(out, { recursive: true });
         ) < 2,
         `${status}: page moved after close`,
       );
-      assert(
-        Math.abs(
-          (await card.evaluate(
-            (element) => element.getBoundingClientRect().top,
-          )) - cardTop,
-        ) < 2,
-        `${status}: card moved`,
-      );
-      await card.getByText("Completed", { exact: true }).waitFor();
+      if (status === "All")
+        await card.getByText("Completed", { exact: true }).waitFor();
+      else assert.equal(await card.count(), 0);
     }
     checks.push(
-      "Grammar viewport and card position preserved within 2px during completion and after modal close in All and Not completed",
+      "Grammar viewport preserved within 2px while completion reorders/removes cards in All and Not completed",
     );
     await seed(historyFor(words.slice(0, 5), grammar.slice(0, 3), today));
     await go("/review");

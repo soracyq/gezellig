@@ -53,11 +53,17 @@ export function Body({
 export function Card({
   children,
   style,
+  testID,
 }: {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
+  testID?: string;
 }) {
-  return <View style={[styles.card, style]}>{children}</View>;
+  return (
+    <View testID={testID} style={[styles.card, style]}>
+      {children}
+    </View>
+  );
 }
 export function Badge({
   children,
@@ -244,6 +250,7 @@ export function EmptyState({
 export function PreviewModal({
   visible,
   onClose,
+  onDismiss,
   title,
   contentKey,
   prominentTitle = false,
@@ -253,6 +260,7 @@ export function PreviewModal({
 }: {
   visible: boolean;
   onClose: () => void;
+  onDismiss?: () => void;
   title: string;
   contentKey?: string;
   prominentTitle?: boolean;
@@ -266,6 +274,7 @@ export function PreviewModal({
       animationType="fade"
       transparent
       onRequestClose={onClose}
+      onDismiss={onDismiss}
     >
       <View style={styles.modalBackdrop}>
         <View accessibilityViewIsModal style={styles.modalCard}>

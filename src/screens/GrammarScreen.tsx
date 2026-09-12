@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -22,6 +22,7 @@ import {
 import { useLearning } from "../state/LearningProvider";
 import { CompleteItem } from "../components/CompleteItem";
 import { GrammarPractice } from "../components/GrammarPractice";
+import { GrammarViewport } from "../components/GrammarViewport";
 import {
   LearningStatus,
   LearningStatusFilter,
@@ -47,25 +48,22 @@ export default function GrammarScreen() {
     "Understand" | "Examples" | "Practice"
   >("Understand");
   const levelTopics = grammarTopics.filter((topic) => topic.level === level);
-  const { items: sortedTopics, counts } = learningList(
+  const { items: topics, counts } = learningList(
     levelTopics,
     completedLessonIds,
     status,
   );
-  const [heldOrder, setHeldOrder] = useState<string[] | null>(() =>
-    preview ? sortedTopics.map((topic) => topic.id) : null,
-  );
-  const topics = heldOrder
-    ? heldOrder.flatMap((id) => {
-        const topic = levelTopics.find((item) => item.id === id);
-        return topic ? [topic] : [];
-      })
-    : sortedTopics;
+  const viewport = useRef<GrammarViewport>(null);
+  const opened = useRef<{ id: string; completed: boolean } | null>(null);
+  const completionRevision = [...completedLessonIds].sort().join("|");
   const lessonNumbers = new Map(
     levelTopics.map((topic, i) => [topic.id, i + 1]),
   );
   function openTopic(topic: GrammarTopic) {
-    setHeldOrder(topics.map((item) => item.id));
+    opened.current = {
+      id: topic.id,
+      completed: completedLessonIds.has(topic.id),
+    };
     router.setParams({ preview: topic.id });
     setSection("Understand");
   }
@@ -73,7 +71,11 @@ export default function GrammarScreen() {
     router.setParams({ preview: undefined });
   }
   return (
-    <View>
+    <GrammarViewport
+      ref={viewport}
+      revision={completionRevision}
+      scope={`${level}:${status}`}
+    >
       <PageHeading
         eyebrow="MAKE THE PIECES FIT"
         title="Find the rhythm of Dutch."
@@ -107,7 +109,6 @@ export default function GrammarScreen() {
             accessibilityState={{ selected: value === level }}
             onPress={() => {
               setLevel(value);
-              setHeldOrder(null);
               setLimit(50);
             }}
             style={[s.level, value === level && s.activeLevel]}
@@ -145,7 +146,6 @@ export default function GrammarScreen() {
         value={status}
         onChange={(value) => {
           setStatus(value);
-          setHeldOrder(null);
           setLimit(50);
         }}
         counts={counts}
@@ -164,6 +164,7 @@ export default function GrammarScreen() {
           {topics.slice(0, limit).map((topic) => (
             <Card
               key={topic.id}
+              testID={`grammar-lesson:${topic.id}`}
               style={{
                 width: width < 780 ? "100%" : "48%",
                 gap: 16,
@@ -226,6 +227,11 @@ export default function GrammarScreen() {
                 <Text style={s.metaText}>{topic.examples.length} examples</Text>
               </View>
               <Action
+                key={
+                  completedLessonIds.has(topic.id)
+                    ? "completed-opener"
+                    : "incomplete-opener"
+                }
                 title={
                   completedLessonIds.has(topic.id)
                     ? "Revisit lesson"
@@ -254,14 +260,27 @@ export default function GrammarScreen() {
       <View style={s.note}>
         <Icon name="info" size={15} />
         <Body muted style={{ flex: 1, fontSize: 12 }}>
-          Lesson order refreshes when you change filters or return to Grammar.
-          Practice answers are saved separately from lesson completion. Complete
-          a lesson when you have finished studying it.
+          Completed lessons move after incomplete lessons, keeping curriculum
+          order within each group. Practice answers are saved separately from
+          lesson completion. Complete a lesson when you have finished studying
+          it.
         </Body>
       </View>
       <PreviewModal
         visible={selected !== null}
         onClose={closePreview}
+        onDismiss={() => {
+          const completed =
+            opened.current &&
+            !opened.current.completed &&
+            completedLessonIds.has(opened.current.id);
+          opened.current = null;
+          // Wait for the modal's focus trap to unmount before restoring focus.
+          if (completed)
+            requestAnimationFrame(() => {
+              if (!opened.current) viewport.current?.restoreFocus();
+            });
+        }}
         title={selected?.title ?? "Lesson preview"}
         contentKey={`${selected?.id}:${section}`}
       >
@@ -364,7 +383,7 @@ export default function GrammarScreen() {
           </>
         )}
       </PreviewModal>
-    </View>
+    </GrammarViewport>
   );
 }
 const s = StyleSheet.create({

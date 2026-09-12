@@ -1,7 +1,7 @@
 {
   "name": "dutchly-desktop",
   "productName": "Dutchly",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "private": true,
   "description": "A local Dutch learning app with vocabulary and grammar imports.",
   "author": "Dutchly",

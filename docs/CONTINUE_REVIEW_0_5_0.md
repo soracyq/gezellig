@@ -12,6 +12,8 @@ The featured word chooses randomly from imported vocabulary, falling back to lab
 
 ## Grammar scroll preservation
 
+The behavior in this section describes 0.5.0. Version 0.5.1 supersedes it with immediate sorting and viewport preservation; see [the grammar sorting update](GRAMMAR_SCROLL_0_5_1.md).
+
 Opening a grammar preview captures the current visible card IDs and their order. Completion updates the actual history, badges and filter counts immediately while that card list stays in place through closing the preview. This also preserves the modal's original focus target so restoring focus does not scroll to a card that moved to the bottom.
 
 Changing a status/level filter or returning to Grammar recomputes the normal incomplete-first order. In Not completed, a newly completed card can therefore remain visible with its updated Completed badge until that refresh. The page explains when ordering refreshes. No timeout-driven reorder or automatic scroll is used.
