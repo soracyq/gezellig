@@ -10,43 +10,6 @@ Download **Gezellig-0.6.0-Setup.exe** from [GitHub Releases](https://github.com/
 
 The Windows x64 installer is unsigned. Installed users do not need Node.js, a terminal or Codex. The source-code downloads on GitHub are for developers; use the `.exe` asset to install the app.
 
-## Open the app again — Windows
-
-You do not need Codex running. Open **Windows Terminal → PowerShell** and enter:
-
-```powershell
-Set-Location -LiteralPath 'D:\Codex\Project\Dutch Learning APP'
-npm.cmd run web
-```
-
-The terminal prints the address, normally [http://localhost:8081](http://localhost:8081). Open it in Chrome or Edge if the browser does not open automatically. Keep the terminal open. **Ctrl+C** stops the server; closing Codex does not stop a server you started in your own Windows Terminal.
-
-After the computer restarts, run those two commands again. You do not reinstall dependencies each time.
-
-On a new computer or after downloading a fresh checkout, install Node.js 24, open a terminal in this project folder, and run `npm.cmd ci` once before starting. This installs the exact versions in `package-lock.json`. The `.cmd` suffix avoids PowerShell's script execution policy issue. On macOS/Linux, use `npm` instead of `npm.cmd`, and `cd` to your actual project location.
-
-If port 8081 is in use, first try its browser address: an existing copy may already be running. Stop your old server with Ctrl+C if you still have its terminal. Alternatively:
-
-```powershell
-npm.cmd run web -- --port 8082
-```
-
-Use the same browser, address and port each time. `localhost:8081`, `127.0.0.1:4173`, another browser and the desktop app have separate storage. Changing address can look like a fresh account; return to the old address to find its data.
-
-## Use the normal production browser version
-
-Build it once after code changes, then run the small local web server:
-
-```powershell
-Set-Location -LiteralPath 'D:\Codex\Project\Dutch Learning APP'
-npm.cmd run export:web
-npm.cmd run preview:web
-```
-
-Open [http://127.0.0.1:4173](http://127.0.0.1:4173). This serves the production files without Expo development tooling or Codex. Keep that terminal open while using it. Next time, only `npm.cmd run preview:web` is needed unless the code changed. If 4173 is occupied, use `npm.cmd run preview:web -- --port 4174` and open the printed address.
-
-The production files are in `dist`. Do not double-click `dist/index.html`: browser routing, workers and local storage require the local server or an HTTPS host.
-
 ## Test vocabulary import
 
 1. Open **Import → Vocabulary import**.
