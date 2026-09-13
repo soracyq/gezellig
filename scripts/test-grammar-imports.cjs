@@ -13,7 +13,11 @@ const { chromium, _electron: electron } = createRequire(
 )("playwright");
 const desktop = process.argv.includes("--desktop"),
   base = desktop ? "dutchly://app" : "http://127.0.0.1:4173";
-const out = path.join(root, "test-results/grammar-files");
+const advanced = process.argv.includes("--advanced");
+const out = path.join(
+  root,
+  advanced ? "test-results/b1-b2-grammar" : "test-results/grammar-files",
+);
 fs.mkdirSync(out, { recursive: true });
 const errors = [],
   results = [];
@@ -88,15 +92,35 @@ async function inspectLesson(page, row, capture) {
     });
   }
   await page.getByRole("button", { name: "Practice", exact: true }).click();
-  await page.getByText("Question 1 of 5", { exact: true }).waitFor();
+  const questionCount = ["B1", "B2"].includes(row.cefr_level) ? 2 : 5;
+  await page
+    .getByText(`Question 1 of ${questionCount}`, { exact: true })
+    .waitFor();
   await page
     .getByRole("button", { name: "Close preview", exact: true })
     .click();
 }
 (async () => {
   const { loadGrammar } = await import("./grammar-data.mjs");
-  const source = await loadGrammar();
-  for (const format of ["csv", "xlsx"]) {
+  const levels = advanced ? ["A1", "A2", "B1", "B2"] : ["A1", "A2"];
+  const Papa = require("papaparse");
+  const source = advanced
+    ? levels.flatMap(
+        (level) =>
+          Papa.parse(
+            fs.readFileSync(
+              path.join(
+                root,
+                "public/import-data",
+                `dutch_grammar_${level}.csv`,
+              ),
+              "utf8",
+            ),
+            { header: true, skipEmptyLines: true },
+          ).data,
+      )
+    : await loadGrammar();
+  for (const format of advanced ? ["csv"] : ["csv", "xlsx"]) {
     const profile = path.join(
       out,
       `${desktop ? "desktop" : "browser"}-${format}-${Date.now()}`,
@@ -133,7 +157,7 @@ async function inspectLesson(page, row, capture) {
     await page
       .getByText("No learning activity yet.", { exact: false })
       .waitFor();
-    if (format === "xlsx") {
+    if (advanced || format === "xlsx") {
       await go(page, "/vocabulary");
       await page
         .getByRole("button", { name: "Preview het huis", exact: true })
@@ -149,7 +173,7 @@ async function inspectLesson(page, row, capture) {
     await go(page, "/statistics");
     const statsBefore = normalize(await page.locator("body").innerText());
     const baseline = await snapshot(page);
-    for (const level of ["A1", "A2"]) {
+    for (const level of levels) {
       const wanted = source.filter((r) => r.cefr_level === level),
         count = wanted.length;
       const file = await preview(page, level, format);
@@ -253,8 +277,14 @@ async function inspectLesson(page, row, capture) {
       normalize(await page.locator("body").innerText()),
       statsBefore,
     );
-    await preview(page, "A2", format === "csv" ? "xlsx" : "csv");
-    await page.getByText("40 duplicates skipped", { exact: false }).waitFor();
+    await preview(
+      page,
+      advanced ? "B2" : "A2",
+      advanced ? "csv" : format === "csv" ? "xlsx" : "csv",
+    );
+    await page
+      .getByText(`${advanced ? 36 : 40} duplicates skipped`, { exact: false })
+      .waitFor();
     assert(
       await page
         .getByRole("button", { name: "Confirm import (0)", exact: true })
@@ -270,7 +300,7 @@ async function inspectLesson(page, row, capture) {
     JSON.stringify({ results, errors }, null, 2) + "\n",
   );
   console.log(
-    "PASS all four files: file chooser, preview, cancellation, confirmation, saved data, ordered cards, lesson displays, accents, duplicate protection and unchanged statistics.",
+    `PASS ${advanced ? "A1/A2 baseline and both B1/B2 grammar CSVs" : "all four A1/A2 files"}: file chooser, preview, cancellation, confirmation, saved data, ordered cards, lesson displays, accents, duplicate protection and unchanged statistics.`,
   );
 })()
   .catch((e) => {
