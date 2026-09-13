@@ -10,43 +10,6 @@ Download **Gezellig-0.6.0-Setup.exe** from [GitHub Releases](https://github.com/
 
 The Windows x64 installer is unsigned. Installed users do not need Node.js, a terminal or Codex. The source-code downloads on GitHub are for developers; use the `.exe` asset to install the app.
 
-## Open the app again — Windows
-
-You do not need Codex running. Open **Windows Terminal → PowerShell** and enter:
-
-```powershell
-Set-Location -LiteralPath 'D:\Codex\Project\Dutch Learning APP'
-npm.cmd run web
-```
-
-The terminal prints the address, normally [http://localhost:8081](http://localhost:8081). Open it in Chrome or Edge if the browser does not open automatically. Keep the terminal open. **Ctrl+C** stops the server; closing Codex does not stop a server you started in your own Windows Terminal.
-
-After the computer restarts, run those two commands again. You do not reinstall dependencies each time.
-
-On a new computer or after downloading a fresh checkout, install Node.js 24, open a terminal in this project folder, and run `npm.cmd ci` once before starting. This installs the exact versions in `package-lock.json`. The `.cmd` suffix avoids PowerShell's script execution policy issue. On macOS/Linux, use `npm` instead of `npm.cmd`, and `cd` to your actual project location.
-
-If port 8081 is in use, first try its browser address: an existing copy may already be running. Stop your old server with Ctrl+C if you still have its terminal. Alternatively:
-
-```powershell
-npm.cmd run web -- --port 8082
-```
-
-Use the same browser, address and port each time. `localhost:8081`, `127.0.0.1:4173`, another browser and the desktop app have separate storage. Changing address can look like a fresh account; return to the old address to find its data.
-
-## Use the normal production browser version
-
-Build it once after code changes, then run the small local web server:
-
-```powershell
-Set-Location -LiteralPath 'D:\Codex\Project\Dutch Learning APP'
-npm.cmd run export:web
-npm.cmd run preview:web
-```
-
-Open [http://127.0.0.1:4173](http://127.0.0.1:4173). This serves the production files without Expo development tooling or Codex. Keep that terminal open while using it. Next time, only `npm.cmd run preview:web` is needed unless the code changed. If 4173 is occupied, use `npm.cmd run preview:web -- --port 4174` and open the printed address.
-
-The production files are in `dist`. Do not double-click `dist/index.html`: browser routing, workers and local storage require the local server or an HTTPS host.
-
 ## Test vocabulary import
 
 1. Open **Import → Vocabulary import**.
@@ -95,41 +58,3 @@ See [the review improvement guide](docs/REVIEW_IMPROVEMENTS.md) for the audit, s
 **Settings → Reset learning progress → Confirm progress reset** clears only learning history and its derived statistics. Cancel leaves everything unchanged. The reset preserves words, lessons, imported datasets and your daily target. It cannot be undone.
 
 Your data remains in this browser profile or desktop app profile. Keep source imports as backups. Clearing site/app storage, using a private browser window, or deleting the desktop profile can remove the local copy. Rebuilding source code does not intentionally clear saved data.
-
-## Run or build the desktop version
-
-Electron reuses the production website in its own window and saves data in a stable local profile. On this Windows computer:
-
-```powershell
-npm.cmd run desktop
-```
-
-That builds the web files and opens Gezellig. After a build exists, `npm.cmd run desktop:open` reopens it without rebuilding. To create the Windows installer:
-
-```powershell
-npm.cmd run build:desktop
-```
-
-The installer is `release/Gezellig-0.6.0-Setup.exe`; the unpacked app is `release/win-unpacked/Gezellig.exe`. Close the old app before installing the update. The existing desktop profile and imports remain in the same location. An installed app opens from its Start menu or desktop shortcut and needs neither Node, a terminal nor Codex. Learning and built-in Dutch pronunciation work offline. Google Translate is an optional online link that opens in your system browser.
-
-The Windows build is unsigned. macOS packaging is configured, but must be built and checked on a Mac; it has not been tested here. See [desktop instructions](docs/DESKTOP.md) for platform commands, storage location, signing and distribution limits.
-
-## Hosting preparation
-
-`netlify.toml` sets `npm run export:web` as the build command and `dist` as the publish directory. No site, account or deployment was created. For a static host, deploy the complete `dist` folder at the site root over HTTPS, preserve extensionless page routing, and serve `import-worker.js` and `/templates/` as files. Browser data stays per origin and does not transfer automatically to a hosted address. See [deployment notes](docs/DEPLOYMENT.md).
-
-## Check and maintain the project
-
-```powershell
-npm.cmd run typecheck
-npm.cmd run lint
-npm.cmd test
-npm.cmd run format:check
-npm.cmd run export:web
-```
-
-The worker is generated automatically before `start`, `web` and `export:web`. Template downloads are checked-in static assets; you do not need spreadsheet authoring tools to run the app. The optional [template generator](scripts/create-templates.mjs) uses the same schema as the importer and requires the separate artifact-tool authoring runtime.
-
-Source overview: `src/app` contains routes; `src/screens` contains the eight screens; `src/imports` handles parsing/validation/commit; `src/domain` holds models and activity calculations; `src/state` connects actions to storage; `desktop` contains the Electron wrapper. Read [architecture](docs/ARCHITECTURE.md), [phase decisions](docs/PHASE_2_PLAN.md) and [verification](docs/VERIFICATION.md).
-
-Native iOS/Android file import and speech, cloud sync, backup/restore of learning history, dataset deletion and formal proficiency assessment remain future work. Daily review scheduling and five-correct item recovery are implemented, but do not certify CEFR ability. Phone layouts in a browser are supported; native devices have not been tested in this phase.
