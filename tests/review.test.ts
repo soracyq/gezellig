@@ -393,8 +393,40 @@ test("unknown conjugations and ambiguous plurals never produce invented forms", 
       article: undefined,
       plural: undefined,
     }).length,
-    0,
+    1,
   );
+});
+test("a studied imported noun with no optional morphology remains reviewable", () => {
+  for (const dutch of ["huis", "het huis", "café"]) {
+    const word: VocabularyItem = {
+      ...vocabularyItems[0],
+      id: "minimal-noun",
+      dutch,
+      wordType: "noun",
+      article: undefined,
+      plural: undefined,
+    };
+    assert.equal(
+      dailyReview([word], [], emptyActivity(), 10, now).questions.length,
+      0,
+    );
+    const journal = studied([word]);
+    const plan = dailyReview([word], [], journal, 10, now);
+    assert.equal(plan.questions.length, 1);
+    const question = plan.questions[0].question;
+    assert.equal(question.correctAnswer, dutch);
+    const result = submitDailyReview(
+      [word],
+      [],
+      journal,
+      10,
+      question,
+      dutch,
+      plan.day,
+      now,
+    );
+    assert.equal(result.journal.events.at(-1)?.correct, true);
+  }
 });
 test("one-sentence and authored dialogue grammar, explicit variants, punctuation and Unicode", async () => {
   const lesson = {

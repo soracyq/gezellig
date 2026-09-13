@@ -108,12 +108,27 @@ const datasetSchema = z.object({
   contentType: z.enum(["vocabulary", "grammar"]),
   skippedCount: z.number().int().nonnegative(),
 });
-export const curriculumSchema = z.object({
-  version: z.literal(1),
-  vocabulary: z.array(vocabularySchema),
-  grammar: z.array(grammarSchema),
-  datasets: z.array(datasetSchema),
-});
+export const curriculumSchema = z
+  .object({
+    version: z.literal(1),
+    vocabulary: z.array(vocabularySchema),
+    grammar: z.array(grammarSchema),
+    datasets: z.array(datasetSchema),
+  })
+  .superRefine((curriculum, context) => {
+    for (const collection of ["vocabulary", "grammar", "datasets"] as const) {
+      const ids = new Set<string>();
+      curriculum[collection].forEach((item, index) => {
+        if (ids.has(item.id))
+          context.addIssue({
+            code: "custom",
+            path: [collection, index, "id"],
+            message: `Duplicate ${collection} ID`,
+          });
+        ids.add(item.id);
+      });
+    }
+  });
 const eventSchema = z
   .object({
     id: text.min(1),

@@ -56,35 +56,44 @@ function useLearningState() {
   const [now, setNow] = useState(() => new Date());
   const queue = useRef<Promise<unknown>>(Promise.resolve());
   const mounted = useRef(false);
+  const lifetime = useRef(0);
   const pending = useRef(0);
   const refresh = useCallback(async () => {
-    const [content, history] = await Promise.allSettled([
-      readCurriculum(AsyncStorage),
-      readActivity(AsyncStorage),
-    ]);
-    if (!mounted.current) return;
-    if (content.status === "fulfilled") {
-      setCurriculum(content.value);
-      setCurriculumError(null);
-    } else
-      setCurriculumError(
-        content.reason?.message ?? "Saved curriculum could not be loaded.",
-      );
-    if (history.status === "fulfilled") {
-      setActivity(history.value);
-      setActivityError(null);
-    } else
-      setActivityError(
-        history.reason?.message ??
-          "Saved learning history could not be loaded.",
-      );
-    setLoading(false);
-    setNow(new Date());
+    const generation = lifetime.current;
+    // Reads and writes share one queue: a delayed hydration must never replace
+    // a newer saved result, and a refresh must wait for pending local writes.
+    const work = queue.current
+      .catch(() => undefined)
+      .then(async () => {
+        const [content, history] = await Promise.allSettled([
+          readCurriculum(AsyncStorage),
+          readActivity(AsyncStorage),
+        ]);
+        if (!mounted.current || generation !== lifetime.current) return;
+        if (content.status === "fulfilled") {
+          setCurriculum(content.value);
+          setCurriculumError(null);
+        } else
+          setCurriculumError(
+            content.reason?.message ?? "Saved curriculum could not be loaded.",
+          );
+        if (history.status === "fulfilled") {
+          setActivity(history.value);
+          setActivityError(null);
+        } else
+          setActivityError(
+            history.reason?.message ??
+              "Saved learning history could not be loaded.",
+          );
+        setLoading(false);
+        setNow(new Date());
+      });
+    queue.current = work;
+    await work;
   }, []);
   useEffect(() => {
     mounted.current = true;
-    // Storage hydration sets state after awaited reads, just like the storage-event subscription below.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    const generation = lifetime.current;
     void refresh();
     const interval = setInterval(() => setNow(new Date()), 60000);
     const subscription = AppState.addEventListener("change", (state) => {
@@ -101,6 +110,7 @@ function useLearningState() {
     if (Platform.OS === "web") window.addEventListener("storage", onStorage);
     return () => {
       mounted.current = false;
+      lifetime.current = generation + 1;
       clearInterval(interval);
       subscription.remove();
       if (Platform.OS === "web")

@@ -29,7 +29,9 @@ fs.mkdirSync(out, { recursive: true });
   try {
     if (desktop) {
       app = await _electron.launch({
-        executablePath: path.join(root, "release/win-unpacked/Gezellig.exe"),
+        executablePath:
+          process.env.GEZELLIG_TEST_EXECUTABLE ||
+          path.join(root, "release/win-unpacked/Gezellig.exe"),
         args: [
           "--hidden",
           "--disable-background-timer-throttling",

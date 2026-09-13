@@ -107,6 +107,7 @@ export default function GrammarScreen() {
             accessibilityRole="button"
             accessibilityLabel={`Grammar level ${value}`}
             accessibilityState={{ selected: value === level }}
+            aria-pressed={value === level}
             onPress={() => {
               setLevel(value);
               setLimit(50);
@@ -294,6 +295,7 @@ export default function GrammarScreen() {
                     onPress={() => setSection(value)}
                     accessibilityRole="button"
                     accessibilityState={{ selected: section === value }}
+                    aria-pressed={section === value}
                     style={[
                       s.sectionTab,
                       section === value && { backgroundColor: c.blueSoft },

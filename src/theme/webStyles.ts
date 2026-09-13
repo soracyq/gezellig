@@ -6,7 +6,8 @@ export const webStyles = `
     outline: 3px solid ${colors.blue} !important;
     outline-offset: 3px;
   }
-  a:hover { opacity: 0.86; }
+  a:not([aria-disabled="true"]):hover { opacity: 0.86; }
+  [role="button"][aria-pressed]:not([aria-disabled="true"]):hover { box-shadow: inset 0 0 0 1px ${colors.blue}; }
   * { box-sizing: border-box; }
   body { margin: 0; background: ${colors.background}; }
   ::-webkit-scrollbar { width: 7px; height: 6px; }

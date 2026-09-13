@@ -145,7 +145,8 @@ export function getStatistics(journal: ActivityJournal, now = new Date()) {
           (recent.filter((e) => e.correct).length / recent.length) * 100,
         )
       : null,
-    mistakeItems: new Set(mistakes.map((e) => e.itemId)).size,
+    mistakeItems: new Set(mistakes.map((e) => `${e.contentType}:${e.itemId}`))
+      .size,
     studyDays: completedDays.length,
     streakDays,
     longestStreak,

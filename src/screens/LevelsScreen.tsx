@@ -58,6 +58,7 @@ export default function LevelsScreen() {
               accessibilityRole="button"
               accessibilityLabel={`${level} — ${levelNames[level]}`}
               accessibilityState={{ selected }}
+              aria-pressed={selected}
               onPress={() => setSelectedLevel(level)}
               style={({ pressed }) => [
                 s.level,
@@ -328,7 +329,7 @@ const s = StyleSheet.create({
   topicList: { gap: spacing.lg },
   topic: { flexDirection: "row", alignItems: "center", gap: spacing.md },
   topicNumber: {
-    color: c.faint,
+    color: c.muted,
     fontSize: 13,
     fontWeight: "600",
     fontFamily: typography.family,

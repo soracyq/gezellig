@@ -1,6 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useState } from "react";
-import { Link } from "expo-router";
 import { version } from "../../package.json";
 import { useLearning } from "../state/LearningProvider";
 import {
@@ -13,17 +12,16 @@ import {
   SectionHeading,
   Action,
   PreviewModal,
+  IconAction,
 } from "../components/ui";
 import { useSettings } from "../state/SettingsProvider";
 import { DAILY_TARGETS } from "../storage/settings";
-import { colors as c, typography } from "../theme/tokens";
+import { colors as c, typography, layout } from "../theme/tokens";
 
 export default function SettingsScreen() {
   const { vocabulary, grammar, resetProgress, loading, busy } = useLearning();
   const [confirmReset, setConfirmReset] = useState(false);
   const [resetMessage, setResetMessage] = useState<string | null>(null);
-  const [storageHovered, setStorageHovered] = useState(false);
-  const [storageFocused, setStorageFocused] = useState(false);
   async function reset() {
     try {
       await resetProgress();
@@ -63,6 +61,7 @@ export default function SettingsScreen() {
                 key={target}
                 accessibilityRole="button"
                 accessibilityLabel={`${target} words per day`}
+                aria-pressed={dailyTarget === target}
                 accessibilityState={{
                   selected: dailyTarget === target,
                   disabled: isLoading || isSaving,
@@ -78,7 +77,7 @@ export default function SettingsScreen() {
                 <Text
                   style={[
                     s.targetNumber,
-                    dailyTarget === target && { color: c.orange },
+                    dailyTarget === target && { color: c.orangeText },
                   ]}
                 >
                   {target}
@@ -86,7 +85,7 @@ export default function SettingsScreen() {
                 <Text
                   style={[
                     s.targetWords,
-                    dailyTarget === target && { color: c.orange },
+                    dailyTarget === target && { color: c.orangeText },
                   ]}
                 >
                   words
@@ -153,23 +152,11 @@ export default function SettingsScreen() {
                 app. Cloud synchronization will come later.
               </Body>
             </View>
-            <Link href="/import" asChild>
-              <Pressable
-                accessibilityRole="link"
-                accessibilityLabel="Open imported study files"
-                onHoverIn={() => setStorageHovered(true)}
-                onHoverOut={() => setStorageHovered(false)}
-                onFocus={() => setStorageFocused(true)}
-                onBlur={() => setStorageFocused(false)}
-                style={StyleSheet.flatten([
-                  s.storageLink,
-                  storageHovered && { backgroundColor: c.blueSoft },
-                  storageFocused && { borderColor: c.blue },
-                ])}
-              >
-                <Icon name="smartphone" color={c.blue} />
-              </Pressable>
-            </Link>
+            <IconAction
+              href="/import"
+              title="Open imported study files"
+              icon="smartphone"
+            />
           </View>
         </Card>
         <View style={s.future}>
@@ -241,6 +228,7 @@ export default function SettingsScreen() {
           />
           <Action
             title="Confirm progress reset"
+            variant="destructive"
             onPress={() => void reset()}
             disabled={busy}
           />
@@ -251,16 +239,10 @@ export default function SettingsScreen() {
   );
 }
 const s = StyleSheet.create({
-  content: { width: "100%", maxWidth: 820, alignSelf: "center" },
-  storageLink: {
-    width: 44,
-    height: 44,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: c.transparent,
-    cursor: "pointer",
+  content: {
+    width: "100%",
+    maxWidth: layout.settingsWidth,
+    alignSelf: "center",
   },
   icon: {
     width: 43,

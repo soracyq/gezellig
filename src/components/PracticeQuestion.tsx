@@ -93,7 +93,9 @@ export function PracticeQuestion({
         />
       )}
       {(error || activityError) && (
-        <Body style={{ color: colors.orange }}>{error || activityError}</Body>
+        <Body accessibilityRole="alert" style={{ color: colors.orangeText }}>
+          {error || activityError}
+        </Body>
       )}
     </View>
   );

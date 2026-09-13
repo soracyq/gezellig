@@ -52,12 +52,14 @@ const snapshot = (page) =>
   );
   if (desktop) {
     session = await electron.launch({
-      executablePath: path.join(
-        root,
-        sourceBuild
-          ? "node_modules/electron/dist/electron.exe"
-          : "release/win-unpacked/Gezellig.exe",
-      ),
+      executablePath:
+        (!sourceBuild && process.env.GEZELLIG_TEST_EXECUTABLE) ||
+        path.join(
+          root,
+          sourceBuild
+            ? "node_modules/electron/dist/electron.exe"
+            : "release/win-unpacked/Gezellig.exe",
+        ),
       args: [
         ...(sourceBuild ? [path.join(root, "desktop")] : []),
         "--hidden",

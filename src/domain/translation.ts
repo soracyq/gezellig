@@ -97,14 +97,17 @@ export function vocabularyTranslations(
   const head = word.dutch.trim().replace(/^(de|het)\s+/i, "");
   if (word.wordType === "noun") {
     const result: TranslationQuestion[] = [];
-    if (word.article)
-      result.push({
-        ...base,
-        id: `translation:${word.id}:singular`,
-        prompt: word.english,
-        correctAnswer: `${word.article} ${head}`,
-        hint: "Include the definite article (de or het).",
-      });
+    result.push({
+      ...base,
+      id: `translation:${word.id}:singular`,
+      prompt: word.english,
+      correctAnswer: word.article
+        ? `${word.article} ${head}`
+        : word.dutch.trim(),
+      hint: word.article
+        ? "Include the definite article (de or het)."
+        : "Use the Dutch form from your vocabulary lesson.",
+    });
     // The source has Dutch plurals, but no English-plural column. Label the task safely.
     if (word.plural?.trim() && !/[;/()]/.test(word.plural))
       result.push({

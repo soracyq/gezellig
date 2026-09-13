@@ -11,9 +11,9 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colors as c, typography } from "../theme/tokens";
+import { colors as c, typography, layout } from "../theme/tokens";
 import { useLearning } from "../state/LearningProvider";
-import { Badge, Body, Icon, Label, type IconName } from "./ui";
+import { Badge, Body, Icon, IconAction, Label, type IconName } from "./ui";
 
 export const navigation: { label: string; href: Href; icon: IconName }[] = [
   { label: "Home", href: "/", icon: "grid" },
@@ -54,6 +54,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               accessibilityRole="link"
               accessibilityLabel={item.label}
               accessibilityState={{ selected: item.href === pathname }}
+              aria-current={item.href === pathname ? "page" : undefined}
               style={StyleSheet.flatten([
                 s.navItem,
                 item.href === pathname && s.navItemActive,
@@ -141,14 +142,11 @@ export function AppShell({ children }: { children: ReactNode }) {
               </View>
             )}
             {!large && (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Open navigation menu"
+              <IconAction
+                title="Open navigation menu"
                 onPress={() => setMenuOpen(true)}
-                style={s.menuButton}
-              >
-                <Icon name="menu" color={c.navy} />
-              </Pressable>
+                icon="menu"
+              />
             )}
           </View>
         </View>
@@ -213,6 +211,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     accessibilityRole="link"
                     accessibilityLabel={item.label}
                     accessibilityState={{ selected: item.href === pathname }}
+                    aria-current={item.href === pathname ? "page" : undefined}
                     style={s.mobileTab}
                   >
                     <Icon
@@ -236,6 +235,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         )}
       </View>
       <Modal
+        accessibilityLabel="Navigation"
         transparent
         visible={menuOpen}
         animationType="fade"
@@ -245,14 +245,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           <View accessibilityViewIsModal style={s.menuSheet}>
             <View style={s.menuHeading}>
               <Brand />
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Close navigation menu"
+              <IconAction
+                title="Close navigation menu"
                 onPress={() => setMenuOpen(false)}
-                style={s.menuButton}
-              >
-                <Icon name="x" />
-              </Pressable>
+                icon="x"
+              />
             </View>
             <ScrollView style={{ flexShrink: 1 }}>
               {nav(() => setMenuOpen(false))}
@@ -384,7 +381,12 @@ const s = StyleSheet.create({
     borderColor: c.line,
   },
   scrollContent: { flexGrow: 1 },
-  page: { width: "100%", maxWidth: 1230, alignSelf: "center", flexGrow: 1 },
+  page: {
+    width: "100%",
+    maxWidth: layout.contentWidth,
+    alignSelf: "center",
+    flexGrow: 1,
+  },
   footer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -411,12 +413,6 @@ const s = StyleSheet.create({
     minHeight: 64,
   },
   mobileTabText: { fontSize: 10, fontFamily: typography.family },
-  menuButton: {
-    width: 44,
-    height: 44,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   menuBackdrop: {
     flex: 1,
     backgroundColor: c.overlay,

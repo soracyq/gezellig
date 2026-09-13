@@ -10,6 +10,11 @@ export const colors = {
   faint: "#8A9699",
   line: "#E4E9E6",
   orange: "#C45C33",
+  orangeAction: "#B9512D",
+  orangePressed: "#8B3E22",
+  orangeText: "#8B3E22",
+  danger: "#923F35",
+  dangerPressed: "#71312A",
   orangeSoft: "#FBEEE6",
   blue: "#356B84",
   blueSoft: "#EAF2F5",
@@ -56,6 +61,19 @@ export const spacing = {
   xxxl: 48,
 };
 export const radius = { sm: 8, md: 12, lg: 18, xl: 24, pill: 999 };
+export const controls = {
+  height: 46,
+  iconSize: 44,
+  inputHeight: 60,
+  borderWidth: 2,
+};
+export const layout = {
+  modalWidth: 630,
+  settingsWidth: 820,
+  contentWidth: 1230,
+};
+// Cards remain flat; reserve elevation for the shared dialog.
+export const shadows = { modal: "0px 12px 40px rgba(23, 43, 52, 0.16)" };
 export const typography = {
   family: Platform.select({
     web: "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif",
@@ -67,6 +85,8 @@ export const typography = {
     body: 15,
     subtitle: 18,
     title: 28,
+    page: 30,
+    section: 19,
     display: 38,
   },
 };

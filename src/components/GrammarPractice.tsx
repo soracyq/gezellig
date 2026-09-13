@@ -4,7 +4,7 @@ import { Pressable, TextInput, View } from "react-native";
 import type { GrammarExercise, GrammarTopic } from "../domain/models";
 import { grammarExercises } from "../domain/grammarPractice";
 import { useLearning } from "../state/LearningProvider";
-import { Action, Badge, Body, Card } from "./ui";
+import { Action, Badge, Body, Card, styles as uiStyles } from "./ui";
 import { colors } from "../theme/tokens";
 
 export function GrammarPractice({ lesson }: { lesson: GrammarTopic }) {
@@ -202,16 +202,8 @@ function Exercise({
             autoCorrect={false}
             autoCapitalize="none"
             multiline
-            style={{
-              borderWidth: 1,
-              borderColor: colors.line,
-              borderRadius: 10,
-              padding: 15,
-              minHeight: 60,
-              color: colors.navy,
-              backgroundColor: colors.surface,
-              fontSize: 17,
-            }}
+            placeholderTextColor={colors.muted}
+            style={uiStyles.answerInput}
           />
         </>
       )}
@@ -258,7 +250,9 @@ function Exercise({
         />
       )}
       {(error || activityError) && (
-        <Body style={{ color: colors.orange }}>{error || activityError}</Body>
+        <Body accessibilityRole="alert" style={{ color: colors.orangeText }}>
+          {error || activityError}
+        </Body>
       )}
     </View>
   );

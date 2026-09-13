@@ -30,6 +30,30 @@ function memoryStorage(initial: [string, string][] = []) {
   return { values, writes, storage };
 }
 
+test("duplicate curriculum IDs fail without rewriting saved data; types have independent IDs", async () => {
+  const valid = {
+    ...emptyCurriculum(),
+    vocabulary: [vocabularyItems[0]],
+    grammar: [{ ...grammarTopics[0], id: vocabularyItems[0].id }],
+  };
+  const { storage, values, writes } = memoryStorage();
+  await writeCurriculum(storage, valid);
+  assert.deepEqual(await readCurriculum(storage), valid);
+  for (const collection of ["vocabulary", "grammar"] as const) {
+    const damaged = {
+      ...valid,
+      [collection]: [...valid[collection], ...valid[collection]],
+    };
+    const raw = JSON.stringify(damaged);
+    values.set(CURRICULUM_KEY, raw);
+    const before = writes.length;
+    await assert.rejects(readCurriculum(storage), /kept unchanged/);
+    await assert.rejects(writeCurriculum(storage, damaged));
+    assert.equal(values.get(CURRICULUM_KEY), raw);
+    assert.equal(writes.length, before);
+  }
+});
+
 test("new installation reads empty curriculum and progress without writing or resetting anything", async () => {
   const { storage, writes } = memoryStorage();
   assert.deepEqual(await readCurriculum(storage), emptyCurriculum());

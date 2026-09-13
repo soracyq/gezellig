@@ -75,7 +75,9 @@ fs.mkdirSync(out, { recursive: true });
   try {
     if (desktop) {
       app = await _electron.launch({
-        executablePath: path.join(root, "release/win-unpacked/Gezellig.exe"),
+        executablePath:
+          process.env.GEZELLIG_TEST_EXECUTABLE ||
+          path.join(root, "release/win-unpacked/Gezellig.exe"),
         args: [
           "--hidden",
           "--disable-background-timer-throttling",
@@ -356,7 +358,9 @@ fs.mkdirSync(out, { recursive: true });
       const finalHistory = await history();
       await app.close();
       app = await _electron.launch({
-        executablePath: path.join(root, "release/win-unpacked/Gezellig.exe"),
+        executablePath:
+          process.env.GEZELLIG_TEST_EXECUTABLE ||
+          path.join(root, "release/win-unpacked/Gezellig.exe"),
         args: ["--hidden", `--user-data-dir=${profile}`],
       });
       page = await app.firstWindow();

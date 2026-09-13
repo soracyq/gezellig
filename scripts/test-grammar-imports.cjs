@@ -88,9 +88,7 @@ async function inspectLesson(page, row, capture) {
     });
   }
   await page.getByRole("button", { name: "Practice", exact: true }).click();
-  await page
-    .getByText("Question 1 of 5", { exact: true })
-    .waitFor();
+  await page.getByText("Question 1 of 5", { exact: true }).waitFor();
   await page
     .getByRole("button", { name: "Close preview", exact: true })
     .click();
@@ -106,7 +104,9 @@ async function inspectLesson(page, row, capture) {
     let page;
     if (desktop) {
       session = await electron.launch({
-        executablePath: path.join(root, "release/win-unpacked/Gezellig.exe"),
+        executablePath:
+          process.env.GEZELLIG_TEST_EXECUTABLE ||
+          path.join(root, "release/win-unpacked/Gezellig.exe"),
         args: ["--hidden", `--user-data-dir=${profile}`],
         timeout: 45000,
       });

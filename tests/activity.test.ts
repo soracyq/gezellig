@@ -18,6 +18,20 @@ const localNoon = (day: string) => {
   return new Date(year, month - 1, date, 12);
 };
 
+test("mistaken vocabulary and grammar with a shared ID count as distinct items", () => {
+  const journal: ActivityJournal = {
+    version: 1,
+    events: ["vocabulary", "grammar"].map((type) =>
+      makeEvent("answer", "shared-id", type as "vocabulary" | "grammar", {
+        id: `attempt-${type}`,
+        questionId: `question-${type}`,
+        correct: false,
+      }),
+    ),
+  };
+  assert.equal(getStatistics(journal).mistakeItems, 2);
+});
+
 function event(
   day: string,
   kind: ActivityEvent["kind"],

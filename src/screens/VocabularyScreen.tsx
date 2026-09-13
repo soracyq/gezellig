@@ -122,6 +122,7 @@ export default function VocabularyScreen() {
               accessibilityRole="button"
               accessibilityLabel={`Vocabulary level ${value}`}
               accessibilityState={{ selected: value === level }}
+              aria-pressed={value === level}
               onPress={() => {
                 setLevel(value);
                 setLimit(50);
@@ -147,6 +148,7 @@ export default function VocabularyScreen() {
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ selected: type === value }}
+                aria-pressed={type === value}
                 accessibilityLabel={
                   value === "All words" ? value : `Filter ${value}s`
                 }

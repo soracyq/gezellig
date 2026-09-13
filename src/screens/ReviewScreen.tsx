@@ -8,6 +8,7 @@ import {
   EmptyState,
   PageHeading,
   SectionHeading,
+  styles as uiStyles,
 } from "../components/ui";
 import { dailyReview } from "../domain/review";
 import { ReviewRefresh } from "../components/ReviewRefresh";
@@ -208,7 +209,9 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
           )}
           {error && (
             <View accessibilityLiveRegion="polite" style={{ gap: 8 }}>
-              <Body style={{ color: c.orange }}>{error}</Body>
+              <Body accessibilityRole="alert" style={{ color: c.orangeText }}>
+                {error}
+              </Body>
               <Action
                 title="Refresh review"
                 variant="secondary"
@@ -284,7 +287,7 @@ function TranslationInput({
         spellCheck={false}
         maxLength={4000}
         style={[
-          s.input,
+          uiStyles.answerInput,
           grammar && { minHeight: 140, textAlignVertical: "top" },
         ]}
         onSubmitEditing={grammar ? undefined : () => void submit(answer)}
@@ -304,17 +307,5 @@ const s = StyleSheet.create({
     fontSize: typography.sizes.title,
     lineHeight: 36,
     fontWeight: "600",
-  },
-  input: {
-    fontFamily: typography.family,
-    fontSize: typography.sizes.subtitle,
-    lineHeight: 28,
-    minHeight: 54,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: c.blue,
-    borderRadius: 10,
-    color: c.text,
-    backgroundColor: c.surface,
   },
 });

@@ -84,6 +84,17 @@ export default function ImportScreen() {
     }
     const currentJob = job.current;
     setWorking(true);
+    // Include the browser's file read in the deadline, not just worker parsing.
+    timerRef.current = setTimeout(() => {
+      if (currentJob === job.current) {
+        job.current++;
+        stopWorker();
+        setWorking(false);
+        setError(
+          "The file took too long to read. Try a smaller file or save a fresh copy of the template.",
+        );
+      }
+    }, 20000);
     try {
       const buffer = await file.arrayBuffer();
       if (currentJob !== job.current) return;
@@ -91,15 +102,6 @@ export default function ImportScreen() {
       const workerURL = new URL("/import-worker.js", window.location.href).href;
       const worker = new window.Worker(workerURL);
       workerRef.current = worker;
-      timerRef.current = setTimeout(() => {
-        if (currentJob === job.current) {
-          stopWorker();
-          setWorking(false);
-          setError(
-            "The file took too long to read. Try a smaller file or save a fresh copy of the template.",
-          );
-        }
-      }, 20000);
       worker.onerror = () => {
         if (currentJob === job.current) {
           stopWorker();
@@ -306,7 +308,7 @@ export default function ImportScreen() {
           </View>
         )}
         {(error || curriculumError) && (
-          <Body accessibilityRole="alert" style={{ color: c.orange }}>
+          <Body accessibilityRole="alert" style={{ color: c.orangeText }}>
             {error || curriculumError}
           </Body>
         )}

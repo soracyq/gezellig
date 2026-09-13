@@ -122,6 +122,7 @@ export default function StatisticsScreen() {
               accessibilityRole="button"
               accessibilityLabel={`Show words learned: ${item}`}
               accessibilityState={{ selected: item === period }}
+              aria-pressed={item === period}
               onPress={() => setPeriod(item)}
               style={({ pressed }) => [
                 s.period,

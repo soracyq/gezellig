@@ -16,6 +16,10 @@ import {
   learningColors,
   radius,
   typography,
+  spacing,
+  controls,
+  layout,
+  shadows,
 } from "../theme/tokens";
 
 export type IconName = ComponentProps<typeof Feather>["name"];
@@ -28,7 +32,15 @@ export function Icon({
   size?: number;
   color?: string;
 }) {
-  return <Feather name={name} size={size} color={color} />;
+  return (
+    <Feather
+      name={name}
+      size={size}
+      color={color}
+      accessible={false}
+      aria-hidden
+    />
+  );
 }
 export function Label({
   children,
@@ -37,7 +49,16 @@ export function Label({
   children: ReactNode;
   color?: string;
 }) {
-  return <Text style={[styles.label, { color }]}>{children}</Text>;
+  return (
+    <Text
+      style={[
+        styles.label,
+        { color: color === c.orange ? c.orangeText : color },
+      ]}
+    >
+      {children}
+    </Text>
+  );
 }
 export function Body({
   children,
@@ -79,7 +100,7 @@ export function Badge({
 }) {
   const tones = {
     blue: [c.blueSoft, c.blue],
-    orange: [c.orangeSoft, c.orange],
+    orange: [c.orangeSoft, c.orangeText],
     green: [c.greenSoft, c.green],
     neutral: [c.background, c.muted],
   };
@@ -128,6 +149,7 @@ export function Action({
   icon,
   variant = "primary",
   disabled = false,
+  iconOnly = false,
   style,
 }: {
   title: string;
@@ -136,14 +158,17 @@ export function Action({
   target?: "_blank";
   onPress?: () => void;
   icon?: IconName;
-  variant?: "primary" | "secondary" | "quiet" | "warm";
+  variant?: "primary" | "secondary" | "quiet" | "warm" | "destructive";
   disabled?: boolean;
+  iconOnly?: boolean;
   style?: StyleProp<ViewStyle>;
 }) {
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const active = !disabled && (hovered || pressed);
   const foreground =
-    variant === "primary"
+    variant === "primary" || variant === "destructive"
       ? c.white
       : variant === "warm"
         ? learningColors.new.text
@@ -152,6 +177,7 @@ export function Action({
     <Pressable
       accessibilityRole={href ? "link" : "button"}
       accessibilityLabel={accessibilityLabel ?? title}
+      accessibilityState={{ disabled }}
       {...(target ? { hrefAttrs: { target, rel: "noopener noreferrer" } } : {})}
       disabled={disabled}
       onPress={onPress}
@@ -159,38 +185,47 @@ export function Action({
       onHoverOut={() => setHovered(false)}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       style={StyleSheet.flatten([
         styles.button,
         variant === "primary"
-          ? { backgroundColor: c.orange }
-          : variant === "secondary"
-            ? {
-                backgroundColor: c.surface,
-                borderWidth: 1,
-                borderColor: c.line,
-              }
-            : variant === "warm"
+          ? { backgroundColor: active ? c.orangePressed : c.orangeAction }
+          : variant === "destructive"
+            ? { backgroundColor: active ? c.dangerPressed : c.danger }
+            : variant === "secondary"
               ? {
-                  backgroundColor: c.orangeSoft,
-                  borderWidth: 2,
-                  borderColor:
-                    !disabled && focused
-                      ? c.navy
-                      : !disabled && hovered
-                        ? c.orange
-                        : learningColors.new.border,
-                  cursor: disabled ? "auto" : "pointer",
+                  backgroundColor: active ? c.blueSoft : c.surface,
+                  borderColor: active ? c.blue : c.line,
                 }
-              : { backgroundColor: c.transparent },
-        { opacity: disabled ? 0.5 : 1 },
+              : variant === "warm"
+                ? {
+                    backgroundColor: c.orangeSoft,
+                    borderColor:
+                      !disabled && focused
+                        ? c.navy
+                        : !disabled && hovered
+                          ? c.orange
+                          : learningColors.new.border,
+                    cursor: disabled ? "auto" : "pointer",
+                  }
+                : { backgroundColor: active ? c.blueSoft : c.transparent },
+        !disabled && focused && { borderColor: c.navy },
+        {
+          opacity: disabled ? 0.5 : pressed ? 0.88 : 1,
+          cursor: disabled ? "auto" : "pointer",
+        },
+        iconOnly && styles.iconButton,
         style,
       ])}
     >
-      <Text style={[styles.buttonText, { color: foreground }]}>{title}</Text>
+      {!iconOnly && (
+        <Text style={[styles.buttonText, { color: foreground }]}>{title}</Text>
+      )}
       {icon && <Icon name={icon} size={17} color={foreground} />}
     </Pressable>
   );
-  return href ? (
+  return href && !disabled ? (
     <Link
       href={href}
       target={target}
@@ -202,6 +237,11 @@ export function Action({
   ) : (
     control
   );
+}
+export function IconAction(
+  props: Omit<ComponentProps<typeof Action>, "iconOnly"> & { icon: IconName },
+) {
+  return <Action variant="quiet" {...props} iconOnly />;
 }
 export function PageHeading({
   eyebrow,
@@ -216,7 +256,9 @@ export function PageHeading({
 }) {
   return (
     <View style={styles.pageHeading}>
-      <View style={{ flex: 1, gap: 8 }}>
+      <View
+        style={{ flexGrow: 1, flexShrink: 1, flexBasis: 260, gap: spacing.sm }}
+      >
         {eyebrow && <Label color={c.orange}>{eyebrow}</Label>}
         <Text accessibilityRole="header" style={styles.pageTitle}>
           {title}
@@ -300,6 +342,7 @@ export function PreviewModal({
 }) {
   return (
     <Modal
+      accessibilityLabel={title}
       visible={visible}
       animationType="fade"
       transparent
@@ -324,18 +367,11 @@ export function PreviewModal({
                 {title}
               </Text>
             </View>
-            <Pressable
-              onPress={onClose}
-              accessibilityRole="button"
-              accessibilityLabel="Close preview"
-              style={styles.closeButton}
-            >
-              <Icon name="x" color={c.navy} />
-            </Pressable>
+            <IconAction onPress={onClose} title="Close preview" icon="x" />
           </View>
           <ScrollView
             key={contentKey ?? title}
-            contentContainerStyle={{ padding: 24, gap: 20 }}
+            contentContainerStyle={{ padding: spacing.xl, gap: spacing.lg }}
           >
             {children}
           </ScrollView>
@@ -358,7 +394,7 @@ export const styles = StyleSheet.create({
     fontFamily: typography.family,
   },
   body: {
-    fontSize: 15,
+    fontSize: typography.sizes.body,
     lineHeight: 23,
     color: c.text,
     fontFamily: typography.family,
@@ -368,7 +404,7 @@ export const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: 1,
     borderColor: c.line,
-    padding: 24,
+    padding: spacing.xl,
   },
   badge: {
     paddingHorizontal: 10,
@@ -390,15 +426,37 @@ export const styles = StyleSheet.create({
   },
   progressFill: { height: "100%", borderRadius: 4 },
   button: {
-    minHeight: 46,
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 9,
+    minHeight: controls.height,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.md,
+    borderWidth: controls.borderWidth,
+    borderColor: c.transparent,
+    cursor: "pointer",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 12,
+    gap: spacing.md,
     alignSelf: "flex-start",
+  },
+  iconButton: {
+    width: controls.iconSize,
+    height: controls.iconSize,
+    minHeight: controls.iconSize,
+    padding: 0,
+  },
+  answerInput: {
+    fontFamily: typography.family,
+    fontSize: typography.sizes.subtitle,
+    lineHeight: 28,
+    minHeight: controls.inputHeight,
+    padding: spacing.lg,
+    borderWidth: 1,
+    borderColor: c.blue,
+    borderRadius: radius.md,
+    color: c.text,
+    backgroundColor: c.surface,
+    textAlignVertical: "top",
   },
   buttonText: {
     fontSize: 13,
@@ -413,14 +471,14 @@ export const styles = StyleSheet.create({
     marginBottom: 28,
   },
   pageTitle: {
-    fontSize: 30,
+    fontSize: typography.sizes.page,
     fontWeight: "600",
     color: c.navy,
     letterSpacing: -1,
     fontFamily: typography.family,
   },
   sectionTitle: {
-    fontSize: 19,
+    fontSize: typography.sizes.section,
     fontWeight: "600",
     color: c.navy,
     letterSpacing: -0.4,
@@ -450,10 +508,11 @@ export const styles = StyleSheet.create({
   },
   modalCard: {
     width: "100%",
-    maxWidth: 630,
+    maxWidth: layout.modalWidth,
     maxHeight: "88%",
     backgroundColor: c.surface,
-    borderRadius: 20,
+    borderRadius: radius.xl,
+    boxShadow: shadows.modal,
     overflow: "hidden",
   },
   modalHeader: {
@@ -463,14 +522,6 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-  },
-  closeButton: {
-    width: 44,
-    height: 44,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    backgroundColor: c.background,
   },
   modalFooter: {
     padding: 20,
