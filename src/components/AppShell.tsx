@@ -14,6 +14,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors as c, typography, layout } from "../theme/tokens";
 import { useLearning } from "../state/LearningProvider";
 import { Badge, Body, Icon, IconAction, Label, type IconName } from "./ui";
+import { AboutModal } from "./AboutModal";
+import { currentVersion } from "../about/metadata";
 
 export const navigation: { label: string; href: Href; icon: IconName }[] = [
   { label: "Home", href: "/", icon: "grid" },
@@ -42,6 +44,41 @@ export function AppShell({ children }: { children: ReactNode }) {
   const current =
     navigation.find((item) => item.href === pathname)?.label ?? "Explore";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [aboutFocused, setAboutFocused] = useState(false);
+  const [aboutHovered, setAboutHovered] = useState(false);
+  const aboutEntry = (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`About Gezellig, version ${currentVersion}`}
+      onPress={() => {
+        setMenuOpen(false);
+        setAboutOpen(true);
+      }}
+      onFocus={() => setAboutFocused(true)}
+      onBlur={() => setAboutFocused(false)}
+      onHoverIn={() => setAboutHovered(true)}
+      onHoverOut={() => setAboutHovered(false)}
+      style={[
+        s.profile,
+        {
+          cursor: "pointer",
+          borderRadius: 10,
+          borderWidth: 1,
+          borderColor: aboutFocused ? c.blue : c.transparent,
+          backgroundColor: aboutHovered ? c.blueSoft : c.transparent,
+        },
+      ]}
+    >
+      <View style={s.avatar}>
+        <Icon name="info" size={19} color={c.blue} />
+      </View>
+      <View style={{ gap: 3 }}>
+        <Text style={s.profileName}>About Gezellig</Text>
+        <Text style={s.profileCaption}>Version {currentVersion}</Text>
+      </View>
+    </Pressable>
+  );
   const insets = useSafeAreaInsets();
   const nav = (onNavigate?: () => void) => (
     <View style={{ gap: 6 }}>
@@ -103,15 +140,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 Make a little room for Dutch every day.
               </Body>
             </View>
-            <View style={s.profile}>
-              <View style={s.avatar}>
-                <Icon name="user" size={19} color={c.blue} />
-              </View>
-              <View style={{ gap: 3 }}>
-                <Text style={s.profileName}>Your personal space</Text>
-                <Text style={s.profileCaption}>Learning at your own pace</Text>
-              </View>
-            </View>
+            {aboutEntry}
           </View>
         </ScrollView>
       )}
@@ -253,6 +282,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </View>
             <ScrollView style={{ flexShrink: 1 }}>
               {nav(() => setMenuOpen(false))}
+              {aboutEntry}
               <Body muted style={{ fontSize: 12, marginTop: 20 }}>
                 Your curriculum · English interface
               </Body>
@@ -260,6 +290,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </View>
         </View>
       </Modal>
+      <AboutModal visible={aboutOpen} onClose={() => setAboutOpen(false)} />
     </View>
   );
 }

@@ -22,4 +22,37 @@ function isGoogleTranslateURL(value) {
     return false;
   }
 }
-module.exports = { isGoogleTranslateURL };
+const { repository } = require("./project-info.json");
+const repo = new URL(repository);
+const updateAPI = `https://api.github.com/repos${repo.pathname}/releases/latest`;
+function isProjectURL(value) {
+  try {
+    const url = new URL(value);
+    if (
+      url.origin !== repo.origin ||
+      url.username ||
+      url.password ||
+      url.search ||
+      url.hash
+    )
+      return false;
+    if (
+      [
+        repo.pathname,
+        repo.pathname + "/",
+        repo.pathname + "/releases",
+        repo.pathname + "/releases/latest",
+      ].includes(url.pathname)
+    )
+      return true;
+    const prefix = repo.pathname + "/releases/tag/";
+    return (
+      url.pathname.startsWith(prefix) &&
+      /^[\w.+-]+$/.test(decodeURIComponent(url.pathname.slice(prefix.length)))
+    );
+  } catch {
+    return false;
+  }
+}
+const isUpdateAPI = (value) => value === updateAPI;
+module.exports = { isGoogleTranslateURL, isProjectURL, isUpdateAPI, updateAPI };

@@ -10,7 +10,11 @@ const {
 } = require("electron");
 const fs = require("node:fs/promises");
 const path = require("node:path");
-const { isGoogleTranslateURL } = require("./external-links.cjs");
+const {
+  isGoogleTranslateURL,
+  isProjectURL,
+  isUpdateAPI,
+} = require("./external-links.cjs");
 const {
   resolveStaticFile,
   responseHeaders,
@@ -119,14 +123,13 @@ async function createWindow() {
     },
   });
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (isGoogleTranslateURL(url)) {
+    if (isGoogleTranslateURL(url) || isProjectURL(url)) {
       void shell.openExternal(url).catch(() => {
         if (mainWindow && !mainWindow.isDestroyed())
           void dialog.showMessageBox(mainWindow, {
             type: "error",
-            title: "Could not open Google Translate",
-            message:
-              "Check your default browser and try again. Built-in Listen is still available.",
+            title: "Could not open your browser",
+            message: "Check your default browser and try again.",
           });
       });
     }
@@ -189,6 +192,7 @@ if (!app.requestSingleInstanceLock()) {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         const allowed =
           isAppURL(details.url) ||
+          (details.method === "GET" && isUpdateAPI(details.url)) ||
           details.url.startsWith("blob:dutchly://app/") ||
           details.url.startsWith("data:");
         callback({ cancel: !allowed });

@@ -200,7 +200,7 @@ export function Action({
                 }
               : variant === "warm"
                 ? {
-                    backgroundColor: c.orangeSoft,
+                    backgroundColor: active ? c.sand : c.orangeSoft,
                     borderColor:
                       !disabled && focused
                         ? c.navy
@@ -327,6 +327,7 @@ export function PreviewModal({
   eyebrow = "STUDY SPACE",
   footer = "Progress is saved only when you choose a study action or submit an answer.",
   showDone = true,
+  closeLabel = "Close preview",
   children,
 }: {
   visible: boolean;
@@ -338,6 +339,7 @@ export function PreviewModal({
   eyebrow?: string;
   footer?: string;
   showDone?: boolean;
+  closeLabel?: string;
   children: ReactNode;
 }) {
   return (
@@ -367,7 +369,7 @@ export function PreviewModal({
                 {title}
               </Text>
             </View>
-            <IconAction onPress={onClose} title="Close preview" icon="x" />
+            <IconAction onPress={onClose} title={closeLabel} icon="x" />
           </View>
           <ScrollView
             key={contentKey ?? title}

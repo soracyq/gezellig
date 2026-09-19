@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import type { dailyReview } from "../domain/review";
 import { vocabularyLabel } from "../domain/homeLearning";
 import { useLearning } from "../state/LearningProvider";
 import { Action, Badge, Body, Card, SectionHeading } from "./ui";
+import { useReviewEnter } from "./useReviewEnter";
+import { ReviewTranslate } from "./ReviewTranslate";
 
 export function ReviewRefresh({
   questions,
@@ -15,6 +17,10 @@ export function ReviewRefresh({
   const { vocabulary, grammar } = useLearning();
   const [index, setIndex] = useState(0);
   const question = questions[Math.min(index, questions.length - 1)]?.question;
+  useReviewEnter(!!question, () => {
+    if (index + 1 < questions.length) setIndex((value) => value + 1);
+    else start();
+  });
   if (!question) return null;
   const word =
     question.contentType === "vocabulary"
@@ -63,6 +69,7 @@ export function ReviewRefresh({
             {vocabularyLabel(word)}
           </Body>
           <Body>{word.english}</Body>
+          <ReviewTranslate text={vocabularyLabel(word)} />
           {details.filter(Boolean).map((detail, i) => (
             <Body key={i} muted>
               {detail}
@@ -89,6 +96,7 @@ export function ReviewRefresh({
             <View key={i} style={{ gap: 5 }}>
               <Body>{example.dutch}</Body>
               <Body muted>{example.english}</Body>
+              <ReviewTranslate text={example.dutch} />
             </View>
           ))}
         </>
@@ -111,6 +119,7 @@ export function ReviewRefresh({
           <Action title="Start test" onPress={start} icon="arrow-right" />
         )}
       </View>
+      {Platform.OS === "web" && <Body muted>Press Enter to continue.</Body>}
     </Card>
   );
 }

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { StyleSheet, TextInput, View } from "react-native";
+import { Platform, StyleSheet, TextInput, View } from "react-native";
 import {
   Action,
   Badge,
@@ -12,6 +12,8 @@ import {
 } from "../components/ui";
 import { dailyReview } from "../domain/review";
 import { ReviewRefresh } from "../components/ReviewRefresh";
+import { useReviewEnter } from "../components/useReviewEnter";
+import { ReviewTranslate } from "../components/ReviewTranslate";
 import type { TranslationQuestion } from "../domain/models";
 import { useLearning } from "../state/LearningProvider";
 import { useSettings } from "../state/SettingsProvider";
@@ -73,8 +75,15 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
   const needsRefresh =
     !feedback &&
     plan.questions.some((item) => !refreshed.has(item.question.id));
+  function advance() {
+    setFeedback(null);
+    setChosen(null);
+    setError(null);
+  }
+  useReviewEnter(!!feedback && !busy, advance);
   async function submit(answer: string) {
-    if (!current || feedback || submitting.current) return;
+    if (!current || feedback || submitting.current || busy || !answer.trim())
+      return;
     submitting.current = true;
     setError(null);
     try {
@@ -161,6 +170,7 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
                 {current.correctAnswer}
               </Body>
               <Body muted>{current.label}</Body>
+              <ReviewTranslate text={current.correctAnswer} />
               {current.rule && <Body>{current.rule}</Body>}
               <Body muted>
                 {feedback.alreadySaved
@@ -169,13 +179,12 @@ function DailySession({ plan }: { plan: ReturnType<typeof dailyReview> }) {
               </Body>
               <Action
                 title={plan.remaining ? "Next question" : "See today’s results"}
-                onPress={() => {
-                  setFeedback(null);
-                  setChosen(null);
-                  setError(null);
-                }}
+                onPress={advance}
                 icon="arrow-right"
               />
+              {Platform.OS === "web" && (
+                <Body muted>Press Enter to continue.</Body>
+              )}
             </View>
           ) : (
             <TranslationInput
@@ -282,6 +291,7 @@ function TranslationInput({
         onChangeText={setAnswer}
         editable={!busy}
         multiline={grammar}
+        autoFocus={Platform.OS === "web"}
         autoCorrect={false}
         autoCapitalize="none"
         spellCheck={false}
@@ -290,7 +300,37 @@ function TranslationInput({
           uiStyles.answerInput,
           grammar && { minHeight: 140, textAlignVertical: "top" },
         ]}
-        onSubmitEditing={grammar ? undefined : () => void submit(answer)}
+        onKeyPress={
+          Platform.OS === "web"
+            ? (event) => {
+                const key = event.nativeEvent as unknown as KeyboardEvent;
+                if (
+                  key.key !== "Enter" ||
+                  key.shiftKey ||
+                  key.isComposing ||
+                  key.keyCode === 229
+                )
+                  return;
+                event.preventDefault();
+                if (
+                  !key.repeat &&
+                  !key.ctrlKey &&
+                  !key.altKey &&
+                  !key.metaKey &&
+                  answer.trim() &&
+                  !busy
+                )
+                  void submit(answer);
+              }
+            : undefined
+        }
+        onSubmitEditing={
+          Platform.OS === "web" || grammar
+            ? undefined
+            : () => {
+                if (answer.trim() && !busy) void submit(answer);
+              }
+        }
       />
       <Action
         title="Check answer"
@@ -298,6 +338,14 @@ function TranslationInput({
         onPress={() => void submit(answer)}
         icon="check"
       />
+      {Platform.OS === "web" && (
+        <Body muted>
+          {grammar
+            ? "Enter checks your answer. Shift+Enter adds a new line."
+            : "Press Enter to check your answer."}
+        </Body>
+      )}
+      <ReviewTranslate text={answer} draft />
     </View>
   );
 }

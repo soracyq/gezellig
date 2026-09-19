@@ -1,5 +1,6 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { updateAPI } = require("./external-links.cjs");
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -34,7 +35,7 @@ const securityHeaders = {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob:",
     "font-src 'self' data:",
-    "connect-src 'self'",
+    `connect-src 'self' ${updateAPI}`,
     "worker-src 'self' blob:",
     "object-src 'none'",
     "base-uri 'self'",

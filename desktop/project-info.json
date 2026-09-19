@@ -1,0 +1,13 @@
+{
+  "repository": "https://github.com/soracyq/gezellig",
+  "developer": "Derrick Chen",
+  "releases": {
+    "0.6.2": {
+      "summary": "Adds About Gezellig and manual update checks, Enter-key review controls, Google Translate listening links in Review, and clearer button hover feedback."
+    },
+    "0.6.1": {
+      "date": "2026-09-19",
+      "summary": "Automatically detects vocabulary and grammar import files, with clearer previews and preserved learning progress."
+    }
+  }
+}

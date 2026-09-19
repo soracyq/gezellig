@@ -11,6 +11,7 @@
     "main.cjs",
     "static-files.cjs",
     "external-links.cjs",
+    "project-info.json",
     "package.json",
     "!**/node_modules/**/*"
   ],

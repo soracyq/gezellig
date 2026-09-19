@@ -1,6 +1,17 @@
 /* global __dirname */
 const path = require("node:path");
 const { build } = require("electron-builder");
+// The UI reads the root package version. Reject mismatched packaging metadata
+// rather than shipping an About window that misreports the installed version.
+if (
+  require("../package.json").version !==
+  require("../desktop/package.json").version
+) {
+  console.error(
+    "Desktop and root package versions must match before building.",
+  );
+  process.exit(1);
+}
 const args = process.argv.slice(2);
 if (args.length && (args.length !== 1 || args[0] !== "--dir")) {
   console.error("Usage: node scripts/build-desktop.cjs [--dir]");
