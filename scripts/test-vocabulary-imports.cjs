@@ -11,6 +11,8 @@ const { chromium, _electron: electron } = createRequire(
   path.join(runtimeModules, "__browser.cjs"),
 )("playwright");
 const desktop = process.argv.includes("--desktop");
+const advanced = process.argv.includes("--advanced");
+const counts = { A1: 500, A2: 1000, B1: 1500, B2: 2000 };
 const base = desktop ? "dutchly://app" : "http://127.0.0.1:4173";
 const out = path.join(root, "test-results/vocabulary-files");
 fs.mkdirSync(out, { recursive: true });
@@ -38,7 +40,7 @@ async function preview(page, level, format) {
   const file = path.join(
     root,
     "public/import-data",
-    `dutch_vocabulary_${level}_${level === "A1" ? 500 : 1000}.${format}`,
+    `dutch_vocabulary_${level}_${counts[level]}.${format}`,
   );
   const chooser = page.waitForEvent("filechooser");
   await page
@@ -118,6 +120,12 @@ async function inspectWord(page, level, label, expected) {
     for (const [level, count, added] of [
       ["A1", 500, 493],
       ["A2", 1000, 1000],
+      ...(advanced
+        ? [
+            ["B1", 1500, 1500],
+            ["B2", 2000, 2000],
+          ]
+        : []),
     ]) {
       const file = await preview(page, level, format);
       const staged = await snapshot(page);
@@ -165,6 +173,19 @@ async function inspectWord(page, level, label, expected) {
     await inspectWord(page, "A2", "in plaats van", [
       "Ik neem thee in plaats van koffie.",
     ]);
+    if (advanced) {
+      await inspectWord(page, "B1", "aantonen", [
+        "aangetoond",
+        "The study shows that enough sleep is important.",
+      ]);
+      await inspectWord(page, "B1", "de verantwoordelijkheid", [
+        "verantwoordelijkheden",
+      ]);
+      await inspectWord(page, "B2", "neerleggen", [
+        "neergelegd",
+        "I have to accept the decision.",
+      ]);
+    }
     assert.equal((await snapshot(page)).activity, baseline.activity);
     await go(page, "/statistics");
     if (format === "csv")
@@ -177,8 +198,11 @@ async function inspectWord(page, level, label, expected) {
         1,
       );
     // Opposite-format reimport detects the same content, with no new records.
-    await preview(page, "A2", format === "csv" ? "xlsx" : "csv");
-    await page.getByText("1000 duplicates skipped", { exact: false }).waitFor();
+    const repeatLevel = advanced ? "B2" : "A2";
+    await preview(page, repeatLevel, format === "csv" ? "xlsx" : "csv");
+    await page
+      .getByText(`${counts[repeatLevel]} duplicates skipped`, { exact: false })
+      .waitFor();
     assert.equal(
       await page
         .getByRole("button", { name: "Confirm import (0)", exact: true })
@@ -204,11 +228,14 @@ async function inspectWord(page, level, label, expected) {
   }
   assert.deepEqual(errors, []);
   fs.writeFileSync(
-    path.join(out, desktop ? "desktop-report.json" : "browser-report.json"),
+    path.join(
+      out,
+      `${desktop ? "desktop" : "browser"}${advanced ? "-advanced" : ""}-report.json`,
+    ),
     JSON.stringify({ results, errors }, null, 2),
   );
   console.log(
-    "PASS all four files: chooser, preview, confirm, metadata, accents, zero and existing activity, cross-format duplicate protection.",
+    `PASS all ${advanced ? "eight" : "four"} files: chooser, preview, confirm, metadata, accents, zero and existing activity, cross-format duplicate protection.`,
   );
 })()
   .catch((e) => {
