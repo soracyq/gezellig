@@ -14,6 +14,7 @@ const { chromium, _electron: electron } = createRequire(
 const desktop = process.argv.includes("--desktop"),
   base = desktop ? "dutchly://app" : "http://127.0.0.1:4173";
 const advanced = process.argv.includes("--advanced");
+const mismatchedKind = process.argv.includes("--mismatched-kind");
 const out = path.join(
   root,
   advanced ? "test-results/b1-b2-grammar" : "test-results/grammar-files",
@@ -39,7 +40,7 @@ async function go(page, route) {
   await page.getByRole("heading").first().waitFor();
 }
 async function preview(page, level, format) {
-  await go(page, "/import?kind=grammar");
+  await go(page, mismatchedKind ? "/import" : "/import?kind=grammar");
   const file = path.join(
     root,
     "public/import-data",
@@ -53,6 +54,15 @@ async function preview(page, level, format) {
   await page
     .getByRole("heading", { name: "4. Review and confirm", exact: true })
     .waitFor({ timeout: 30000 });
+  if (mismatchedKind) {
+    await page
+      .getByText(
+        "Detected grammar columns. Switched to grammar import. Review the preview before confirming.",
+        { exact: true },
+      )
+      .waitFor();
+    await page.getByText("Grammar lessons", { exact: true }).waitFor();
+  }
   return file;
 }
 const normalize = (s) => s.replace(/\s+/g, " ").trim();

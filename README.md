@@ -1,12 +1,12 @@
 # Gezellig · Your personal Dutch learning space
 
-Gezellig 0.6.0 is the new name for Dutchly, with a warm tulip logo and matching web and desktop icons. This branding update preserves existing learning data and functionality. See [the branding guide](docs/BRANDING_0_6_0.md). The [Settings and Levels improvements](docs/SETTINGS_LEVELS_0_5_2.md), [grammar sorting fix](docs/GRAMMAR_SCROLL_0_5_1.md), [Home continuation and spaced review](docs/CONTINUE_REVIEW_0_5_0.md), imports and offline pronunciation remain available.
+Gezellig 0.6.1 fixes imports when the selected content type does not match the file. Recognized vocabulary and grammar columns now select the matching preview automatically, with a visible notice before confirmation. See [the import fix and B1/B2 checks](docs/IMPORT_FIX_0_6_1.md). Existing learning data, the [Gezellig branding](docs/BRANDING_0_6_0.md), [grammar sorting](docs/GRAMMAR_SCROLL_0_5_1.md), [Home continuation and spaced review](docs/CONTINUE_REVIEW_0_5_0.md), and offline pronunciation are preserved.
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
 ## Download for Windows
 
-Download **Gezellig-0.6.0-Setup.exe** from [GitHub Releases](https://github.com/soracyq/gezellig/releases/latest). Close any running Dutchly/Gezellig window, run the installer, and open Gezellig from the Start menu or desktop shortcut. Your existing desktop learning data is preserved. The release also includes `SHA256SUMS.txt` for verifying the installer.
+Download **Gezellig-0.6.1-Setup.exe** from [GitHub Releases](https://github.com/soracyq/gezellig/releases/latest). Close any running Dutchly/Gezellig window, run the installer, and open Gezellig from the Start menu or desktop shortcut. Your existing desktop learning data is preserved. The release also includes `SHA256SUMS.txt` for verifying the installer.
 
 The Windows x64 installer is unsigned. Installed users do not need Node.js, a terminal or Codex. The source-code downloads on GitHub are for developers; use the `.exe` asset to install the app.
 

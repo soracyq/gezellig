@@ -1,11 +1,11 @@
-import { readImportFile } from "./read-file";
-import { validateTable } from "./validate";
+import { prepareImport } from "./prepare";
 
 self.onmessage = async (event) => {
   const { name, buffer, kind, existing } = event.data;
   try {
-    const table = await readImportFile(name, buffer, kind);
-    self.postMessage({ preview: validateTable(table, kind, name, existing) });
+    self.postMessage({
+      preview: await prepareImport(name, buffer, kind, existing),
+    });
   } catch (error) {
     self.postMessage({
       error:

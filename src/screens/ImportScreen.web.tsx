@@ -118,8 +118,11 @@ export default function ImportScreen() {
         stopWorker();
         setWorking(false);
         if (event.data.error) setError(event.data.error);
-        else if (event.data.preview) setPreview(event.data.preview);
-        else setError("The file reader returned no preview. Please try again.");
+        else if (event.data.preview) {
+          setKind(event.data.preview.kind);
+          setPreview(event.data.preview);
+        } else
+          setError("The file reader returned no preview. Please try again.");
       };
       worker.postMessage(
         { name: file.name, buffer, kind, existing: { vocabulary, grammar } },
@@ -142,7 +145,7 @@ export default function ImportScreen() {
     try {
       const saved = await importContent(preview);
       setResult(
-        `${saved.imported} ${kind === "vocabulary" ? "words" : "lessons"} imported. ${saved.skipped} duplicates skipped. Your learning statistics are unchanged.`,
+        `${saved.imported} ${preview.kind === "vocabulary" ? "words" : "lessons"} imported. ${saved.skipped} duplicates skipped. Your learning statistics are unchanged.`,
       );
       setPreview(null);
       if (fileInput.current) fileInput.current.value = "";
@@ -195,7 +198,8 @@ export default function ImportScreen() {
         </Body>
         <Body muted>
           Existing content is preserved. Duplicate words or lessons are skipped.
-          Importing a file does not count as studying.
+          Importing a file does not count as studying. Recognized vocabulary or
+          grammar columns automatically select the matching import type.
         </Body>
       </Card>
       <Card style={{ gap: 16 }}>
@@ -336,6 +340,11 @@ export default function ImportScreen() {
             subtitle={preview.fileName}
           />
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+            <Badge>
+              {preview.kind === "grammar"
+                ? "Grammar lessons"
+                : "Vocabulary words"}
+            </Badge>
             <Badge>{preview.total} rows found</Badge>
             <Badge>{preview.valid} valid</Badge>
             <Badge tone={preview.invalid ? "orange" : "neutral"}>
@@ -388,7 +397,7 @@ export default function ImportScreen() {
             <ScrollView nestedScrollEnabled style={{ maxHeight: 480 }}>
               <View style={{ gap: 12, paddingBottom: 10 }}>
                 {preview.items.slice(0, shown).map((item) => (
-                  <PreviewRow key={item.id} item={item} kind={kind} />
+                  <PreviewRow key={item.id} item={item} kind={preview.kind} />
                 ))}
               </View>
             </ScrollView>

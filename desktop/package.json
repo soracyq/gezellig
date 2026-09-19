@@ -1,7 +1,7 @@
 {
   "name": "gezellig-desktop",
   "productName": "Gezellig",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "private": true,
   "description": "A local Dutch learning app with vocabulary and grammar imports.",
   "author": "Gezellig",

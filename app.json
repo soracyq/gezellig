@@ -2,7 +2,7 @@
   "expo": {
     "name": "Gezellig",
     "slug": "gezellig",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "scheme": "dutchly",
     "orientation": "default",
     "userInterfaceStyle": "light",

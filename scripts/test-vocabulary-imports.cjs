@@ -12,6 +12,7 @@ const { chromium, _electron: electron } = createRequire(
 )("playwright");
 const desktop = process.argv.includes("--desktop");
 const advanced = process.argv.includes("--advanced");
+const mismatchedKind = process.argv.includes("--mismatched-kind");
 const counts = { A1: 500, A2: 1000, B1: 1500, B2: 2000 };
 const base = desktop ? "dutchly://app" : "http://127.0.0.1:4173";
 const out = path.join(root, "test-results/vocabulary-files");
@@ -36,7 +37,10 @@ async function go(page, route) {
   await page.getByRole("heading").first().waitFor();
 }
 async function preview(page, level, format) {
-  await go(page, "/import?kind=vocabulary");
+  await go(
+    page,
+    mismatchedKind ? "/import?kind=grammar" : "/import?kind=vocabulary",
+  );
   const file = path.join(
     root,
     "public/import-data",
@@ -50,6 +54,15 @@ async function preview(page, level, format) {
   await page
     .getByRole("heading", { name: "4. Review and confirm", exact: true })
     .waitFor({ timeout: 30000 });
+  if (mismatchedKind) {
+    await page
+      .getByText(
+        "Detected vocabulary columns. Switched to vocabulary import. Review the preview before confirming.",
+        { exact: true },
+      )
+      .waitFor();
+    await page.getByText("Vocabulary words", { exact: true }).waitFor();
+  }
   return file;
 }
 async function inspectWord(page, level, label, expected) {
