@@ -1,10 +1,12 @@
 import type { ActivityJournal } from "./activity.ts";
 import type { VocabularyItem } from "./models.ts";
+import { learningRank, orderVocabularyForLearning } from "./vocabularyOrder.ts";
 
 export function continueLearning(
   words: VocabularyItem[],
   journal: ActivityJournal,
 ) {
+  words = orderVocabularyForLearning(words);
   const studiedEvents = journal.events.filter(
     (event) =>
       event.kind === "word-studied" && event.contentType === "vocabulary",
@@ -17,9 +19,28 @@ export function continueLearning(
   const position = latest
     ? words.findIndex((word) => word.id === latest.itemId) + 1
     : 0;
-  const next = [...words.slice(position), ...words.slice(0, position)].find(
-    (word) => !studied.has(word.id),
-  );
+  const latestWord = latest
+    ? words.find((word) => word.id === latest.itemId)
+    : undefined;
+  // Older imports may have been studied alphabetically. Start with the first
+  // remaining priority in the active B1/B2 level, not after an old low rank.
+  const hasPriorityOrder =
+    latestWord &&
+    words.some(
+      (word) =>
+        word.level === latestWord.level && learningRank(word) !== undefined,
+    );
+  const priorityNext =
+    latestWord && hasPriorityOrder
+      ? words.find(
+          (word) => word.level === latestWord.level && !studied.has(word.id),
+        )
+      : undefined;
+  const next =
+    priorityNext ??
+    [...words.slice(position), ...words.slice(0, position)].find(
+      (word) => !studied.has(word.id),
+    );
   return {
     started: journal.events.some(
       (event) =>

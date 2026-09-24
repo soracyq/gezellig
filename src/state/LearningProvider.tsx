@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -43,6 +44,14 @@ import {
   type Curriculum,
 } from "../storage/library";
 import { withStorageLock } from "../storage/lock";
+import {
+  crossedDailyGoal,
+  type GoalCelebration as Celebration,
+} from "../domain/dailyGoals";
+import { claimGoalCelebration } from "../storage/goalCelebrations";
+import { prepareGoalSound } from "../services/goalSound";
+import { GoalCelebration } from "../components/GoalCelebration";
+import { orderVocabularyForLearning } from "../domain/vocabularyOrder";
 
 const builtins = { vocabulary: builtinVocabulary, grammar: builtinGrammar };
 function useLearningState() {
@@ -54,6 +63,7 @@ function useLearningState() {
   const [activityError, setActivityError] = useState<string | null>(null);
   const [operationError, setOperationError] = useState<string | null>(null);
   const [now, setNow] = useState(() => new Date());
+  const [celebrations, setCelebrations] = useState<Celebration[]>([]);
   const queue = useRef<Promise<unknown>>(Promise.resolve());
   const mounted = useRef(false);
   const lifetime = useRef(0);
@@ -144,7 +154,14 @@ function useLearningState() {
         if (mounted.current && pending.current === 0) setBusy(false);
       });
   }
-  const vocabulary = [...builtinVocabulary, ...curriculum.vocabulary];
+  const vocabulary = useMemo(
+    () =>
+      orderVocabularyForLearning([
+        ...builtinVocabulary,
+        ...curriculum.vocabulary,
+      ]),
+    [curriculum.vocabulary],
+  );
   const grammar = [...builtinGrammar, ...curriculum.grammar].sort(
     (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
   );
@@ -155,19 +172,43 @@ function useLearningState() {
       )
     )
       throw new Error("This learning item is no longer available.");
+    prepareGoalSound();
     await transact(async () => {
       const journal = await readActivity(AsyncStorage);
+      const completedAt = new Date();
       const next = appendEvent(
         journal,
         makeEvent(
           contentType === "vocabulary" ? "word-studied" : "lesson-completed",
           id,
           contentType,
+          {},
+          completedAt,
         ),
       );
       await writeActivity(AsyncStorage, next);
       setActivity(next);
       setNow(new Date());
+      try {
+        const settings = await loadSettings(AsyncStorage);
+        if (contentType === "vocabulary" && settings.error) return;
+        const goal = crossedDailyGoal(
+          journal,
+          next,
+          contentType,
+          settings.settings.dailyTarget,
+          completedAt,
+        );
+        if (
+          goal &&
+          (await claimGoalCelebration(AsyncStorage, goal)) &&
+          mounted.current
+        )
+          setCelebrations((pending) => [...pending, goal]);
+      } catch {
+        // Progress is already safely saved. A notification-storage failure
+        // must not misreport study completion as failed or replay on refresh.
+      }
     });
   }
   async function answerQuestion(
@@ -304,6 +345,8 @@ function useLearningState() {
     resetProgress,
     studiedIds,
     completedLessonIds,
+    celebration: celebrations[0] ?? null,
+    dismissCelebration: () => setCelebrations((pending) => pending.slice(1)),
   };
 }
 const LearningContext = createContext<ReturnType<
@@ -314,6 +357,13 @@ export function LearningProvider({ children }: { children: ReactNode }) {
   return (
     <LearningContext.Provider value={value}>
       {children}
+      {value.celebration && (
+        <GoalCelebration
+          key={`${value.celebration.kind}:${value.celebration.day}`}
+          goal={value.celebration}
+          onClose={value.dismissCelebration}
+        />
+      )}
     </LearningContext.Provider>
   );
 }

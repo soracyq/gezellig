@@ -1,0 +1,20 @@
+Gezellig B1/B2 learning order
+
+The learning-rank data is an editorial adaptation informed by wordfreq's Dutch
+frequency data, copyright Robyn Speer, and Gezellig vocabulary selections.
+Derived frequency/rank data is distributed under Creative Commons
+Attribution-ShareAlike 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+Credit: Robyn Speer; Gezellig vocabulary project (selection and arrangement).
+
+Wordfreq: https://github.com/rspeer/wordfreq
+Original notices: https://github.com/rspeer/wordfreq/blob/master/NOTICE.md
+Wordfreq includes freely available SUBTLEX data by Marc Brysbaert and other
+SUBTLEX authors: http://crr.ugent.be/programs-data/subtitle-frequencies
+Underlying sources also include Google Books Ngrams, Leeds Internet Corpus,
+Wikipedia, ParaCrawl and OpenSubtitles. See the original notice for attribution.
+
+The method, adaptations, reproducible inputs and full audit are available in
+the Gezellig source project: https://github.com/soracyq/gezellig
+See docs/B1_B2_LEARNING_ORDER.md and content-drafts/b1-b2/learning-*.json.
+The learning-rank data does not change the licenses of vocabulary definitions,
+example sentences, or the app code. Keep this notice when redistributing it.

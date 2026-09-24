@@ -321,6 +321,7 @@ export function PreviewModal({
   visible,
   onClose,
   onDismiss,
+  onShow,
   title,
   contentKey,
   prominentTitle = false,
@@ -333,6 +334,7 @@ export function PreviewModal({
   visible: boolean;
   onClose: () => void;
   onDismiss?: () => void;
+  onShow?: () => void;
   title: string;
   contentKey?: string;
   prominentTitle?: boolean;
@@ -350,6 +352,7 @@ export function PreviewModal({
       transparent
       onRequestClose={onClose}
       onDismiss={onDismiss}
+      onShow={onShow}
     >
       <View style={styles.modalBackdrop}>
         <View accessibilityViewIsModal style={styles.modalCard}>

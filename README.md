@@ -1,12 +1,14 @@
 # Gezellig · Your personal Dutch learning space
 
-The current local build is **Gezellig 0.6.2**. It adds About/version information, manual GitHub update checks, Enter-key Review controls, Google Translate listening links in Review, and button hover feedback. See [the 0.6.2 implementation and validation report](docs/ABOUT_REVIEW_0_6_2.md). The [0.6.1 import fix](docs/IMPORT_FIX_0_6_1.md), existing curriculum and learner history are preserved. Version 0.6.2 has not been published as a GitHub release.
+The current source build is **Gezellig 0.6.2**. It adds About/version information, manual GitHub update checks, Enter-key Review controls, Google Translate listening links in Review, button hover feedback, daily-goal celebrations with a local chime, and practical B1/B2 vocabulary learning order. See the reports for [About and Review](docs/ABOUT_REVIEW_0_6_2.md), [daily goals](docs/DAILY_GOAL_CELEBRATIONS.md), and [B1/B2 ordering](docs/B1_B2_LEARNING_ORDER.md). The [0.6.1 import fix](docs/IMPORT_FIX_0_6_1.md), existing curriculum and learner history are preserved. Version 0.6.2 has not been published as a GitHub release.
 
 You can browse A1–C1 content, study word details, complete lessons, submit practice answers, view your own statistics, and import CSV or Excel files. No account or paid service is needed. Everything is stored locally; there is no cloud synchronization.
 
 ## Download for Windows
 
 For the new local build, close Gezellig and run `release/Gezellig-0.6.2-Setup.exe`. Reopen the existing shortcut afterward. It retains the existing desktop profile.
+
+The latest source audit and verification results are in [the 0.6.2 bug-audit report](docs/AUDIT_0_6_2.md).
 
 Download **Gezellig-0.6.1-Setup.exe** from [GitHub Releases](https://github.com/soracyq/gezellig/releases/latest). Close any running Dutchly/Gezellig window, run the installer, and open Gezellig from the Start menu or desktop shortcut. Your existing desktop learning data is preserved. The release also includes `SHA256SUMS.txt` for verifying the installer.
 

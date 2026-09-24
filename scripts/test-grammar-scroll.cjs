@@ -187,6 +187,16 @@ fs.mkdirSync(out, { recursive: true });
       if (scenario.filter === "all")
         await card.getByText("Completed", { exact: true }).waitFor();
       else assert.equal(await card.count(), 0);
+      // The first completion today now opens the intentional goal reward.
+      // Include its dismissal in the scroll trace before closing the lesson.
+      const celebration = page.getByRole("button", {
+        name: "Close celebration",
+        exact: true,
+      });
+      if (await celebration.count()) {
+        await celebration.click();
+        await celebration.waitFor({ state: "hidden" });
+      }
       if (scenario.close === "Escape") await page.keyboard.press("Escape");
       else
         await page

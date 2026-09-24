@@ -126,6 +126,7 @@ export function getStatistics(journal: ActivityJournal, now = new Date()) {
   return {
     hasActivity: events.length > 0,
     wordsToday: words.filter((e) => e.day === today).length,
+    lessonsToday: lessons.filter((e) => e.day === today).length,
     wordsThisWeek: words.filter(
       (e) => dayNumber(e.day) >= weekStart && dayNumber(e.day) <= todayNumber,
     ).length,

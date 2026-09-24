@@ -23,6 +23,7 @@ const mimeTypes = {
   ".ttf": "font/ttf",
   ".otf": "font/otf",
   ".wasm": "application/wasm",
+  ".wav": "audio/wav",
   ".txt": "text/plain; charset=utf-8",
 };
 
