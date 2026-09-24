@@ -74,5 +74,6 @@ attribution and implementation reports. Personal prompt documents, local test
 profiles, credentials and generated build folders are excluded. The user's
 separate `.gitignore` edit is left unstaged.
 
-The source version stays 0.6.2. Publishing a public release or replacing the
-existing 0.6.1 release assets is not part of this source upload.
+The source version stays 0.6.2. The initial source upload did not publish a
+release. The subsequent [0.6.2 release](RELEASE_0_6_2.md) publishes the Windows
+installer separately, with updated About metadata and a live GitHub update check.

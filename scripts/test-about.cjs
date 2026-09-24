@@ -12,6 +12,9 @@ const { repository } = require("../desktop/project-info.json");
 const { updateAPI } = require("../desktop/external-links.cjs");
 const desktop = process.argv.includes("--desktop");
 const live = process.argv.includes("--live");
+const expectCurrent = process.argv.includes("--expect-current");
+if (expectCurrent && !live)
+  throw new Error("--expect-current requires --live.");
 const out = path.join(root, "test-results/about");
 fs.mkdirSync(out, { recursive: true });
 let session;
@@ -173,12 +176,30 @@ const snapshot = (page) =>
     delay = false;
     releasePending();
   }
+  let liveUpdateStatus, liveUpdateDetails;
   if (live) {
-    await page
-      .getByText(
-        /^(You're up to date|You're using a newer build|A new version is available)$/,
-      )
-      .waitFor({ timeout: 15000 });
+    const status = page.getByText(
+      /^(You're up to date|You're using a newer build|A new version is available)$/,
+    );
+    await status.waitFor({ timeout: 15000 });
+    liveUpdateStatus = await status.innerText();
+    liveUpdateDetails = await page.getByTestId("update-status").innerText();
+    assert.equal(requests, 1, "live verification must request GitHub once");
+    if (expectCurrent) {
+      assert.equal(
+        liveUpdateStatus,
+        "You're up to date",
+        "GitHub's latest published release must match the packaged app",
+      );
+      await page
+        .getByText(`Gezellig ${version} is the latest version.`, {
+          exact: true,
+        })
+        .waitFor();
+    }
+    await page.screenshot({
+      path: path.join(out, `${desktop ? "desktop" : "web"}-live.png`),
+    });
   } else {
     await page
       .getByText("You're up to date", { exact: true })
@@ -300,6 +321,9 @@ const snapshot = (page) =>
   const report = {
     environment: desktop ? "packaged Windows" : "production web",
     liveAPI: live,
+    expectedCurrent: expectCurrent,
+    liveUpdateStatus,
+    liveUpdateDetails,
     version,
     requests,
     errors,

@@ -3,7 +3,8 @@
   "developer": "Derrick Chen",
   "releases": {
     "0.6.2": {
-      "summary": "Adds About Gezellig and manual update checks, Enter-key review controls, Google Translate listening links in Review, and clearer button hover feedback."
+      "date": "2026-09-24",
+      "summary": "Adds daily-goal celebrations with an offline chime, practical B1/B2 vocabulary ordering, About and manual update checks, Enter-key review controls, Google Translate links in Review, and button hover feedback. Fixes delayed celebration audio and custom-word continuation."
     },
     "0.6.1": {
       "date": "2026-09-19",
